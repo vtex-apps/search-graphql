@@ -1,0 +1,20 @@
+type Category {
+  """ id is used as cacheId """
+  cacheId: ID
+  """ URI of category """
+  href: String
+  """ Category text link """
+  slug: String
+  """ Category ID """
+  id: Int
+  """ Category name """
+  name: String @translatable
+  """ Title used by html tag"""
+  titleTag: String @translatable
+  """ Description used by html tag"""
+  hasChildren: Boolean
+  """ Has children categories """
+  metaTagDescription: String @translatable
+  """ Categories children """
+  children: [Category]
+}

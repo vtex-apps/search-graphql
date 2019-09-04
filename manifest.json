@@ -1,0 +1,28 @@
+{
+  "vendor": "vtex",
+  "name": "search-graphql",
+  "version": "0.0.1",
+  "title": "GraphQL API for the VTEX store APIs",
+  "description": "GraphQL schema and resolvers for the VTEX API for the catalog and orders.",
+  "credentialType": "absolute",
+  "builders": {
+    "graphql": "1.x",
+    "node": "4.x"
+  },
+  "scripts": {
+    "prereleasy": "bash lint.sh"
+  },
+  "dependencies": {
+    "vtex.messages": "1.x",
+    "vtex.catalog-api-proxy": "0.x"
+  },
+  "policies": [
+    {
+      "name": "vtex.messages:translate-messages"
+    },
+    {
+      "name": "vtex.catalog-api-proxy:catalog-proxy"
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
+}

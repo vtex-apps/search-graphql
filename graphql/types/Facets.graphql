@@ -1,0 +1,72 @@
+type Facets {
+  departments: [DepartmentFacet]
+  brands: [BrandFacet]
+  specificationFilters: [FilterFacets]
+  categoriesTrees: [CategoriesTreeFacet]
+  priceRanges: [PriceRangesFacet]
+  recordsFiltered: Int
+}
+
+type DepartmentFacet {
+  id: ID!
+  quantity: Int!
+  name: String @translatable
+  link: String!
+  linkEncoded: String!
+  map: String
+  value: String!
+  selected: Boolean!
+}
+
+type BrandFacet {
+  id: ID!
+  quantity: Int!
+  name: String!
+  link: String!
+  linkEncoded: String!
+  map: String
+  value: String!
+  selected: Boolean!
+}
+
+type PriceRangesFacet {
+  quantity: Int!
+  name: String @translatable
+  link: String!
+  linkEncoded: String!
+  map: String
+  value: String!
+  selected: Boolean!
+  slug: String
+}
+
+type CategoriesTreeFacet {
+  id: ID!
+  quantity: Int!
+  name: String @translatable
+  link: String!
+  linkEncoded: String!
+  """
+  Contains slugified links according to the store structure. /:department/d, /:category/:subcategory, etc
+  """
+  href: String!
+  map: String
+  value: String!
+  children: [CategoriesTreeFacet]
+  selected: Boolean!
+}
+
+type FilterFacet {
+  quantity: Int!
+  name: String @translatable
+  link: String!
+  linkEncoded: String!
+  map: String
+  value: String!
+  selected: Boolean!
+}
+
+type FilterFacets {
+  name: String
+  facets: [FilterFacet]
+}
