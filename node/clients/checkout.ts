@@ -12,18 +12,9 @@ export class Checkout extends JanusClient {
       ...options,
       headers: {
         ...(options && options.headers),
-        // ...(ctx.storeUserAuthToken
-        //   ? { VtexIdclientAutCookie: ctx.storeUserAuthToken }
-        //   : null),
       },
     })
   }
-
-  // private getCommonHeaders = () => {
-  //   return {
-  //     Cookie: `vtex_segment=${this.context.segmentToken};vtex_session=${this.context.sessionToken};`,
-  //   }
-  // }
 
   private getChannelQueryString = () => {
     const { segment } = this.context as CustomIOContext
@@ -42,10 +33,6 @@ export class Checkout extends JanusClient {
     )
 
   protected post = <T>(url: string, data?: any, config: RequestConfig = {}) => {
-    // config.headers = {
-    //   ...config.headers,
-    //   ...this.getCommonHeaders(),
-    // }
     return this.http.post<T>(url, data, config).catch(statusToError) as Promise<
       T
     >

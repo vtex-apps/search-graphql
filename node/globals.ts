@@ -30,16 +30,6 @@ declare global {
     values: [string]
   }
 
-  // interface SkuSpecification {
-  //   fieldName: Promise<TranslatableMessage>
-  //   fieldValues: [Promise<TranslatableMessage>]
-  // }
-
-  // interface ProductSpecification {
-  //   fieldName: Promise<TranslatableMessage>
-  //   fieldValues: [Promise<TranslatableMessage>]
-  // }
-
   interface TranslatableMessage {
     content: string
     from: string

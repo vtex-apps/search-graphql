@@ -1,15 +1,6 @@
 import { find, head, map, replace, slice } from 'ramda'
 
-import {
-  toSKUIOMessage,
-  // toSpecificationIOMessage,
-} from './../../utils/ioMessage'
-// import { hashMD5 } from './utils'
-
-// interface SkuSpecification {
-//   fieldName: Promise<TranslatableMessage>
-//   fieldValues: Promise<TranslatableMessage>[]
-// }
+import { toSKUIOMessage } from './../../utils/ioMessage'
 
 export const resolvers = {
   SKU: {
@@ -69,41 +60,6 @@ export const resolvers = {
       _: any,
       { clients: { segment } }: Context
     ) => toSKUIOMessage('nameComplete')(segment, nameComplete, itemId),
-
-    // skuSpecifications: (
-    //   sku: CatalogItem,
-    //   _: any,
-    //   { clients: { segment } }: Context
-    // ) => {
-    //   const { variations } = sku
-    //   const skuSpecifications: SkuSpecification[] = []
-    //   if (!variations) {
-    //     return []
-    //   }
-    //   variations.forEach(variation => {
-    //     const fieldValues: Promise<TranslatableMessage>[] = []
-    //     const variationArray = (sku as any)[variation] as string[]
-    //     variationArray.forEach(value => {
-    //       fieldValues.push(
-    //         toSpecificationIOMessage(`fieldValue`)(
-    //           segment,
-    //           value,
-    //           hashMD5(value)
-    //         )
-    //       )
-    //       skuSpecifications.push({
-    //         fieldName: toSpecificationIOMessage('fieldName')(
-    //           segment,
-    //           variation,
-    //           hashMD5(variation)
-    //         ),
-    //         fieldValues,
-    //       })
-    //     })
-    //   })
-
-    //   return skuSpecifications
-    // },
 
     name: (
       { name, itemId }: CatalogItem,

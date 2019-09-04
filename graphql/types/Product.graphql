@@ -141,11 +141,6 @@ type SKU {
   sellers: [Seller]
   variations: [Property]
   attachments: [Attachment]
-  # productName: String @translatable
-  # productDescription: String @translatable
-  # brandName: String @translatable
-  # skuSpecifications: [skuSpecification]
-  # productSpecifications: [productSpecification]
 }
 
 type skuSpecification {

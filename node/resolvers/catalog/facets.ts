@@ -39,6 +39,25 @@ const addSelected = (
   })
 }
 
+const addId = (
+  departments: CatalogFacet[],
+  categoryTree: CatalogFacetCategory[]
+) => {
+  return departments.map(department => {
+    const departmentInTree = categoryTree.find(
+      category =>
+        category.Name === department.Name && category.Link === department.Link
+    )
+    if (!departmentInTree) {
+      return department
+    }
+    return {
+      ...department,
+      Id: departmentInTree.Id,
+    }
+  })
+}
+
 const baseFacetResolvers = {
   quantity: prop('Quantity'),
   name: prop('Name'),
@@ -65,6 +84,14 @@ export const resolvers = {
     ...baseFacetResolvers,
 
     id: prop('Id'),
+
+    name: async (
+      { Id, Name }: CatalogFacet & { Id?: number },
+      _: any,
+      { clients: { segment } }: Context
+    ) => {
+      return Id != null ? toCategoryIOMessage('name')(segment, Name, Id) : Name
+    },
   },
   BrandFacet: {
     ...baseFacetResolvers,
@@ -97,9 +124,12 @@ export const resolvers = {
   Facets: {
     departments: ({
       Departments = [],
+      CategoriesTrees = [],
       queryArgs,
     }: CatalogFacets & { queryArgs: { query: string; map: string } }) => {
-      return addSelected(Departments, queryArgs)
+      const withSelected = addSelected(Departments, queryArgs)
+      const withCategoryId = addId(withSelected, CategoriesTrees)
+      return withCategoryId
     },
 
     brands: ({
