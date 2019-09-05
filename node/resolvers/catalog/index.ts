@@ -14,6 +14,8 @@ import {
   test,
   toLower,
   zip,
+  isEmpty,
+  isNil,
 } from 'ramda'
 
 import { toSearchTerm } from '../../utils/ioMessage'
@@ -48,6 +50,7 @@ interface ProductIndentifier {
 }
 
 interface ProductArgs {
+  slug?: string
   identifier?: ProductIndentifier
 }
 
@@ -212,6 +215,9 @@ export const fieldResolvers = {
   ...productSearchResolvers,
 }
 
+const isValidProductIdentifier = (identifier: ProductIndentifier | undefined) =>
+  !!identifier && !isNil(identifier.value) && !isEmpty(identifier.value)
+
 export const queries = {
   autocomplete: async (
     _: any,
@@ -274,10 +280,18 @@ export const queries = {
     return result
   },
 
-  product: async (_: any, args: ProductArgs, ctx: Context) => {
+  product: async (_: any, rawArgs: ProductArgs, ctx: Context) => {
     const {
+      vtex: { account },
       clients: { catalog },
     } = ctx
+
+    const args =
+      rawArgs &&
+      isValidProductIdentifier(rawArgs.identifier) &&
+      !Functions.isGoCommerceAcc(account)
+        ? rawArgs
+        : { identifier: { field: 'slug', value: rawArgs.slug! } }
 
     if (!args.identifier) {
       throw new UserInputError('No product identifier provided')

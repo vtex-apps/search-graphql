@@ -4,6 +4,10 @@ type Query {
   """
   product(
     """
+    Product slug
+    """
+    slug: String
+    """
     Product identifier
     """
     identifier: ProductUniqueIdentifier

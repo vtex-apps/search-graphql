@@ -13,6 +13,13 @@ type Product {
   cacheId: ID
   categoryId: ID
   """
+  Categories of the product
+  """
+  categories: [String]
+    @deprecated(
+      reason: "Use 'categoryTree' field for internationalization support"
+    )
+  """
   Product's categories
   """
   categoryTree: [Category]
