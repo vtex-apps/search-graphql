@@ -1,0 +1,6 @@
+node_modules
+node/**/!(main).js
+node/**/*.js.map
+.vscode/
+.DS_Store
+node/package-lock.json

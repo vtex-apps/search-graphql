@@ -1,0 +1,18 @@
+type Brand {
+  """ slug is used as cacheId """
+  cacheId: ID
+  """ Brand id """
+  id: Int
+  """ Brand logo """
+  imageUrl: String
+  """ Text link"""
+  slug: String
+  """ Name of brand """
+  name: String @translatable
+  """ Title used by html tag"""
+  titleTag: String @translatable
+  """ Description used by html tag"""
+  metaTagDescription: String @translatable
+  """ Brand is active """
+  active: Boolean
+}
