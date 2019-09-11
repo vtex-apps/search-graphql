@@ -2,8 +2,8 @@ export const resolvers = {
   AssemblyOption: {
     inputValues: (
       { inputValues }: AssemblyOption,
-    ): InputValueField[] => {
-      return Object.keys(inputValues).reduce<InputValueField[]>((acc, label) => {
+    ): InputValue[] => {
+      return Object.keys(inputValues).reduce<InputValue[]>((acc, label) => {
         const inputValue = inputValues[label]
         const type = defineInputValueType(inputValue)
 
@@ -27,7 +27,7 @@ export const resolvers = {
   },
 }
 
-function defineInputValueType(inputValue: InputValue): InputValueType {
+function defineInputValueType(inputValue: RawInputValue): InputValueType {
   const domain = inputValue.domain
 
   // If domain is something like ['true', 'false'] or ['false', 'true']
@@ -47,7 +47,7 @@ function defineInputValueType(inputValue: InputValue): InputValueType {
 }
 
 
-interface InputValueField {
+interface InputValue {
   label: string
   maxLength?: number
   type: InputValueType

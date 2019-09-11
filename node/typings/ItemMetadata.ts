@@ -25,10 +25,10 @@ interface AssemblyOption {
 }
 
 interface InputValues {
-  [key: string]: InputValue
+  [key: string]: RawInputValue
 }
 
-interface InputValue {
+interface RawInputValue {
   maximumNumberOfCharacters: number
   domain: string[]
 }

@@ -32,10 +32,10 @@ type AssemblyOption {
   name: String
   required: Boolean
   composition: CompositionType
-  inputValues: [InputValueField]
+  inputValues: [InputValue]
 }
 
-type InputValueField {
+type InputValue {
   label: String
   maxLength: Int
   type: InputValueType
