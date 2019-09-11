@@ -1,7 +1,8 @@
-import { prop, toPairs, zip } from 'ramda'
+import { prop, toPairs } from 'ramda'
 
 import { toCategoryIOMessage, toFacetIOMessage } from '../../utils/ioMessage'
 import { pathToCategoryHref } from './category'
+import { zipQueryAndMap } from './utils'
 
 interface EitherFacet extends CatalogFacet {
   Children?: EitherFacet[]
@@ -19,15 +20,8 @@ const addSelected = (
     }
 
     const currentFacetSlug = decodeURIComponent(facet.Value).toLowerCase()
-
     const isSelected =
-      zip(
-        query
-          .toLowerCase()
-          .split('/')
-          .map(decodeURIComponent),
-        map.toLowerCase().split(',')
-      ).find(
+      zipQueryAndMap(query, map).find(
         ([slug, slugMap]) => slug === currentFacetSlug && facet.Map === slugMap
       ) !== undefined
 

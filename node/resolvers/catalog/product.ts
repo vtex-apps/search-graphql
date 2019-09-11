@@ -21,14 +21,15 @@ import {
 import { buildCategoryMap, hashMD5 } from './utils'
 import { getBenefits } from '../benefits'
 
+type MaybeRecord = false | Record<string, any>
 const objToNameValue = (
   keyName: string,
   valueName: string,
   record: Record<string, any>
 ) =>
-  compose(
-    reject(value => typeof value === 'boolean' && value === false),
-    map<[string, any], any>(
+  compose<Record<string, any>, [string, any][], MaybeRecord[], MaybeRecord>(
+    reject<MaybeRecord>(value => typeof value === 'boolean' && value === false),
+    map<[string, any], MaybeRecord>(
       ([key, value]) =>
         typeof value === 'string' && { [keyName]: key, [valueName]: value }
     ),
@@ -172,7 +173,7 @@ export const resolvers = {
       _: any,
       { clients: { segment } }: Context
     ) => {
-      const allSpecificationsGroups = propOr<string[], string[]>(
+      const allSpecificationsGroups = propOr<[], CatalogProduct, string[]>(
         [],
         'allSpecificationsGroups',
         product

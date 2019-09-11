@@ -1,4 +1,4 @@
-import { equals, toLower } from 'ramda'
+import { equals, toLower, includes } from 'ramda'
 import { toCategoryIOMessage, toClusterIOMessage } from '../../utils/ioMessage'
 import { findCategoryInTree, getBrandFromSlug } from './utils'
 import { Functions } from '@gocommerce/utils'
@@ -39,6 +39,17 @@ const findSellerFromSellerId = (
   return null
 }
 
+const findSpecificationName = async (mapUnit: string, ctx: Context) => {
+  const filterId = mapUnit.split('_')[1]
+  if (!filterId) {
+    return null
+  }
+  const specificationFilter = await ctx.clients.catalog.specificationFilterById(
+    filterId
+  )
+  return specificationFilter ? specificationFilter.Name : null
+}
+
 const sliceAndJoin = (array: string[], max: number, joinChar: string) =>
   array.slice(0, max).join(joinChar)
 
@@ -46,6 +57,7 @@ const isCategoryMap = equals('c')
 const isBrandMap = equals('b')
 const isProductClusterMap = equals('productClusterIds')
 const isSellerMap = equals('sellerIds')
+const isSpecificationFilter = includes('specificationFilter')
 
 const getCategoryInfo = (
   { categoriesSearched, queryUnit, categories }: BreadcrumbParams,
@@ -110,6 +122,12 @@ export const resolvers = {
       if (isBrandMap(mapUnit)) {
         const brandData = await getBrandInfo(obj, isVtex, ctx)
         return brandData ? brandData.name : defaultName
+      }
+      if (isSpecificationFilter(mapUnit)) {
+        const name = await findSpecificationName(mapUnit, ctx)
+        if (name) {
+          return name
+        }
       }
       return defaultName && decodeURI(defaultName)
     },

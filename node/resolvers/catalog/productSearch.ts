@@ -1,6 +1,7 @@
-import { path, zip } from 'ramda'
+import { path } from 'ramda'
 import { IOResponse } from '@vtex/api'
 import { Functions } from '@gocommerce/utils'
+import { zipQueryAndMap } from './utils'
 
 interface ProductSearchParent {
   productsRaw: IOResponse<CatalogProduct[]>
@@ -30,12 +31,9 @@ export const resolvers = {
     ) => {
       const query = translatedArgs.query || ''
       const map = translatedArgs.map || ''
-      const queryAndMap = zip(
-        query
-          .toLowerCase()
-          .split('/')
-          .map(decodeURIComponent),
-        map.split(',')
+      const queryAndMap = zipQueryAndMap(
+        translatedArgs.query,
+        translatedArgs.map
       )
       const categoriesSearched = queryAndMap
         .filter(([_, m]) => m === 'c')

@@ -8,7 +8,10 @@ const InstallmentsCriteria = {
 
 export const resolvers = {
   Offer: {
-    Installments: ({ Installments }: any, { criteria, rates }: any) => {
+    Installments: (
+      { Installments }: CommertialOffer,
+      { criteria, rates }: { criteria?: string; rates?: boolean }
+    ) => {
       if (criteria === InstallmentsCriteria.ALL) {
         return Installments
       }
@@ -17,9 +20,11 @@ export const resolvers = {
         : filter(({ InterestRate }) => !InterestRate, Installments)
 
       const compareFunc = criteria === InstallmentsCriteria.MAX ? gte : lte
-      const byNumberOfInstallments = comparator((previous: any, next) =>
-        compareFunc(previous.NumberOfInstallments, next.NumberOfInstallments)
+      const byNumberOfInstallments = comparator<CatalogInstallment>(
+        (previous, next) =>
+          compareFunc(previous.NumberOfInstallments, next.NumberOfInstallments)
       )
+
       const installments = head(
         sort(byNumberOfInstallments, filteredInstallments)
       )
