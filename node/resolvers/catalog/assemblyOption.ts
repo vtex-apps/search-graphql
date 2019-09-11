@@ -1,34 +1,30 @@
 export const resolvers = {
   AssemblyOption: {
-    inputValues: async (
+    inputValues: (
       { inputValues }: AssemblyOption,
-    ) => {
-      return parseInputValues(inputValues)
+    ): InputValueField[] => {
+      return Object.keys(inputValues).reduce<InputValueField[]>((acc, label) => {
+        const inputValue = inputValues[label]
+        const type = defineInputValueType(inputValue)
+
+        const maxLength = type === InputValueType.TEXT
+          ? inputValue.maximumNumberOfCharacters : undefined
+
+        const domain = type === InputValueType.OPTIONS
+          ? inputValue.domain
+          : undefined
+
+        acc.push({
+          label,
+          type,
+          maxLength,
+          domain,
+        })
+
+        return acc
+      }, [])
     }
   },
-}
-
-function parseInputValues(inputValues: InputValues): InputValueField[] {
-  return Object.keys(inputValues).reduce<InputValueField[]>((acc, label) => {
-    const inputValue = inputValues[label]
-    const type = defineInputValueType(inputValue)
-
-    const maxLength = type === InputValueType.TEXT
-      ? inputValue.maximumNumberOfCharacters : undefined
-
-    const domain = type === InputValueType.OPTIONS
-      ? inputValue.domain
-      : undefined
-
-    acc.push({
-      label,
-      type,
-      maxLength,
-      domain,
-    })
-
-    return acc
-  }, [])
 }
 
 function defineInputValueType(inputValue: InputValue): InputValueType {
