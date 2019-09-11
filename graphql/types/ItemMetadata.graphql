@@ -32,6 +32,20 @@ type AssemblyOption {
   name: String
   required: Boolean
   composition: CompositionType
+  inputValues: [InputValueField]
+}
+
+type InputValueField {
+  label: String
+  maxLength: Int
+  type: InputValueType
+  domain: [String]
+}
+
+enum InputValueType {
+  TEXT
+  BOOLEAN
+  OPTIONS
 }
 
 type CompositionType {

@@ -21,6 +21,16 @@ interface AssemblyOption {
   id: string
   name: string
   composition: Composition | null
+  inputValues: InputValues
+}
+
+interface InputValues {
+  [key: string]: InputValue
+}
+
+interface InputValue {
+  maximumNumberOfCharacters: number
+  domain: string[]
 }
 
 interface CatalogMetadataItem {
