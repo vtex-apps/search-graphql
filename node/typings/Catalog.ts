@@ -227,7 +227,3 @@ interface CatalogAutocompleteUnit {
   href: string
   criteria: string
 }
-
-interface CatalogSpecificationFilterById {
-  Name: string
-}

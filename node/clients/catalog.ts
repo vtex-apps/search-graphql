@@ -134,14 +134,6 @@ export class Catalog extends AppClient {
       metric: 'catalog-categories',
     })
 
-  public specificationFilterById = (id: string) =>
-    this.get<CatalogSpecificationFilterById>(
-      `pub/specification/fieldGet/${id}`,
-      {
-        metric: 'catalog-specification-field',
-      }
-    )
-
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<CatalogFacets>(

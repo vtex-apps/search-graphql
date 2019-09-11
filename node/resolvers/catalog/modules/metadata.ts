@@ -95,7 +95,7 @@ const getBrandMetadata = async (
   return getAndParsePagetype(cleanQuery, ctx)
 }
 
-const getSpecificationFilterName = (name: string) => {
+export const getSpecificationFilterName = (name: string) => {
   return toTitleCase(decodeURI(name))
 }
 

@@ -2,6 +2,7 @@ import { equals, toLower, includes } from 'ramda'
 import { toCategoryIOMessage, toClusterIOMessage } from '../../utils/ioMessage'
 import { findCategoryInTree, getBrandFromSlug } from './utils'
 import { Functions } from '@gocommerce/utils'
+import { getSpecificationFilterName } from './modules/metadata'
 
 interface BreadcrumbParams {
   queryUnit: string
@@ -37,17 +38,6 @@ const findSellerFromSellerId = (
     }
   }
   return null
-}
-
-const findSpecificationName = async (mapUnit: string, ctx: Context) => {
-  const filterId = mapUnit.split('_')[1]
-  if (!filterId) {
-    return null
-  }
-  const specificationFilter = await ctx.clients.catalog.specificationFilterById(
-    filterId
-  )
-  return specificationFilter ? specificationFilter.Name : null
 }
 
 const sliceAndJoin = (array: string[], max: number, joinChar: string) =>
@@ -124,10 +114,7 @@ export const resolvers = {
         return brandData ? brandData.name : defaultName
       }
       if (isSpecificationFilter(mapUnit)) {
-        const name = await findSpecificationName(mapUnit, ctx)
-        if (name) {
-          return name
-        }
+        return getSpecificationFilterName(queryUnit)
       }
       return defaultName && decodeURI(defaultName)
     },
