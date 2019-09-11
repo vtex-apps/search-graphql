@@ -11,6 +11,7 @@ import {
   path,
   split,
   toLower,
+  reverse,
 } from 'ramda'
 import { Functions } from '@gocommerce/utils'
 
@@ -191,7 +192,7 @@ export const getSearchMetaData = async (
 
   return {
     titleTag: metadata.titleTag
-      ? [metadata.titleTag, ...otherNames].join(' - ')
+      ? join(' - ', reverse([metadata.titleTag, ...otherNames]))
       : metadata.titleTag,
     metaTagDescription: metadata.metaTagDescription,
   }
