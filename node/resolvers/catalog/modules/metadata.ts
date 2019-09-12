@@ -12,6 +12,8 @@ import {
   split,
   toLower,
   reverse,
+  complement,
+  isNil,
 } from 'ramda'
 import { Functions } from '@gocommerce/utils'
 
@@ -52,7 +54,7 @@ const getAndParsePagetype = async (path: string, ctx: Context) => {
 const getCategoryMetadata = async (
   { map, query }: SearchMetadataArgs,
   ctx: Context
-) => {
+): Promise<SearchMetadata> => {
   const {
     vtex: { account },
     clients: { catalog },
@@ -79,7 +81,7 @@ const getCategoryMetadata = async (
 const getBrandMetadata = async (
   query: SearchMetadataArgs['query'],
   ctx: Context
-) => {
+): Promise<SearchMetadata> => {
   const {
     vtex: { account },
     clients: { catalog },
@@ -100,7 +102,10 @@ export const getSpecificationFilterName = (name: string) => {
   return toTitleCase(decodeURI(name))
 }
 
-const getPrimaryMetadata = (args: SearchMetadataArgs, ctx: Context) => {
+const getPrimaryMetadata = (
+  args: SearchMetadataArgs,
+  ctx: Context
+): Promise<SearchMetadata> | SearchMetadata => {
   const map = args.map || ''
   const firstMap = head(map.split(','))
   if (firstMap === 'c') {
@@ -114,6 +119,14 @@ const getPrimaryMetadata = (args: SearchMetadataArgs, ctx: Context) => {
     const name = head(cleanQuery.split('/')) || ''
     return {
       titleTag: getSpecificationFilterName(name),
+      metaTagDescription: null,
+    }
+  }
+  if (firstMap === 'ft') {
+    const cleanQuery = args.query || ''
+    const term = head(cleanQuery.split('/')) || ''
+    return {
+      titleTag: decodeURI(term),
       metaTagDescription: null,
     }
   }
@@ -151,13 +164,22 @@ const getNameForRemainingMaps = async (
       return null
     })
   )
-  return names.filter(Boolean) as string[]
+  return names
 }
 
 export const emptyTitleTag = {
   titleTag: null,
   metaTagDescription: null,
 }
+
+type StringNull = string | null | undefined
+
+const isNotNil = complement(isNil)
+const joinNames = compose<StringNull[], string[], string[], string>(
+  join(' - '),
+  reverse,
+  filter(isNotNil) as any
+)
 
 /**
  * Get metadata of category/brand APIs
@@ -191,9 +213,7 @@ export const getSearchMetaData = async (
   ])
 
   return {
-    titleTag: metadata.titleTag
-      ? join(' - ', reverse([metadata.titleTag, ...otherNames]))
-      : metadata.titleTag,
+    titleTag: joinNames([metadata.titleTag, ...otherNames]),
     metaTagDescription: metadata.metaTagDescription,
   }
 }
