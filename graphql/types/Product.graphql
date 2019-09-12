@@ -147,7 +147,7 @@ type SKU {
   videos: [Video]
   sellers: [Seller]
   variations: [Property]
-  attachments: [Attachment]
+  attachments: [Attachment] @deprecated(reason: "Use itemMetaData instead")
 }
 
 type skuSpecification {

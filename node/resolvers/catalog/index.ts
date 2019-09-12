@@ -33,6 +33,7 @@ import { resolvers as productSearchResolvers } from './productSearch'
 import { resolvers as recommendationResolvers } from './recommendation'
 import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
+import { resolvers as assemblyOptionResolvers } from './assemblyOption'
 import {
   CatalogCrossSellingTypes,
   findCategoryInTree,
@@ -213,6 +214,7 @@ export const fieldResolvers = {
   ...skuResolvers,
   ...breadcrumbResolvers,
   ...productSearchResolvers,
+  ...assemblyOptionResolvers,
 }
 
 const isValidProductIdentifier = (identifier: ProductIndentifier | undefined) =>

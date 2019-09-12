@@ -57,31 +57,33 @@ export const resolvers = {
       { clients: { segment } }: Context
     ) => {
       const simulationPayload = await getSimulationPayload(segment)
+
       const itemsWithAssembly = items.filter(
         item => item.assemblyOptions.length > 0
       )
-      const priceTableMap: PriceTableMap = {}
 
-      for (const item of itemsWithAssembly) {
-        const { assemblyOptions } = item
-        for (const assemblyOption of assemblyOptions) {
-          const { composition } = assemblyOption
-          if (composition && composition.items) {
-            for (const compItem of composition.items) {
-              const { priceTable } = compItem
-              const currentArray = priceTableMap[priceTable] || []
-              currentArray.push({
-                compositionItem: compItem,
-                simulationPayload,
-                items: itemsWithAssembly,
-                parent: item,
-                assemblyOption,
-              })
-              priceTableMap[priceTable] = currentArray
-            }
+      const priceTableMap: PriceTableMap = itemsWithAssembly.reduce<PriceTableMap>((acc, item) => {
+        for (const assemblyOption of item.assemblyOptions) {
+          if (!assemblyOption.composition || !assemblyOption.composition.items) {
+            continue
+          }
+
+          for (const compItem of assemblyOption.composition.items) {
+            const currentArray = acc[compItem.priceTable] || []
+            currentArray.push({
+              compositionItem: compItem,
+              simulationPayload,
+              items: itemsWithAssembly,
+              parent: item,
+              assemblyOption,
+            })
+            acc[compItem.priceTable] = currentArray
           }
         }
-      }
+
+        return acc
+      }, {})
+
       return Object.entries(priceTableMap).map(
         ([priceTableName, priceTableValues]) => ({
           type: priceTableName,
