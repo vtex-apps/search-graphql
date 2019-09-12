@@ -1,7 +1,8 @@
-import { equals, toLower } from 'ramda'
+import { equals, toLower, includes } from 'ramda'
 import { toCategoryIOMessage, toClusterIOMessage } from '../../utils/ioMessage'
 import { findCategoryInTree, getBrandFromSlug } from './utils'
 import { Functions } from '@gocommerce/utils'
+import { getSpecificationFilterName } from './modules/metadata'
 
 interface BreadcrumbParams {
   queryUnit: string
@@ -46,6 +47,7 @@ const isCategoryMap = equals('c')
 const isBrandMap = equals('b')
 const isProductClusterMap = equals('productClusterIds')
 const isSellerMap = equals('sellerIds')
+const isSpecificationFilter = includes('specificationFilter')
 
 const getCategoryInfo = (
   { categoriesSearched, queryUnit, categories }: BreadcrumbParams,
@@ -110,6 +112,9 @@ export const resolvers = {
       if (isBrandMap(mapUnit)) {
         const brandData = await getBrandInfo(obj, isVtex, ctx)
         return brandData ? brandData.name : defaultName
+      }
+      if (isSpecificationFilter(mapUnit)) {
+        return getSpecificationFilterName(queryUnit)
       }
       return defaultName && decodeURI(defaultName)
     },

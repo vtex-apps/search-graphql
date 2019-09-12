@@ -1,4 +1,4 @@
-import { compose, last, split, toLower } from 'ramda'
+import { compose, last, split, toLower, zip } from 'ramda'
 import crypto from 'crypto'
 import { catalogSlugify, Slugify } from '../../utils/slug'
 
@@ -25,6 +25,18 @@ const lastSegment = compose<string, string[], string>(
   last,
   split('/')
 )
+
+export const zipQueryAndMap = (query?: string | null, map?: string | null) => {
+  const cleanQuery = query || ''
+  const cleanMap = map || ''
+  return zip(
+    cleanQuery
+      .toLowerCase()
+      .split('/')
+      .map(decodeURIComponent),
+    cleanMap.split(',')
+  )
+}
 
 export function hashMD5(text: string) {
   const hash = crypto.createHash('md5')

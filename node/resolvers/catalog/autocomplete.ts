@@ -27,7 +27,7 @@ export const resolvers = {
       _: any,
       { clients: { segment } }: Context
     ) => {
-      const id = path([0, 'productId'], items)
+      const id = path<string>([0, 'productId'], items)
       return id != null
         ? toProductIOMessage('name')(segment, name, id)
         : toIOMessage(segment, name, name)

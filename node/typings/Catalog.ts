@@ -119,44 +119,48 @@ interface CatalogImage {
   imageText: string
 }
 
+interface CatalogInstallment {
+  Value: number
+  InterestRate: number
+  TotalValuePlusInterestRate: number
+  NumberOfInstallments: number
+  PaymentSystemName: string
+  PaymentSystemGroupName: string
+  Name: string
+}
+
+interface CommertialOffer {
+  DeliverySlaSamplesPerRegion: Record<
+    string,
+    { DeliverySlaPerTypes: any[]; Region: any | null }
+  >
+  Installments: CatalogInstallment[]
+  DiscountHighLight: any[]
+  GiftSkuIds: string[]
+  Teasers: any[]
+  BuyTogether: any[]
+  ItemMetadataAttachment: any[]
+  Price: number
+  ListPrice: number
+  PriceWithoutDiscount: number
+  RewardValue: number
+  PriceValidUntil: string
+  AvailableQuantity: number
+  Tax: number
+  DeliverySlaSamples: {
+    DeliverySlaPerTypes: any[]
+    Region: any | null
+  }[]
+  GetInfoErrorMessage: any | null
+  CacheVersionUsedToCallCheckout: string
+}
+
 interface Seller {
   sellerId: string
   sellerName: string
   addToCartLink: string
   sellerDefault: boolean
-  commertialOffer: {
-    DeliverySlaSamplesPerRegion: Record<
-      string,
-      { DeliverySlaPerTypes: any[]; Region: any | null }
-    >
-    Installments: {
-      Value: number
-      InterestRate: number
-      TotalValuePlusInterestRate: number
-      NumberOfInstallments: number
-      PaymentSystemName: string
-      PaymentSystemGroupName: string
-      Name: string
-    }[]
-    DiscountHighLight: any[]
-    GiftSkuIds: string[]
-    Teasers: any[]
-    BuyTogether: any[]
-    ItemMetadataAttachment: any[]
-    Price: number
-    ListPrice: number
-    PriceWithoutDiscount: number
-    RewardValue: number
-    PriceValidUntil: string
-    AvailableQuantity: number
-    Tax: number
-    DeliverySlaSamples: {
-      DeliverySlaPerTypes: any[]
-      Region: any | null
-    }[]
-    GetInfoErrorMessage: any | null
-    CacheVersionUsedToCallCheckout: string
-  }
+  commertialOffer: CommertialOffer
 }
 
 interface CatalogFacet {

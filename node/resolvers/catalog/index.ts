@@ -1,22 +1,7 @@
 import { Functions } from '@gocommerce/utils'
 import { NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
-import {
-  compose,
-  equals,
-  filter,
-  head,
-  join,
-  map,
-  path,
-  prop,
-  split,
-  test,
-  toLower,
-  zip,
-  isEmpty,
-  isNil,
-} from 'ramda'
+import { head, test, isEmpty, isNil, path } from 'ramda'
 
 import { toSearchTerm } from '../../utils/ioMessage'
 import { resolvers as autocompleteResolvers } from './autocomplete'
@@ -34,16 +19,10 @@ import { resolvers as recommendationResolvers } from './recommendation'
 import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
 import { resolvers as assemblyOptionResolvers } from './assemblyOption'
-import {
-  CatalogCrossSellingTypes,
-  findCategoryInTree,
-  getBrandFromSlug,
-} from './utils'
 
-interface SearchMetadataArgs {
-  query?: string | null
-  map?: string | null
-}
+import { CatalogCrossSellingTypes } from './utils'
+
+import { getSearchMetaData, emptyTitleTag } from './modules/metadata'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -83,108 +62,6 @@ const inputToCatalogCrossSelling = {
   [CrossSellingInput.suggestions]: CatalogCrossSellingTypes.suggestions,
 }
 
-type TupleString = [string, string]
-
-const isTupleMap = compose<TupleString, string, boolean>(
-  equals('c'),
-  prop('1')
-)
-
-const categoriesOnlyQuery = compose<
-  TupleString[],
-  TupleString[],
-  string[],
-  string
->(
-  join('/'),
-  map(prop('0')),
-  filter(isTupleMap)
-)
-
-const getAndParsePagetype = async (path: string, ctx: Context) => {
-  const pagetype = await ctx.clients.catalog.pageType(path).catch(() => null)
-  if (!pagetype) {
-    return { titleTag: null, metaTagDescription: null }
-  }
-  return {
-    titleTag: pagetype.title || pagetype.name,
-    metaTagDescription: pagetype.metaTagDescription,
-  }
-}
-
-const getCategoryMetadata = async (
-  { map, query }: SearchMetadataArgs,
-  ctx: Context
-) => {
-  const {
-    vtex: { account },
-    clients: { catalog },
-  } = ctx
-  const queryAndMap: TupleString[] = zip(
-    (query || '').split('/'),
-    (map || '').split(',')
-  )
-  const cleanQuery = categoriesOnlyQuery(queryAndMap)
-
-  if (Functions.isGoCommerceAcc(account)) {
-    // GoCommerce does not have pagetype query implemented yet
-    const category =
-      findCategoryInTree(
-        await catalog.categories(cleanQuery.split('/').length),
-        cleanQuery.split('/')
-      ) || {}
-    return {
-      metaTagDescription: path(['MetaTagDescription'], category),
-      titleTag: path(['Title'], category) || path(['Name'], category),
-    }
-  }
-
-  return getAndParsePagetype(cleanQuery, ctx)
-}
-
-const getBrandMetadata = async (
-  { query }: SearchMetadataArgs,
-  ctx: Context
-) => {
-  const {
-    vtex: { account },
-    clients: { catalog },
-  } = ctx
-  const cleanQuery = head(split('/', query || '')) || ''
-
-  if (Functions.isGoCommerceAcc(account)) {
-    const brand = (await getBrandFromSlug(toLower(cleanQuery), catalog)) || {}
-    return {
-      metaTagDescription: path(['metaTagDescription'], brand),
-      titleTag: path(['title'], brand) || path(['name'], brand),
-    }
-  }
-  return getAndParsePagetype(cleanQuery, ctx)
-}
-
-/**
- * Get metadata of category/brand APIs
- *
- * @param _
- * @param args
- * @param ctx
- */
-const getSearchMetaData = async (
-  _: any,
-  args: SearchMetadataArgs,
-  ctx: Context
-) => {
-  const map = args.map || ''
-  const firstMap = head(map.split(','))
-  if (firstMap === 'c') {
-    return getCategoryMetadata(args, ctx)
-  }
-  if (firstMap === 'b') {
-    return getBrandMetadata(args, ctx)
-  }
-  return { titleTag: null, metaTagDescription: null }
-}
-
 const translateToStoreDefaultLanguage = async (
   clients: Context['clients'],
   term: string
@@ -219,6 +96,17 @@ export const fieldResolvers = {
 
 const isValidProductIdentifier = (identifier: ProductIndentifier | undefined) =>
   !!identifier && !isNil(identifier.value) && !isEmpty(identifier.value)
+
+const metadataResolverNames = ['titleTag', 'metaTagDescription']
+
+// This method checks the requested fields in the query and see if the search metadata are being asked.
+const isQueryingMetadata = (info: any) => {
+  const selectedFields =
+    path<any[]>(['fieldNodes', '0', 'selectionSet', 'selections'], info) || []
+  return selectedFields.some(
+    ({ name: { value } }: any) => metadataResolverNames.indexOf(value) >= 0
+  )
+}
 
 export const queries = {
   autocomplete: async (
@@ -376,7 +264,7 @@ export const queries = {
     throw new NotFoundError(`No products were found with requested ${field}`)
   },
 
-  productSearch: async (_: any, args: SearchArgs, ctx: Context) => {
+  productSearch: async (_: any, args: SearchArgs, ctx: Context, info: any) => {
     const {
       clients,
       clients: { catalog },
@@ -395,9 +283,12 @@ export const queries = {
       ...args,
       query,
     }
+
     const [productsRaw, searchMetaData] = await all([
       catalog.products(args, true),
-      getSearchMetaData(_, translatedArgs, ctx),
+      isQueryingMetadata(info)
+        ? getSearchMetaData(_, translatedArgs, ctx)
+        : emptyTitleTag,
     ])
     return {
       translatedArgs,
