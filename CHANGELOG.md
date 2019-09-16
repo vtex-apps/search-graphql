@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Use translatableV2
+- Use translateV2 in search term
+
 ## [0.2.1] - 2019-09-16
 ### Changed
 - Decrease min replicas.
