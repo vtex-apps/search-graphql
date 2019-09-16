@@ -1,5 +1,5 @@
 import { Functions } from '@gocommerce/utils'
-import { compose, last, length, map, omit, propOr, reject, reverse, split, toPairs } from 'ramda'
+import { compose, last, length, map, omit, prop, propOr, reject, reverse, split, toPairs } from 'ramda'
 
 import { getBenefits } from '../benefits'
 import { buildCategoryMap } from './utils'
@@ -116,7 +116,7 @@ export const resolvers = {
 
     recommendations: (product: CatalogProduct) => product,
 
-    titleTag: ({ productTitle }: CatalogProduct) => productTitle,
+    titleTag: prop('productTitle'),
 
     specificationGroups: (
       product: CatalogProduct,

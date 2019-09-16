@@ -9,17 +9,7 @@ export const toIOMessage = async (
   segment: Segment,
   content: string,
   id: string
-) => ({
-  content,
-  from: await localeFromDefaultSalesChannel(segment),
-  id,
-})
-
-export const toCategoryIOMessage = (field: string) => (
-  segment: Segment,
-  content: string,
-  id: number | string
-) => toIOMessage(segment, content, `Category-id.${id}::${field}`)
+) => content
 
 export const toFacetIOMessage = (
   segment: Segment,
