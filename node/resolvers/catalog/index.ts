@@ -284,7 +284,6 @@ export const queries = {
     }
 
     if (args.to && args.to > 2500) {
-      console.log('teste OI')
       throw new UserInputError(
         `The maximum value allowed for the 'to' argument is 2500`
       )
