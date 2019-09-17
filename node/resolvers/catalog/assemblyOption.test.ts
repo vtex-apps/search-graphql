@@ -42,7 +42,7 @@ test('should return an OPTIONS type', async () => {
   expect(line1.type).toBe('OPTIONS')
   expect(line1.maxLength).toBe(undefined)
   expect(line1.domain).toHaveLength(1)
-  expect(line1.domain[0]).toBe('One option')
+  expect(line1.domain![0]).toBe('One option')
 
   expect(line2.label).toBe('Line 2')
   expect(line2.type).toBe('OPTIONS')
