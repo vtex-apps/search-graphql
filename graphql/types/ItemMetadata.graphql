@@ -35,10 +35,13 @@ type AssemblyOption {
   inputValues: [InputValue]
 }
 
+scalar StringOrBoolean
+
 type InputValue {
   label: String
   maxLength: Int
   type: InputValueType
+  defaultValue: StringOrBoolean
   domain: [String]
 }
 

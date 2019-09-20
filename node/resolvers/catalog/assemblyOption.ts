@@ -14,10 +14,17 @@ export const resolvers = {
           ? inputValue.domain
           : undefined
 
+        const defaultValue = type === InputValueType.OPTIONS
+          ? inputValue.domain[0]
+          : type === InputValueType.BOOLEAN
+            ? stringToBoolean(inputValue.domain[0])
+            : ''
+
         acc.push({
           label,
           type,
           maxLength,
+          defaultValue,
           domain,
         })
 
@@ -46,11 +53,18 @@ function defineInputValueType(inputValue: RawInputValue): InputValueType {
   return InputValueType.TEXT
 }
 
+function stringToBoolean(value: string) {
+  return value === 'true'
+    ? true
+    : false
+}
+
 
 interface InputValue {
   label: string
   maxLength?: number
   type: InputValueType
+  defaultValue: string|boolean
   domain?: string[]
 }
 

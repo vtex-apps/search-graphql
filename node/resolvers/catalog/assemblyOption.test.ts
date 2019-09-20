@@ -17,6 +17,7 @@ test('should return a TEXT type', async () => {
   expect(result[0].type).toBe('TEXT')
   expect(result[0].maxLength).toBe(20)
   expect(result[0].domain).not.toBeDefined()
+  expect(result[0].defaultValue).toBe('')
 })
 
 test('should return an OPTIONS type', async () => {
@@ -42,12 +43,14 @@ test('should return an OPTIONS type', async () => {
   expect(line1.type).toBe('OPTIONS')
   expect(line1.maxLength).toBe(undefined)
   expect(line1.domain).toHaveLength(1)
-  expect(line1.domain[0]).toBe('One option')
+  expect(line1.domain![0]).toBe('One option')
+  expect(line1.defaultValue).toBe('One option')
 
   expect(line2.label).toBe('Line 2')
   expect(line2.type).toBe('OPTIONS')
   expect(line2.maxLength).toBe(undefined)
   expect(line2.domain).toHaveLength(2)
+  expect(line2.defaultValue).toBe('Two')
 })
 
 test('should return a BOOLEAN type', async () => {
@@ -73,9 +76,11 @@ test('should return a BOOLEAN type', async () => {
   expect(thingA.type).toBe('BOOLEAN')
   expect(thingA.maxLength).toBe(undefined)
   expect(thingA.domain).not.toBeDefined()
+  expect(thingA.defaultValue).toBe(true)
 
   expect(thingB.label).toBe('Use thing B')
   expect(thingB.type).toBe('BOOLEAN')
   expect(thingB.maxLength).toBe(undefined)
   expect(thingB.domain).not.toBeDefined()
+  expect(thingB.defaultValue).toBe(false)
 })
