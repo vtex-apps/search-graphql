@@ -1413,10 +1413,10 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-"@vtex/api@^3.53.0":
-  version "3.53.0"
-  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-3.53.0.tgz#aa821fd0c6ad0aa3dfc049ae1b0d3ace0074faa9"
-  integrity sha512-Jrtd0t0JUJswFclrMGwjIVSbbpvihuDmQEkg+eH9djauuXzSz3yda1T4NeinxcsIKbTuBTk4/Ku2YUFD5VAWcQ==
+"@vtex/api@^3.54.1":
+  version "3.54.1"
+  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-3.54.1.tgz#9d14d7693993ef542a6a49396396995fdfc75442"
+  integrity sha512-3xlkQ239XIhSZPQ+ok1X9w5iPy606+YZ+xBITKDhMtcpP0x2EXrTDY5SnREfEIniLQDEuzHKzEKNPbF3zhSQww==
   dependencies:
     "@types/koa" "^2.0.48"
     "@types/koa-compose" "^3.2.3"
