@@ -1,6 +1,5 @@
 import { prop, toPairs } from 'ramda'
 
-import { toCategoryIOMessage, toFacetIOMessage } from '../../utils/ioMessage'
 import { pathToCategoryHref } from './category'
 import { zipQueryAndMap } from './utils'
 
@@ -65,27 +64,14 @@ export const resolvers = {
   FilterFacet: {
     ...baseFacetResolvers,
 
-    name: async (
-      { Map, Name }: CatalogFacet,
-      _: any,
-      { clients: { segment } }: Context
-    ) => {
-      const [, id] = Map.split('_')
-      return toFacetIOMessage(segment, Name, id)
-    },
+    name: prop('Name'),
   },
   DepartmentFacet: {
     ...baseFacetResolvers,
 
     id: prop('Id'),
 
-    name: async (
-      { Id, Name }: CatalogFacet & { Id?: number },
-      _: any,
-      { clients: { segment } }: Context
-    ) => {
-      return Id != null ? toCategoryIOMessage('name')(segment, Name, Id) : Name
-    },
+    name: prop('Name'),
   },
   BrandFacet: {
     ...baseFacetResolvers,
@@ -109,11 +95,7 @@ export const resolvers = {
       return pathToCategoryHref(linkPath)
     },
 
-    name: (
-      { Id, Name }: CatalogFacetCategory,
-      _: any,
-      { clients: { segment } }: Context
-    ) => toCategoryIOMessage('name')(segment, Name, Id),
+    name: prop('Name'),
   },
   Facets: {
     departments: ({

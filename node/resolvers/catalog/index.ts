@@ -1,28 +1,25 @@
 import { Functions } from '@gocommerce/utils'
 import { NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
-import { head, test, isEmpty, isNil, path } from 'ramda'
+import { head, isEmpty, isNil, path, test } from 'ramda'
 
-import { toSearchTerm } from '../../utils/ioMessage'
+import { resolvers as assemblyOptionResolvers } from './assemblyOption'
 import { resolvers as autocompleteResolvers } from './autocomplete'
 import { resolvers as brandResolvers } from './brand'
 import { resolvers as categoryResolvers } from './category'
 import { resolvers as discountResolvers } from './discount'
 import { resolvers as facetsResolvers } from './facets'
 import { resolvers as itemMetadataResolvers } from './itemMetadata'
-import { resolvers as itemMetadataUnitResolvers } from './itemMetadataUnit'
 import { resolvers as itemMetadataPriceTableItemResolvers } from './itemMetadataPriceTableItem'
+import { resolvers as itemMetadataUnitResolvers } from './itemMetadataUnit'
+import { emptyTitleTag, getSearchMetaData } from './modules/metadata'
 import { resolvers as offerResolvers } from './offer'
 import { resolvers as productResolvers } from './product'
 import { resolvers as productSearchResolvers } from './productSearch'
 import { resolvers as recommendationResolvers } from './recommendation'
 import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
-import { resolvers as assemblyOptionResolvers } from './assemblyOption'
-
 import { CatalogCrossSellingTypes } from './utils'
-
-import { getSearchMetaData, emptyTitleTag } from './modules/metadata'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -72,7 +69,11 @@ const translateToStoreDefaultLanguage = async (
     segment.getSegment(),
   ])
   return from && from !== to
-    ? messagesGraphQL.translate(toSearchTerm(term, from, to) as any).then(head)
+    ? messagesGraphQL.translateV2({
+        messages: [{content: term}],
+        from,
+        to,
+      }).then(head)
     : term
 }
 
