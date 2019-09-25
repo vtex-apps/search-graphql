@@ -8,13 +8,13 @@ type Category {
   """ Category ID """
   id: Int
   """ Category name """
-  name: String @translatableV2
+  name: String @translatable
   """ Title used by html tag"""
-  titleTag: String @translatableV2
+  titleTag: String @translatable
   """ Description used by html tag"""
   hasChildren: Boolean
   """ Has children categories """
-  metaTagDescription: String @translatableV2
+  metaTagDescription: String @translatable
   """ Categories children """
   children: [Category]
 }

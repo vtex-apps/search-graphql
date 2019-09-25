@@ -1,8 +1,25 @@
-import { Functions } from '@gocommerce/utils'
-import { compose, last, length, map, omit, prop, propOr, reject, reverse, split, toPairs } from 'ramda'
+import {
+  compose,
+  last,
+  map,
+  omit,
+  propOr,
+  reject,
+  reverse,
+  split,
+  toPairs,
+  length,
+} from 'ramda'
 
+import { Functions } from '@gocommerce/utils'
+
+import {
+  toBrandIOMessage,
+  toProductIOMessage,
+  toSpecificationIOMessage,
+} from './../../utils/ioMessage'
+import { buildCategoryMap, hashMD5 } from './utils'
 import { getBenefits } from '../benefits'
-import { buildCategoryMap } from './utils'
 
 type MaybeRecord = false | Record<string, any>
 const objToNameValue = (
@@ -82,6 +99,35 @@ export const resolvers = {
 
     categoryTree: productCategoriesToCategoryTree,
 
+    productName: (
+      { productName, productId }: CatalogProduct,
+      _: any,
+      { clients: { segment } }: Context
+    ) => toProductIOMessage('name')(segment, productName, productId),
+
+    description: (
+      { description, productId }: CatalogProduct,
+      _: any,
+      { clients: { segment } }: Context
+    ) => toProductIOMessage('description')(segment, description, productId),
+
+    brand: (
+      { brand, brandId }: CatalogProduct,
+      _: any,
+      { clients: { segment } }: Context
+    ) => toBrandIOMessage('name')(segment, brand, brandId),
+
+    metaTagDescription: (
+      { metaTagDescription, productId }: CatalogProduct,
+      _: any,
+      { clients: { segment } }: Context
+    ) =>
+      toProductIOMessage('metaTagDescription')(
+        segment,
+        metaTagDescription,
+        productId
+      ),
+
     cacheId: ({ linkText }: CatalogProduct) => linkText,
 
     clusterHighlights: ({ clusterHighlights = {} }) =>
@@ -116,10 +162,16 @@ export const resolvers = {
 
     recommendations: (product: CatalogProduct) => product,
 
-    titleTag: prop('productTitle'),
+    titleTag: (
+      { productTitle, productId }: CatalogProduct,
+      _: any,
+      { clients: { segment } }: Context
+    ) => toProductIOMessage('titleTag')(segment, productTitle, productId),
 
     specificationGroups: (
       product: CatalogProduct,
+      _: any,
+      { clients: { segment } }: Context
     ) => {
       const allSpecificationsGroups = propOr<[], CatalogProduct, string[]>(
         [],
@@ -128,11 +180,25 @@ export const resolvers = {
       ).concat(['allSpecifications'])
       const specificationGroups = allSpecificationsGroups.map(
         (groupName: string) => ({
-          name: groupName,
+          name: toSpecificationIOMessage('groupName')(
+            segment,
+            groupName,
+            hashMD5(groupName)
+          ),
           specifications: ((product as any)[groupName] || []).map(
             (name: string) => ({
-              name,
-              values: ((product as any)[name] || []),
+              name: toSpecificationIOMessage('specificationName')(
+                segment,
+                name,
+                hashMD5(name)
+              ),
+              values: ((product as any)[name] || []).map((value: string) =>
+                toSpecificationIOMessage('specificationValue')(
+                  segment,
+                  value,
+                  hashMD5(value)
+                )
+              ),
             })
           ),
         })

@@ -1,8 +1,8 @@
-import { Functions } from '@gocommerce/utils'
-import { equals, includes, toLower } from 'ramda'
-
-import { getSpecificationFilterName } from './modules/metadata'
+import { equals, toLower, includes } from 'ramda'
+import { toCategoryIOMessage, toClusterIOMessage } from '../../utils/ioMessage'
 import { findCategoryInTree, getBrandFromSlug } from './utils'
+import { Functions } from '@gocommerce/utils'
+import { getSpecificationFilterName } from './modules/metadata'
 
 interface BreadcrumbParams {
   queryUnit: string
@@ -81,6 +81,7 @@ export const resolvers = {
   SearchBreadcrumb: {
     name: async (obj: BreadcrumbParams, _: any, ctx: Context) => {
       const {
+        clients: { segment },
         vtex: { account },
       } = ctx
       const { queryUnit, mapUnit, index, queryArray, products } = obj
@@ -89,13 +90,17 @@ export const resolvers = {
       if (isProductClusterMap(mapUnit)) {
         const clusterName = findClusterNameFromId(products, queryUnit)
         if (clusterName) {
-          return clusterName
+          return toClusterIOMessage(segment, clusterName, queryUnit)
         }
       }
       if (isCategoryMap(mapUnit)) {
         const categoryData = await getCategoryInfo(obj, isVtex, ctx)
         if (categoryData) {
-          return categoryData.name
+          return toCategoryIOMessage('name')(
+            segment,
+            categoryData.name,
+            categoryData.id
+          )
         }
       }
       if (isSellerMap(mapUnit)) {

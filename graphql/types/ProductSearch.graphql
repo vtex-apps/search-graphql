@@ -7,7 +7,7 @@ type ProductSearch {
 }
 
 type SearchBreadcrumb {
-  name: String @translatableV2
+  name: String @translatable
   href: String
 }
 

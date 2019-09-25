@@ -1,5 +1,6 @@
 import { compose, last, prop, split } from 'ramda'
 
+import { toCategoryIOMessage } from '../../utils/ioMessage'
 import { getCategoryInfo } from './utils'
 
 const lastSegment = compose<string, string[], string>(
@@ -34,9 +35,33 @@ export const resolvers = {
       return pathToCategoryHref(path)
     },
 
-    metaTagDescription: prop('MetaTagDescription'),
+    name: async (
+      { id, name }: SafeCategory,
+      _: any,
+      { clients: { segment } }: Context
+    ) => {
+      return toCategoryIOMessage('name')(segment, name, id)
+    },
 
-    titleTag: prop('Title'),
+    metaTagDescription: async (
+      { id, MetaTagDescription }: SafeCategory,
+      _: any,
+      { clients: { segment } }: Context
+    ) => {
+      return toCategoryIOMessage('metaTagDescription')(
+        segment,
+        MetaTagDescription,
+        id
+      )
+    },
+
+    titleTag: async (
+      { id, Title }: SafeCategory,
+      _: any,
+      { clients: { segment } }: Context
+    ) => {
+      return toCategoryIOMessage('titleTag')(segment, Title, id)
+    },
 
     slug: async ({ url }: SafeCategory, _: any) => {
       return url ? lastSegment(url) : null

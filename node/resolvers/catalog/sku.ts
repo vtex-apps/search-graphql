@@ -1,5 +1,7 @@
 import { find, head, map, replace, slice } from 'ramda'
 
+import { toSKUIOMessage } from './../../utils/ioMessage'
+
 export const resolvers = {
   SKU: {
     attachments: ({ attachments = [] }: CatalogItem) =>
@@ -52,5 +54,17 @@ export const resolvers = {
         }),
         Videos
       ),
+
+    nameComplete: (
+      { nameComplete, itemId }: CatalogItem,
+      _: any,
+      { clients: { segment } }: Context
+    ) => toSKUIOMessage('nameComplete')(segment, nameComplete, itemId),
+
+    name: (
+      { name, itemId }: CatalogItem,
+      _: any,
+      { clients: { segment } }: Context
+    ) => toSKUIOMessage('name')(segment, name, itemId),
   },
 }
