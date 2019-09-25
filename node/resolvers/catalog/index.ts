@@ -70,8 +70,7 @@ const translateToStoreDefaultLanguage = async (
   ])
   return from && from !== to
     ? messagesGraphQL.translateV2({
-        messages: [{content: term}],
-        from,
+        messages: [{content: term, from}],
         to,
       }).then(head)
     : term
