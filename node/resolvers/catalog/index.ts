@@ -72,7 +72,10 @@ const translateToStoreDefaultLanguage = async (
     segment.getSegment(),
   ])
   return from && from !== to
-    ? messagesGraphQL.translate(toSearchTerm(term, from, to) as any).then(head)
+    ? messagesGraphQL.translateV2({
+        messages: [{content: term, from}],
+        to,
+      }).then(head)
     : term
 }
 
