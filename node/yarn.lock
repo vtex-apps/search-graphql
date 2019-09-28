@@ -1413,10 +1413,17 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
+<<<<<<< HEAD
 "@vtex/api@^3.41.0":
   version "3.46.0"
   resolved "https://registry.yarnpkg.com/@vtex/api/-/api-3.46.0.tgz#f43a58ce15e08dfa366daf44a4c2ec4928527236"
   integrity sha512-Dqlu/LE6mn1oUIb744bjj+RgNbb+xMSB0C6H6RcUvVGOQPJgY4OfqNY11jae6qjInWXIVVyBkRKFwnFpUNqfxA==
+=======
+"@vtex/api@^3.55.1":
+  version "3.55.1"
+  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-3.55.1.tgz#958c67071b92844a322bce7f7bd7340d646674bc"
+  integrity sha512-1CQjTafQdvLVZZ4LkNKglnXXou81WfQE0XF+1KPHPMrG9bRl8h2NuqZCz+Kpx1JiyUHplxOuSEMA8e762K/O+g==
+>>>>>>> adds runtime dep for beta release
   dependencies:
     "@types/koa" "^2.0.48"
     "@types/koa-compose" "^3.2.3"
@@ -5738,7 +5745,7 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-stats-lite@vtex/node-stats-lite#dist:
+"stats-lite@github:vtex/node-stats-lite#dist":
   version "2.2.0"
   resolved "https://codeload.github.com/vtex/node-stats-lite/tar.gz/1b0d39cc41ef7aaecfd541191f877887a2044797"
   dependencies:
