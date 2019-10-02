@@ -13,7 +13,6 @@
     "prereleasy": "bash lint.sh"
   },
   "dependencies": {
-    "infra:service-node": "5.19.1-beta.1",
     "vtex.messages": "1.x",
     "vtex.catalog-api-proxy": "0.x"
   },
