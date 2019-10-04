@@ -10,7 +10,7 @@ type Facets {
 type DepartmentFacet {
   id: ID!
   quantity: Int!
-  name: String @translatable
+  name: String @translatableV2
   link: String!
   linkEncoded: String!
   map: String
@@ -31,7 +31,7 @@ type BrandFacet {
 
 type PriceRangesFacet {
   quantity: Int!
-  name: String @translatable
+  name: String @translatableV2
   link: String!
   linkEncoded: String!
   map: String
@@ -43,7 +43,7 @@ type PriceRangesFacet {
 type CategoriesTreeFacet {
   id: ID!
   quantity: Int!
-  name: String @translatable
+  name: String @translatableV2
   link: String!
   linkEncoded: String!
   """
@@ -58,7 +58,7 @@ type CategoriesTreeFacet {
 
 type FilterFacet {
   quantity: Int!
-  name: String @translatable
+  name: String @translatableV2
   link: String!
   linkEncoded: String!
   map: String
