@@ -226,6 +226,22 @@ type Offer {
 
 type Teaser {
   name: String
+  conditions: TeaserCondition
+  effects: TeaserEffects
+}
+
+type TeaserCondition {
+  minimumQuantity: Int
+  parameters: [TeaserValue]
+}
+
+type TeaserEffects {
+  parameters: [TeaserValue]
+}
+
+type TeaserValue {
+  name: String
+  value: String
 }
 
 """
