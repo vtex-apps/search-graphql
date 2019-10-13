@@ -2,19 +2,6 @@ const promisify = (obj: any) => {
   return new Promise(resolve => resolve(obj))
 }
 
-// parentId: number | null
-//   GlobalCategoryId: number
-//   GlobalCategoryName: string
-//   position: number
-//   slug: string
-//   id: number
-//   name: string
-//   hasChildren: boolean
-//   url: string
-//   children: null
-//   Title: string
-//   MetaTagDescription: string
-
 const catalogClientMock = {
   pageType: jest.fn((query: string) =>
     promisify({
