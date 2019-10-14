@@ -1,6 +1,5 @@
 import { prop, toPairs } from 'ramda'
 
-import { pathToCategoryHref } from './category'
 import { zipQueryAndMap } from './utils'
 
 interface EitherFacet extends CatalogFacet {
@@ -92,7 +91,7 @@ export const resolvers = {
 
     href: ({ Link }: { Link: string }) => {
       const [linkPath] = Link.split('?')
-      return pathToCategoryHref(linkPath)
+      return linkPath
     },
 
     name: prop('Name'),
