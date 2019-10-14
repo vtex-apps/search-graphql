@@ -84,8 +84,7 @@ const productCategoriesToCategoryTree = async (
   if (isVtex) {
     return reversedIds.map(categoryId => catalog.category(Number(categoryId)))
   }
-  const level = Math.max(reversedIds.length)
-  const categoriesTree = await catalog.categories(level)
+  const categoriesTree = await catalog.categories(reversedIds.length)
   const categoryMap = buildCategoryMap(categoriesTree)
   const mappedCategories = reversedIds
     .map(id => categoryMap[id])
