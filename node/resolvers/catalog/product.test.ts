@@ -27,8 +27,8 @@ describe('tests related to product resolver', () => {
         mockContext as any
       )
       expect(mockContext.clients.catalog.category).toBeCalledTimes(2)
-      expect(mockContext.clients.catalog.category.mock.calls[0][0]).toBe(10)
-      expect(mockContext.clients.catalog.category.mock.calls[1][0]).toBe(25)
+      expect(mockContext.clients.catalog.category.mock.calls[0][0]).toBe(25)
+      expect(mockContext.clients.catalog.category.mock.calls[1][0]).toBe(10)
     })
 
     test('get correct main category tree for product with more than one tree', async () => {
@@ -53,11 +53,11 @@ describe('tests related to product resolver', () => {
         mockContext as any
       )
       expect(mockContext.clients.catalog.category).toBeCalledTimes(3)
-      expect(mockContext.clients.catalog.category.mock.calls[0][0]).toBe(
+      expect(mockContext.clients.catalog.category.mock.calls[0][0]).toBe(101)
+      expect(mockContext.clients.catalog.category.mock.calls[1][0]).toBe(101003)
+      expect(mockContext.clients.catalog.category.mock.calls[2][0]).toBe(
         101003009
       )
-      expect(mockContext.clients.catalog.category.mock.calls[1][0]).toBe(101003)
-      expect(mockContext.clients.catalog.category.mock.calls[2][0]).toBe(101)
     })
 
     test('ensure that GC account calls the category tree API ', async () => {
@@ -86,6 +86,24 @@ describe('tests related to product resolver', () => {
       expect(mockContext.clients.catalog.categories).toBeCalledTimes(1)
       expect(mockContext.clients.catalog.categories.mock.calls[0][0]).toBe(2) //ensure maximum level was correct
       expect(result!.length).toBe(2)
+    })
+
+    test('if categoryId does not match any id in categoriesIds, find biggest tree', async () => {
+      const catalogProduct = getProduct()
+      catalogProduct.categoryId = '1'
+      catalogProduct.categoriesIds = ['/2064927469/', '/2064927469/630877787/']
+      await resolvers.Product.categoryTree(
+        catalogProduct as any,
+        {},
+        mockContext as any
+      )
+      expect(mockContext.clients.catalog.category).toBeCalledTimes(2)
+      expect(mockContext.clients.catalog.category.mock.calls[0][0]).toBe(
+        2064927469
+      )
+      expect(mockContext.clients.catalog.category.mock.calls[1][0]).toBe(
+        630877787
+      )
     })
   })
 })
