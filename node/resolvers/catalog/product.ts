@@ -6,7 +6,6 @@ import {
   prop,
   propOr,
   reject,
-  reverse,
   split,
   toPairs,
 } from 'ramda'
@@ -61,6 +60,25 @@ const treeStringToArray = compose(
   removeStartingSlashes
 )
 
+const findMainTree = (categoriesIds: string[], prodCategoryId: string) => {
+  const mainTree = categoriesIds.find(
+    treeIdString => getLastCategory(treeIdString) === prodCategoryId
+  )
+  if (mainTree) {
+    return treeStringToArray(mainTree)
+  }
+
+  // If we are here, did not find the specified main category ID in given strings. It is probably a bug.
+  // We will return the biggest tree we find
+
+  const trees = categoriesIds.map(treeStringToArray)
+
+  return trees.reduce(
+    (acc, currTree) => (currTree.length > acc.length ? currTree : acc),
+    []
+  )
+}
+
 const productCategoriesToCategoryTree = async (
   { categories, categoriesIds, categoryId: prodCategoryId }: CatalogProduct,
   _: any,
@@ -70,22 +88,14 @@ const productCategoriesToCategoryTree = async (
     return []
   }
 
-  const mainTree = categoriesIds.find(
-    treeIdString => getLastCategory(treeIdString) === prodCategoryId
-  )
-
-  if (!mainTree) {
-    return []
-  }
-  const mainTreeIds = treeStringToArray(mainTree)
-  const reversedIds = reverse(mainTreeIds)
+  const mainTreeIds = findMainTree(categoriesIds, prodCategoryId)
 
   if (platform === 'vtex') {
-    return reversedIds.map(categoryId => catalog.category(Number(categoryId)))
+    return mainTreeIds.map(categoryId => catalog.category(Number(categoryId)))
   }
-  const categoriesTree = await catalog.categories(reversedIds.length)
+  const categoriesTree = await catalog.categories(mainTreeIds.length)
   const categoryMap = buildCategoryMap(categoriesTree)
-  const mappedCategories = reversedIds
+  const mappedCategories = mainTreeIds
     .map(id => categoryMap[id])
     .filter(Boolean)
 
