@@ -1,5 +1,15 @@
-import { Functions } from '@gocommerce/utils'
-import { compose, last, length, map, omit, prop, propOr, reject, reverse, split, toPairs } from 'ramda'
+import {
+  compose,
+  last,
+  map,
+  omit,
+  prop,
+  propOr,
+  reject,
+  reverse,
+  split,
+  toPairs,
+} from 'ramda'
 
 import { getBenefits } from '../benefits'
 import { buildCategoryMap } from './utils'
@@ -39,37 +49,44 @@ const removeTrailingSlashes = (str: string) =>
 const removeStartingSlashes = (str: string) =>
   str.startsWith('/') ? str.slice(1) : str
 
-const parseId = compose(
-  Number,
+const getLastCategory = compose<string, string, string[], string>(
   last,
   split('/'),
   removeTrailingSlashes
 )
 
-const getCategoryLevel = compose(
-  length,
+const treeStringToArray = compose(
   split('/'),
   removeTrailingSlashes,
   removeStartingSlashes
 )
 
 const productCategoriesToCategoryTree = async (
-  { categories, categoriesIds }: CatalogProduct,
+  { categories, categoriesIds, categoryId: prodCategoryId }: CatalogProduct,
   _: any,
-  { clients: { catalog }, vtex: { account } }: Context
+  { clients: { catalog }, vtex: { platform } }: Context
 ) => {
   if (!categories || !categoriesIds) {
     return []
   }
-  const reversedIds = reverse(categoriesIds)
-  if (!Functions.isGoCommerceAcc(account)) {
-    return reversedIds.map(categoryId => catalog.category(parseId(categoryId)))
+
+  const mainTree = categoriesIds.find(
+    treeIdString => getLastCategory(treeIdString) === prodCategoryId
+  )
+
+  if (!mainTree) {
+    return []
   }
-  const level = Math.max(...reversedIds.map(getCategoryLevel))
-  const categoriesTree = await catalog.categories(level)
+  const mainTreeIds = treeStringToArray(mainTree)
+  const reversedIds = reverse(mainTreeIds)
+
+  if (platform === 'vtex') {
+    return reversedIds.map(categoryId => catalog.category(Number(categoryId)))
+  }
+  const categoriesTree = await catalog.categories(reversedIds.length)
   const categoryMap = buildCategoryMap(categoriesTree)
   const mappedCategories = reversedIds
-    .map(id => categoryMap[parseId(id)])
+    .map(id => categoryMap[id])
     .filter(Boolean)
 
   return mappedCategories.length ? mappedCategories : null
@@ -118,9 +135,7 @@ export const resolvers = {
 
     titleTag: prop('productTitle'),
 
-    specificationGroups: (
-      product: CatalogProduct,
-    ) => {
+    specificationGroups: (product: CatalogProduct) => {
       const allSpecificationsGroups = propOr<[], CatalogProduct, string[]>(
         [],
         'allSpecificationsGroups',
@@ -132,7 +147,7 @@ export const resolvers = {
           specifications: ((product as any)[groupName] || []).map(
             (name: string) => ({
               name,
-              values: ((product as any)[name] || []),
+              values: (product as any)[name] || [],
             })
           ),
         })
