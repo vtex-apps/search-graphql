@@ -32,7 +32,7 @@ const segmentClientMock = {
 }
 
 export const mockContext = {
-  vtex: { account: 'storecomponents' },
+  vtex: { account: 'storecomponents', platform: 'vtex' },
   clients: {
     catalog: catalogClientMock,
     segment: segmentClientMock,

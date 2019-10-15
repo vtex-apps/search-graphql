@@ -1,4 +1,3 @@
-import { Functions } from '@gocommerce/utils'
 import {
   compose,
   last,
@@ -65,12 +64,12 @@ const treeStringToArray = compose(
 const productCategoriesToCategoryTree = async (
   { categories, categoriesIds, categoryId: prodCategoryId }: CatalogProduct,
   _: any,
-  { clients: { catalog }, vtex: { account } }: Context
+  { clients: { catalog }, vtex: { platform } }: Context
 ) => {
   if (!categories || !categoriesIds) {
     return []
   }
-  const isVtex = !Functions.isGoCommerceAcc(account)
+
   const mainTree = categoriesIds.find(
     treeIdString => getLastCategory(treeIdString) === prodCategoryId
   )
@@ -81,7 +80,7 @@ const productCategoriesToCategoryTree = async (
   const mainTreeIds = treeStringToArray(mainTree)
   const reversedIds = reverse(mainTreeIds)
 
-  if (isVtex) {
+  if (platform === 'vtex') {
     return reversedIds.map(categoryId => catalog.category(Number(categoryId)))
   }
   const categoriesTree = await catalog.categories(reversedIds.length)

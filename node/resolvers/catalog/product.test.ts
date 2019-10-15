@@ -5,7 +5,7 @@ import { getProduct } from '../../__mocks__/product'
 describe('tests related to product resolver', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    mockContext.vtex.account = 'storecomponents'
+    mockContext.vtex.platform = 'vtex'
   })
   describe('categoryTree resolver', () => {
     test('ensure that VTEX account never calls the category tree catalog API', async () => {
@@ -21,7 +21,6 @@ describe('tests related to product resolver', () => {
 
     test('get correct main category tree for product with only one tree', async () => {
       const catalogProduct = getProduct()
-      // mockContext.clients.catalog.category.
       await resolvers.Product.categoryTree(
         catalogProduct as any,
         {},
@@ -63,7 +62,7 @@ describe('tests related to product resolver', () => {
 
     test('ensure that GC account calls the category tree API ', async () => {
       const catalogProduct = getProduct()
-      mockContext.vtex.account = 'gc-lea121'
+      mockContext.vtex.platform = 'gocommerce'
       mockContext.clients.catalog.categories.mockImplementation(() => [
         {
           id: '10',
