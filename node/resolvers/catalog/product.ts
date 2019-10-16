@@ -28,6 +28,8 @@ const objToNameValue = (
     toPairs
   )(record)
 
+type CatalogProductWithCache = CatalogProduct & { cacheId?: string }
+
 const knownNotPG = [
   'allSpecifications',
   'brand',
@@ -109,7 +111,8 @@ export const resolvers = {
 
     categoryTree: productCategoriesToCategoryTree,
 
-    cacheId: ({ linkText }: CatalogProduct) => linkText,
+    cacheId: ({ linkText, cacheId }: CatalogProductWithCache) =>
+      cacheId || linkText,
 
     clusterHighlights: ({ clusterHighlights = {} }) =>
       objToNameValue('id', 'name', clusterHighlights),
