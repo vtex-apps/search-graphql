@@ -14,6 +14,7 @@ const catalogClientMock = {
   ),
   category: jest.fn(),
   categories: jest.fn(),
+  crossSelling: jest.fn(),
 }
 
 const messagesGraphQLClientMock = {

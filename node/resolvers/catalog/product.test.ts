@@ -106,4 +106,15 @@ describe('tests related to product resolver', () => {
       )
     })
   })
+
+  test('if custom cacheId is given, it should be returned', async () => {
+    const catalogProduct = getProduct()
+    const cacheAsSlug = await resolvers.Product.cacheId(catalogProduct as any)
+    expect(cacheAsSlug).toBe(catalogProduct.linkText)
+
+    catalogProduct.cacheId = 'CUSTOM_CACHE'
+
+    const customCache = await resolvers.Product.cacheId(catalogProduct as any)
+    expect(customCache).toBe('CUSTOM_CACHE')
+  })
 })

@@ -1,7 +1,7 @@
 import { Functions } from '@gocommerce/utils'
 import { NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
-import { head, isEmpty, isNil, path, test } from 'ramda'
+import { head, isEmpty, isNil, path, test, pathOr } from 'ramda'
 
 import { resolvers as assemblyOptionResolvers } from './assemblyOption'
 import { resolvers as autocompleteResolvers } from './autocomplete'
@@ -69,15 +69,17 @@ const translateToStoreDefaultLanguage = async (
     segment.getSegment(),
   ])
   return from && from !== to
-    ? messagesGraphQL.translateV2({
-      indexedByFrom: [
-          {
-            from,
-            messages: [{content: term}]
-          }
-        ],
-        to,
-      }).then(head)
+    ? messagesGraphQL
+        .translateV2({
+          indexedByFrom: [
+            {
+              from,
+              messages: [{ content: term }],
+            },
+          ],
+          to,
+        })
+        .then(head)
     : term
 }
 
@@ -330,7 +332,20 @@ export const queries = {
       const product = await queries.product(_, { identifier }, ctx)
       productId = product!.productId
     }
-    return ctx.clients.catalog.crossSelling(productId, catalogType)
+
+    const products = await ctx.clients.catalog.crossSelling(
+      productId,
+      catalogType
+    )
+    // We add a custom cacheId because these products are not exactly like the other products from catalogs apis.
+    // Each product is basically a SKU and you may have two products in response with same ID but each one representing a SKU.
+    return products.map(product => {
+      const skuId = pathOr('', ['items', '0', 'itemId'], product)
+      return {
+        ...product,
+        cacheId: `${product.linkText}-${skuId}`,
+      }
+    })
   },
 
   searchMetadata: async (_: any, args: SearchMetadataArgs, ctx: Context) => {
