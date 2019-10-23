@@ -73,10 +73,13 @@ export class Catalog extends AppClient {
       { metric: 'catalog-productByEan' }
     )
 
-  public productById = (id: string) =>
-    this.get<CatalogProduct[]>(`/pub/products/search?fq=productId:${id}`, {
+  public productById = (id: string) => {
+    const isVtex = this.context.platform === 'vtex'
+    const url = isVtex ? '/pub/products/search?fq=productId:' : '/products/'
+    return this.get<CatalogProduct[]>(`${url}${id}`, {
       metric: 'catalog-productById',
     })
+  }
 
   public productsById = (ids: string[]) =>
     this.get<CatalogProduct[]>(

@@ -1,4 +1,3 @@
-import { Functions } from '@gocommerce/utils'
 import { NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
 import { head, isEmpty, isNil, path, test, pathOr } from 'ramda'
@@ -179,14 +178,11 @@ export const queries = {
 
   product: async (_: any, rawArgs: ProductArgs, ctx: Context) => {
     const {
-      vtex: { account },
       clients: { catalog },
     } = ctx
 
     const args =
-      rawArgs &&
-      isValidProductIdentifier(rawArgs.identifier) &&
-      !Functions.isGoCommerceAcc(account)
+      rawArgs && isValidProductIdentifier(rawArgs.identifier)
         ? rawArgs
         : { identifier: { field: 'slug', value: rawArgs.slug! } }
 
