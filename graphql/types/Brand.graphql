@@ -1,18 +1,34 @@
 type Brand {
-  """ slug is used as cacheId """
+  """
+   slug is used as cacheId
+  """
   cacheId: ID
-  """ Brand id """
+  """
+   Brand id
+  """
   id: Int
-  """ Brand logo """
-  imageUrl: String
-  """ Text link"""
+  """
+   Brand logo
+  """
+  imageUrl: String @toVtexAssets
+  """
+   Text link
+  """
   slug: String
-  """ Name of brand """
+  """
+   Name of brand
+  """
   name: String @translatableV2
-  """ Title used by html tag"""
+  """
+   Title used by html tag
+  """
   titleTag: String @translatableV2
-  """ Description used by html tag"""
+  """
+   Description used by html tag
+  """
   metaTagDescription: String @translatableV2
-  """ Brand is active """
+  """
+   Brand is active
+  """
   active: Boolean
 }
