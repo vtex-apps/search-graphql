@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.5] - 2019-10-23
+
 ## [0.6.4] - 2019-10-17
 ### Fixed
 - Prevent cache problems, implement custom cacheId for products from crossselling apis.
