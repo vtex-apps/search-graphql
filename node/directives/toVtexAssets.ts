@@ -6,7 +6,7 @@ export class ToVtexAssets extends SchemaDirectiveVisitor {
     const { resolve = defaultFieldResolver } = field
     field.resolve = async (root, args, ctx: Context, info) => {
       const result = resolve(root, args, ctx, info)
-      return flags.isVtexAssetsUrl && result
+      return flags.VTEX_ASSETS_URL && result
         ? result.replace('vteximg.com.br', 'vtexassets.com')
         : result
     }
