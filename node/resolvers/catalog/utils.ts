@@ -204,14 +204,10 @@ const getIdFromTree = async (
 }
 
 export const searchEncodeURI = (str: string) => {
-  return str.replace(/[&%/"'.()]/g, (c: string) => {
+  return str.replace(/[%"'.()]/g, (c: string) => {
     switch(c) {
-      case '&':
-        return "@-@"
       case '%':
         return "@perc@"
-      case '/':
-        return "@slash@"
       case '"':
         return "@quo@"
       case '\'':
