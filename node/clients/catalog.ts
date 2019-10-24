@@ -7,7 +7,7 @@ import {
 } from '@vtex/api'
 import { stringify } from 'qs'
 
-import { CatalogCrossSellingTypes } from '../resolvers/catalog/utils'
+import { searchEncodeURI, CatalogCrossSellingTypes } from '../resolvers/catalog/utils'
 
 interface AutocompleteArgs {
   maxRows: number | string
@@ -53,7 +53,7 @@ export class Catalog extends AppClient {
 
   public product = (slug: string) =>
     this.get<CatalogProduct[]>(
-      `/pub/products/search/${slug && slug.toLowerCase()}/p`,
+      `/pub/products/search/${searchEncodeURI(slug && slug.toLowerCase())}/p`,
       { metric: 'catalog-product' }
     )
 
@@ -140,9 +140,9 @@ export class Catalog extends AppClient {
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<CatalogFacets>(
-      `/pub/facets/search/${encodeURI(
+      `/pub/facets/search/${searchEncodeURI(encodeURI(
         `${path.trim()}${options ? '?' + options : ''}`
-      )}`,
+      ))}`,
       { metric: 'catalog-facets' }
     )
   }
@@ -159,8 +159,8 @@ export class Catalog extends AppClient {
 
   public autocomplete = ({ maxRows, searchTerm }: AutocompleteArgs) =>
     this.get<{ itemsReturned: CatalogAutocompleteUnit[] }>(
-      `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${encodeURIComponent(
-        searchTerm
+      `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${searchEncodeURI(
+        encodeURIComponent(searchTerm)
       )}`,
       { metric: 'catalog-autocomplete' }
     )
@@ -207,8 +207,10 @@ export class Catalog extends AppClient {
     map = '',
     hideUnavailableItems = false,
   }: SearchArgs) => {
-    const sanitizedQuery = encodeURIComponent(
-      decodeURIComponent(query || '').trim()
+    const sanitizedQuery = searchEncodeURI(
+      encodeURIComponent(
+        decodeURIComponent(query || '').trim()
+      )
     )
     if (hideUnavailableItems) {
       const segmentData = (this.context as CustomIOContext).segment
