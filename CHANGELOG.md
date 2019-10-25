@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Change min replicas to 20.
 
 ## [0.7.2] - 2019-10-25
 ### Fixed
@@ -25,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.6.3] - 2019-10-15
 ### Refactor
-- removes old routing 
+- removes old routing
 
 ## [0.6.2] - 2019-10-15
 ### Fixed
