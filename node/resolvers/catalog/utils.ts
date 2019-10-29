@@ -1,5 +1,7 @@
-import { compose, last, split, toLower, zip } from 'ramda'
 import crypto from 'crypto'
+import { compose, last, split, toLower, zip } from 'ramda'
+import { Functions } from '@gocommerce/utils'
+
 import { catalogSlugify, Slugify } from '../../utils/slug'
 
 export enum CatalogCrossSellingTypes {
@@ -203,24 +205,27 @@ const getIdFromTree = async (
   return null
 }
 
-export const searchEncodeURI = (str: string) => {
-  return str.replace(/[%"'.()]/g, (c: string) => {
-    switch(c) {
-      case '%':
-        return "@perc@"
-      case '"':
-        return "@quo@"
-      case '\'':
-        return "@squo@"
-      case '.':
-        return "@dot@"
-      case '(':
-        return "@lpar@"
-      case ')':
-        return "@rpar@"
-      default: {
-         return c
-      }
-   }
-  })
+export const searchEncodeURI = (account: string) => (str: string) => {
+  if (!Functions.isGoCommerceAcc(account)) {
+    return str.replace(/[%"'.()]/g, (c: string) => {
+      switch(c) {
+        case '%':
+          return "@perc@"
+        case '"':
+          return "@quo@"
+        case '\'':
+          return "@squo@"
+        case '.':
+          return "@dot@"
+        case '(':
+          return "@lpar@"
+        case ')':
+          return "@rpar@"
+        default: {
+           return c
+        }
+     }
+    })
+  }
+  return str
 }

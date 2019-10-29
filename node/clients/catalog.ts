@@ -36,8 +36,12 @@ interface CatalogPageTypeResponse {
  * Docs: https://documenter.getpostman.com/view/845/catalogsystem-102/Hs44
  */
 export class Catalog extends AppClient {
+  private searchEncodeURI: (x: string) => string
+
   public constructor(ctx: IOContext, opts?: InstanceOptions) {
     super('vtex.catalog-api-proxy', ctx, opts)
+
+    this.searchEncodeURI = searchEncodeURI(ctx.account)
   }
 
   public pageType = (path: string, query: string = '') => {
@@ -53,7 +57,7 @@ export class Catalog extends AppClient {
 
   public product = (slug: string) =>
     this.get<CatalogProduct[]>(
-      `/pub/products/search/${searchEncodeURI(slug && slug.toLowerCase())}/p`,
+      `/pub/products/search/${this.searchEncodeURI(slug && slug.toLowerCase())}/p`,
       { metric: 'catalog-product' }
     )
 
@@ -140,7 +144,7 @@ export class Catalog extends AppClient {
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<CatalogFacets>(
-      `/pub/facets/search/${searchEncodeURI(encodeURI(
+      `/pub/facets/search/${this.searchEncodeURI(encodeURI(
         `${path.trim()}${options ? '?' + options : ''}`
       ))}`,
       { metric: 'catalog-facets' }
@@ -159,7 +163,7 @@ export class Catalog extends AppClient {
 
   public autocomplete = ({ maxRows, searchTerm }: AutocompleteArgs) =>
     this.get<{ itemsReturned: CatalogAutocompleteUnit[] }>(
-      `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${searchEncodeURI(
+      `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${this.searchEncodeURI(
         encodeURIComponent(searchTerm)
       )}`,
       { metric: 'catalog-autocomplete' }
@@ -207,7 +211,7 @@ export class Catalog extends AppClient {
     map = '',
     hideUnavailableItems = false,
   }: SearchArgs) => {
-    const sanitizedQuery = searchEncodeURI(
+    const sanitizedQuery = this.searchEncodeURI(
       encodeURIComponent(
         decodeURIComponent(query || '').trim()
       )
