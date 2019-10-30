@@ -16,7 +16,7 @@ export class WithSegment extends SchemaDirectiveVisitor {
       } = ctx
       ctx.vtex.segment = segmentToken
         ? JSON.parse(atob(segmentToken))
-        : segment.getSegment()
+        : (await segment.getSegment())
       return resolve(root, args, ctx, info)
     }
   }
