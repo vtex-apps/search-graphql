@@ -12,10 +12,11 @@ export class WithSegment extends SchemaDirectiveVisitor {
     field.resolve = async (root, args, ctx: Context, info) => {
       const {
         vtex: { segmentToken },
+        clients: {segment}
       } = ctx
       ctx.vtex.segment = segmentToken
         ? JSON.parse(atob(segmentToken))
-        : undefined
+        : segment.getSegment()
       return resolve(root, args, ctx, info)
     }
   }
