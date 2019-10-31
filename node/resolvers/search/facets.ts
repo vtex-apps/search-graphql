@@ -2,7 +2,7 @@ import { prop, toPairs } from 'ramda'
 
 import { zipQueryAndMap } from './utils'
 
-interface EitherFacet extends CatalogFacet {
+interface EitherFacet extends SearchFacet {
   Children?: EitherFacet[]
 }
 
@@ -32,8 +32,8 @@ const addSelected = (
 }
 
 const addId = (
-  departments: CatalogFacet[],
-  categoryTree: CatalogFacetCategory[]
+  departments: SearchFacet[],
+  categoryTree: SearchFacetCategory[]
 ) => {
   return departments.map(department => {
     const departmentInTree = categoryTree.find(
@@ -101,7 +101,7 @@ export const resolvers = {
       Departments = [],
       CategoriesTrees = [],
       queryArgs,
-    }: CatalogFacets & { queryArgs: { query: string; map: string } }) => {
+    }: SearchFacets & { queryArgs: { query: string; map: string } }) => {
       const withSelected = addSelected(Departments, queryArgs)
       const withCategoryId = addId(withSelected, CategoriesTrees)
       return withCategoryId
@@ -110,14 +110,14 @@ export const resolvers = {
     brands: ({
       Brands = [],
       queryArgs,
-    }: CatalogFacets & { queryArgs: { query: string; map: string } }) => {
+    }: SearchFacets & { queryArgs: { query: string; map: string } }) => {
       return addSelected(Brands, queryArgs)
     },
 
     specificationFilters: ({
       SpecificationFilters = {},
       queryArgs,
-    }: CatalogFacets & { queryArgs: { query: string; map: string } }) => {
+    }: SearchFacets & { queryArgs: { query: string; map: string } }) => {
       return toPairs(SpecificationFilters).map(([filterName, filterFacets]) => {
         return {
           name: filterName,
@@ -129,7 +129,7 @@ export const resolvers = {
     categoriesTrees: ({
       CategoriesTrees = [],
       queryArgs,
-    }: CatalogFacets & { queryArgs: { query: string; map: string } }) => {
+    }: SearchFacets & { queryArgs: { query: string; map: string } }) => {
       return addSelected(CategoriesTrees, queryArgs)
     },
 
@@ -137,11 +137,11 @@ export const resolvers = {
 
     recordsFiltered: async (root: any, _: any, ctx: Context) => {
       const {
-        clients: { catalog },
+        clients: { search },
       } = ctx
 
       try {
-        return catalog.productsQuantity(root.queryArgs)
+        return search.productsQuantity(root.queryArgs)
       } catch (e) {
         return 0
       }

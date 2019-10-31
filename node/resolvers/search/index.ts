@@ -20,7 +20,7 @@ import { resolvers as productSearchResolvers } from './productSearch'
 import { resolvers as recommendationResolvers } from './recommendation'
 import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
-import { CatalogCrossSellingTypes } from './utils'
+import { SearchCrossSellingTypes } from './utils'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -51,13 +51,13 @@ interface ProductsByIdentifierArgs {
   values: [string]
 }
 
-const inputToCatalogCrossSelling = {
-  [CrossSellingInput.buy]: CatalogCrossSellingTypes.whoboughtalsobought,
-  [CrossSellingInput.view]: CatalogCrossSellingTypes.whosawalsosaw,
-  [CrossSellingInput.similars]: CatalogCrossSellingTypes.similars,
-  [CrossSellingInput.viewAndBought]: CatalogCrossSellingTypes.whosawalsobought,
-  [CrossSellingInput.accessories]: CatalogCrossSellingTypes.accessories,
-  [CrossSellingInput.suggestions]: CatalogCrossSellingTypes.suggestions,
+const inputToSearchCrossSelling = {
+  [CrossSellingInput.buy]: SearchCrossSellingTypes.whoboughtalsobought,
+  [CrossSellingInput.view]: SearchCrossSellingTypes.whosawalsosaw,
+  [CrossSellingInput.similars]: SearchCrossSellingTypes.similars,
+  [CrossSellingInput.viewAndBought]: SearchCrossSellingTypes.whosawalsobought,
+  [CrossSellingInput.accessories]: SearchCrossSellingTypes.accessories,
+  [CrossSellingInput.suggestions]: SearchCrossSellingTypes.suggestions,
 }
 
 const translateToStoreDefaultLanguage = async (
@@ -122,7 +122,7 @@ export const queries = {
     ctx: Context
   ) => {
     const {
-      clients: { catalog },
+      clients: { search },
       clients,
       vtex,
     } = ctx
@@ -135,7 +135,7 @@ export const queries = {
       vtex,
       args.searchTerm
     )
-    const { itemsReturned } = await catalog.autocomplete({
+    const { itemsReturned } = await search.autocomplete({
       maxRows: args.maxRows,
       searchTerm: translatedTerm,
     })
@@ -151,7 +151,7 @@ export const queries = {
     ctx: Context
   ) => {
     const {
-      clients: { catalog },
+      clients: { search },
       clients,
       vtex,
     } = ctx
@@ -167,7 +167,7 @@ export const queries = {
       ? `&fq=isAvailablePerSalesChannel_${salesChannel}:1`
       : ''
 
-    const facetsResult = await catalog.facets(
+    const facetsResult = await search.facets(
       `${translatedQuery}?map=${map}${unavailableString}`
     )
 
@@ -183,7 +183,7 @@ export const queries = {
 
   product: async (_: any, rawArgs: ProductArgs, ctx: Context) => {
     const {
-      clients: { catalog },
+      clients: { search },
     } = ctx
 
     const args =
@@ -196,23 +196,23 @@ export const queries = {
     }
 
     const { field, value } = args.identifier
-    let products = [] as CatalogProduct[]
+    let products = [] as SearchProduct[]
 
     switch (field) {
       case 'id':
-        products = await catalog.productById(value)
+        products = await search.productById(value)
         break
       case 'slug':
-        products = await catalog.product(value)
+        products = await search.product(value)
         break
       case 'ean':
-        products = await catalog.productByEan(value)
+        products = await search.productByEan(value)
         break
       case 'reference':
-        products = await catalog.productByReference(value)
+        products = await search.productByReference(value)
         break
       case 'sku':
-        products = await catalog.productBySku([value])
+        products = await search.productBySku([value])
         break
     }
 
@@ -227,7 +227,7 @@ export const queries = {
 
   products: async (_: any, args: SearchArgs, ctx: Context) => {
     const {
-      clients: { catalog },
+      clients: { search },
     } = ctx
     const queryTerm = args.query
     if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
@@ -242,7 +242,7 @@ export const queries = {
       )
     }
 
-    return catalog.products(args)
+    return search.products(args)
   },
 
   productsByIdentifier: async (
@@ -251,24 +251,24 @@ export const queries = {
     ctx: Context
   ) => {
     const {
-      clients: { catalog },
+      clients: { search },
     } = ctx
 
-    let products = [] as CatalogProduct[]
+    let products = [] as SearchProduct[]
     const { field, values } = args
 
     switch (field) {
       case 'id':
-        products = await catalog.productsById(values)
+        products = await search.productsById(values)
         break
       case 'ean':
-        products = await catalog.productsByEan(values)
+        products = await search.productsByEan(values)
         break
       case 'reference':
-        products = await catalog.productsByReference(values)
+        products = await search.productsByReference(values)
         break
       case 'sku':
-        products = await catalog.productBySku(values)
+        products = await search.productBySku(values)
         break
     }
 
@@ -282,7 +282,7 @@ export const queries = {
   productSearch: async (_: any, args: SearchArgs, ctx: Context, info: any) => {
     const {
       clients,
-      clients: { catalog },
+      clients: { search },
       vtex,
     } = ctx
     const queryTerm = args.query
@@ -309,7 +309,7 @@ export const queries = {
     }
 
     const [productsRaw, searchMetaData] = await all([
-      catalog.products(args, true),
+      search.products(args, true),
       isQueryingMetadata(info)
         ? getSearchMetaData(_, translatedArgs, ctx)
         : emptyTitleTag,
@@ -329,18 +329,18 @@ export const queries = {
     if (identifier == null || type == null) {
       throw new UserInputError('Wrong input provided')
     }
-    const catalogType = inputToCatalogCrossSelling[type]
+    const searchType = inputToSearchCrossSelling[type]
     let productId = identifier.value
     if (identifier.field !== 'id') {
       const product = await queries.product(_, { identifier }, ctx)
       productId = product!.productId
     }
 
-    const products = await ctx.clients.catalog.crossSelling(
+    const products = await ctx.clients.search.crossSelling(
       productId,
-      catalogType
+      searchType
     )
-    // We add a custom cacheId because these products are not exactly like the other products from catalogs apis.
+    // We add a custom cacheId because these products are not exactly like the other products from search apis.
     // Each product is basically a SKU and you may have two products in response with same ID but each one representing a SKU.
     return products.map(product => {
       const skuId = pathOr('', ['items', '0', 'itemId'], product)

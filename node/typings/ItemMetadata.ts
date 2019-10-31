@@ -33,7 +33,7 @@ interface RawInputValue {
   domain: string[]
 }
 
-interface CatalogMetadataItem {
+interface SearchMetadataItem {
   Name: string
   NameComplete: string
   MainImage: string

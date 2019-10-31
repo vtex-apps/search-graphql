@@ -57,7 +57,7 @@ interface FacetsArgs {
   hideUnavailableItems: boolean
 }
 
-interface CatalogProduct {
+interface SearchProduct {
   productId: string
   productName: string
   brand: string
@@ -74,9 +74,9 @@ interface CatalogProduct {
   categoriesIds: string[]
   link: string
   description: string
-  items: CatalogItem[]
+  items: SearchItem[]
   itemMetadata: {
-    items: CatalogMetadataItem[]
+    items: SearchMetadataItem[]
   }
   titleTag: string
   Specifications?: string[]
@@ -84,7 +84,7 @@ interface CatalogProduct {
   allSpecificationsGroups?: string[]
 }
 
-interface CatalogItem {
+interface SearchItem {
   itemId: string
   name: string
   nameComplete: string
@@ -94,7 +94,7 @@ interface CatalogItem {
   measurementUnit: string
   unitMultiplier: number
   modalType: any | null
-  images: CatalogImage[]
+  images: SearchImage[]
   Videos: string[]
   variations: string[]
   sellers: Seller[]
@@ -111,7 +111,7 @@ interface CatalogItem {
   }[]
 }
 
-interface CatalogImage {
+interface SearchImage {
   imageId: string
   imageLabel: string | null
   imageTag: string
@@ -119,7 +119,7 @@ interface CatalogImage {
   imageText: string
 }
 
-interface CatalogInstallment {
+interface SearchInstallment {
   Value: number
   InterestRate: number
   TotalValuePlusInterestRate: number
@@ -134,7 +134,7 @@ interface CommertialOffer {
     string,
     { DeliverySlaPerTypes: any[]; Region: any | null }
   >
-  Installments: CatalogInstallment[]
+  Installments: SearchInstallment[]
   DiscountHighLight: any[]
   GiftSkuIds: string[]
   Teasers: any[]
@@ -163,7 +163,7 @@ interface Seller {
   commertialOffer: CommertialOffer
 }
 
-interface CatalogFacet {
+interface SearchFacet {
   Quantity: number
   Name: string
   Link: string
@@ -172,7 +172,7 @@ interface CatalogFacet {
   Value: string
 }
 
-interface CatalogFacetCategory {
+interface SearchFacetCategory {
   Id: number
   Quantity: number
   Name: string
@@ -180,7 +180,7 @@ interface CatalogFacetCategory {
   LinkEncoded: string
   Map: string
   Value: string
-  Children: CatalogFacetCategory[]
+  Children: SearchFacetCategory[]
 }
 
 interface SummaryItem {
@@ -188,11 +188,11 @@ interface SummaryItem {
   TotalItems: number
 }
 
-interface CatalogFacets {
-  Departments: CatalogFacet[]
-  Brands: CatalogFacet[]
-  SpecificationFilters: Record<string, CatalogFacet[]>
-  CategoriesTrees: CatalogFacetCategory[]
+interface SearchFacets {
+  Departments: SearchFacet[]
+  Brands: SearchFacet[]
+  SpecificationFilters: Record<string, SearchFacet[]>
+  CategoriesTrees: SearchFacetCategory[]
   PriceRanges: {
     Slug: string
     Quantity: number
@@ -211,7 +211,7 @@ interface CatalogFacets {
   }
 }
 
-interface CatalogAutocompleteItem {
+interface SearchAutocompleteItem {
   productId: string
   itemId: string
   name: string
@@ -219,8 +219,8 @@ interface CatalogAutocompleteItem {
   imageUrl: string
 }
 
-interface CatalogAutocompleteUnit {
-  items: CatalogAutocompleteItem[]
+interface SearchAutocompleteUnit {
+  items: SearchAutocompleteItem[]
   thumb: string
   thumbUrl: string | null
   name: string

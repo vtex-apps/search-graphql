@@ -2,9 +2,9 @@ import crypto from 'crypto'
 import { compose, last, split, toLower, zip } from 'ramda'
 import { Functions } from '@gocommerce/utils'
 
-import { catalogSlugify, Slugify } from '../../utils/slug'
+import { searchSlugify, Slugify } from '../../utils/slug'
 
-export enum CatalogCrossSellingTypes {
+export enum SearchCrossSellingTypes {
   whoboughtalsobought = 'whoboughtalsobought',
   similars = 'similars',
   whosawalsosaw = 'whosawalsosaw',
@@ -64,13 +64,13 @@ export function findCategoryInTree(
 
 export const getBrandFromSlug = async (
   brandSlug: string,
-  catalog: Context['clients']['catalog']
+  search: Context['clients']['search']
 ) => {
-  const brands = await catalog.brands()
+  const brands = await search.brands()
   return brands.find(
     brand =>
       brand.isActive &&
-      (toLower(catalogSlugify(brand.name)) === brandSlug ||
+      (toLower(searchSlugify(brand.name)) === brandSlug ||
         toLower(Slugify(brand.name)) === brandSlug)
   )
 }
@@ -80,14 +80,14 @@ type CategoryMap = Record<string, CategoryTreeResponse>
 /**
  * We are doing this because the `get category` API is not returning the values
  * for slug and href. So we get the whole category tree and get that info from
- * there instead until the Catalog team fixes this issue with the category API.
+ * there instead until the Search team fixes this issue with the category API.
  */
 export async function getCategoryInfo(
-  catalog: Context['clients']['catalog'],
+  search: Context['clients']['search'],
   id: number,
   levels: number
 ) {
-  const categories = await catalog.categories(levels)
+  const categories = await search.categories(levels)
   const mapCategories = categories.reduce(appendToMap, {}) as CategoryMap
 
   const category = mapCategories[id] || { url: '' }
@@ -114,8 +114,8 @@ function appendToMap(
   return mapCategories
 }
 
-export function translatePageType(catalogPageType: string): string {
-  return pageTypeMapping[catalogPageType] || 'search'
+export function translatePageType(searchPageType: string): string {
+  return pageTypeMapping[searchPageType] || 'search'
 }
 
 interface CategoryArgs {
@@ -128,12 +128,12 @@ const typesPossible = ['Department', 'Category', 'SubCategory']
 
 export const searchContextGetCategory = async (
   args: CategoryArgs,
-  catalog: Context['clients']['catalog'],
+  search: Context['clients']['search'],
   isVtex: boolean,
   logger: Context['clients']['logger']
 ) => {
   if (!isVtex) {
-    return getIdFromTree(args, catalog)
+    return getIdFromTree(args, search)
   }
   const { department, category, subcategory } = args
   if (!department && !category && !subcategory) {
@@ -141,9 +141,9 @@ export const searchContextGetCategory = async (
   }
   const url = [department, category, subcategory]
     .filter(Boolean)
-    .map(str => catalogSlugify(str!))
+    .map(str => searchSlugify(str!))
     .join('/')
-  const pageType = await catalog.pageType(url).catch(() => null)
+  const pageType = await search.pageType(url).catch(() => null)
   if (!pageType) {
     logger.info(
       `category ${url}, args ${JSON.stringify(args)}`,
@@ -151,17 +151,17 @@ export const searchContextGetCategory = async (
     )
   }
   if (!pageType || !typesPossible.includes(pageType.pageType)) {
-    return getIdFromTree(args, catalog)
+    return getIdFromTree(args, search)
   }
   return pageType.id
 }
 
 const getIdFromTree = async (
   args: CategoryArgs,
-  catalog: Context['clients']['catalog']
+  search: Context['clients']['search']
 ) => {
   if (args.department) {
-    const departments = await catalog.categories(3)
+    const departments = await search.categories(3)
 
     const compareGenericSlug = ({
       entity,
@@ -177,7 +177,7 @@ const getIdFromTree = async (
       }
 
       return (
-        url.endsWith(`/${toLower(catalogSlugify(slug))}`) ||
+        url.endsWith(`/${toLower(searchSlugify(slug))}`) ||
         url.endsWith(`/${toLower(Slugify(slug))}`)
       )
     }

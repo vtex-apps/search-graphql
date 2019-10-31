@@ -16,7 +16,7 @@ describe('product recommendations query tests', () => {
 
     product1.items = [item1 as any]
     product2.items = [item2 as any]
-    mockContext.clients.catalog.crossSelling.mockImplementation(() => [
+    mockContext.clients.search.crossSelling.mockImplementation(() => [
       product1,
       product2,
     ])
@@ -31,13 +31,13 @@ describe('product recommendations query tests', () => {
   })
 
   test('ensure correct types call the correct APIs', async () => {
-    mockContext.clients.catalog.crossSelling.mockImplementation(() => [])
+    mockContext.clients.search.crossSelling.mockImplementation(() => [])
     await queries.productRecommendations(
       {},
       { identifier: { field: 'id', value: '1' }, type: 'similars' as any },
       mockContext as any
     )
-    expect(mockContext.clients.catalog.crossSelling.mock.calls[0][1]).toBe(
+    expect(mockContext.clients.search.crossSelling.mock.calls[0][1]).toBe(
       'similars'
     )
 
@@ -46,7 +46,7 @@ describe('product recommendations query tests', () => {
       { identifier: { field: 'id', value: '1' }, type: 'view' as any },
       mockContext as any
     )
-    expect(mockContext.clients.catalog.crossSelling.mock.calls[1][1]).toBe(
+    expect(mockContext.clients.search.crossSelling.mock.calls[1][1]).toBe(
       'whosawalsosaw'
     )
 
@@ -55,7 +55,7 @@ describe('product recommendations query tests', () => {
       { identifier: { field: 'id', value: '1' }, type: 'buy' as any },
       mockContext as any
     )
-    expect(mockContext.clients.catalog.crossSelling.mock.calls[2][1]).toBe(
+    expect(mockContext.clients.search.crossSelling.mock.calls[2][1]).toBe(
       'whoboughtalsobought'
     )
 
@@ -64,7 +64,7 @@ describe('product recommendations query tests', () => {
       { identifier: { field: 'id', value: '1' }, type: 'viewAndBought' as any },
       mockContext as any
     )
-    expect(mockContext.clients.catalog.crossSelling.mock.calls[3][1]).toBe(
+    expect(mockContext.clients.search.crossSelling.mock.calls[3][1]).toBe(
       'whosawalsobought'
     )
 
@@ -73,7 +73,7 @@ describe('product recommendations query tests', () => {
       { identifier: { field: 'id', value: '1' }, type: 'suggestions' as any },
       mockContext as any
     )
-    expect(mockContext.clients.catalog.crossSelling.mock.calls[4][1]).toBe(
+    expect(mockContext.clients.search.crossSelling.mock.calls[4][1]).toBe(
       'suggestions'
     )
 
@@ -82,7 +82,7 @@ describe('product recommendations query tests', () => {
       { identifier: { field: 'id', value: '1' }, type: 'accessories' as any },
       mockContext as any
     )
-    expect(mockContext.clients.catalog.crossSelling.mock.calls[5][1]).toBe(
+    expect(mockContext.clients.search.crossSelling.mock.calls[5][1]).toBe(
       'accessories'
     )
   })

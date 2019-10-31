@@ -12,11 +12,11 @@ interface BreadcrumbParams {
   mapArray: string[]
   categories: CategoryTreeResponse[]
   categoriesSearched: string[]
-  products: CatalogProduct[]
+  products: SearchProduct[]
 }
 
 const findClusterNameFromId = (
-  products: CatalogProduct[],
+  products: SearchProduct[],
   clusterId: string
 ) => {
   const productWithCluster = products.find(
@@ -26,7 +26,7 @@ const findClusterNameFromId = (
 }
 
 const findSellerFromSellerId = (
-  products: CatalogProduct[],
+  products: SearchProduct[],
   sellerId: string
 ) => {
   for (const product of products) {
@@ -61,7 +61,7 @@ const getCategoryInfo = (
       categoriesSearched.slice(0, queryPosition + 1)
     )
   }
-  return ctx.clients.catalog
+  return ctx.clients.search
     .pageType(categoriesSearched.slice(0, queryPosition + 1).join('/'))
     .catch(() => null)
 }
@@ -69,12 +69,12 @@ const getCategoryInfo = (
 const getBrandInfo = async (
   { queryUnit }: BreadcrumbParams,
   isVtex: boolean,
-  { clients: { catalog } }: Context
+  { clients: { search } }: Context
 ) => {
   if (!isVtex) {
-    return getBrandFromSlug(toLower(queryUnit), catalog)
+    return getBrandFromSlug(toLower(queryUnit), search)
   }
-  return catalog.pageType(queryUnit).catch(() => null)
+  return search.pageType(queryUnit).catch(() => null)
 }
 
 export const resolvers = {

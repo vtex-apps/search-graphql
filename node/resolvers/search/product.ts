@@ -28,7 +28,7 @@ const objToNameValue = (
     toPairs
   )(record)
 
-type CatalogProductWithCache = CatalogProduct & { cacheId?: string }
+type SearchProductWithCache = SearchProduct & { cacheId?: string }
 
 const knownNotPG = [
   'allSpecifications',
@@ -82,9 +82,9 @@ const findMainTree = (categoriesIds: string[], prodCategoryId: string) => {
 }
 
 const productCategoriesToCategoryTree = async (
-  { categories, categoriesIds, categoryId: prodCategoryId }: CatalogProduct,
+  { categories, categoriesIds, categoryId: prodCategoryId }: SearchProduct,
   _: any,
-  { clients: { catalog }, vtex: { platform } }: Context
+  { clients: { search }, vtex: { platform } }: Context
 ) => {
   if (!categories || !categoriesIds) {
     return []
@@ -93,9 +93,9 @@ const productCategoriesToCategoryTree = async (
   const mainTreeIds = findMainTree(categoriesIds, prodCategoryId)
 
   if (platform === 'vtex') {
-    return mainTreeIds.map(categoryId => catalog.category(Number(categoryId)))
+    return mainTreeIds.map(categoryId => search.category(Number(categoryId)))
   }
-  const categoriesTree = await catalog.categories(mainTreeIds.length)
+  const categoriesTree = await search.categories(mainTreeIds.length)
   const categoryMap = buildCategoryMap(categoriesTree)
   const mappedCategories = mainTreeIds
     .map(id => categoryMap[id])
@@ -106,18 +106,18 @@ const productCategoriesToCategoryTree = async (
 
 export const resolvers = {
   Product: {
-    benefits: ({ productId }: CatalogProduct, _: any, ctx: Context) =>
+    benefits: ({ productId }: SearchProduct, _: any, ctx: Context) =>
       getBenefits(productId, ctx),
 
     categoryTree: productCategoriesToCategoryTree,
 
-    cacheId: ({ linkText, cacheId }: CatalogProductWithCache) =>
+    cacheId: ({ linkText, cacheId }: SearchProductWithCache) =>
       cacheId || linkText,
 
     clusterHighlights: ({ clusterHighlights = {} }) =>
       objToNameValue('id', 'name', clusterHighlights),
 
-    jsonSpecifications: (product: CatalogProduct) => {
+    jsonSpecifications: (product: SearchProduct) => {
       const { Specifications = [] } = product
       const specificationsMap = Specifications.reduce(
         (acc: Record<string, string>, key: string) => {
@@ -129,27 +129,27 @@ export const resolvers = {
       return JSON.stringify(specificationsMap)
     },
 
-    productClusters: ({ productClusters = {} }: CatalogProduct) =>
+    productClusters: ({ productClusters = {} }: SearchProduct) =>
       objToNameValue('id', 'name', productClusters),
 
-    properties: (product: CatalogProduct) =>
+    properties: (product: SearchProduct) =>
       map(
         (name: string) => ({ name, values: (product as any)[name] }),
         product.allSpecifications || []
       ),
 
-    propertyGroups: (product: CatalogProduct) => {
+    propertyGroups: (product: SearchProduct) => {
       const { allSpecifications = [] } = product
       const notPG = knownNotPG.concat(allSpecifications)
       return objToNameValue('name', 'values', omit(notPG, product))
     },
 
-    recommendations: (product: CatalogProduct) => product,
+    recommendations: (product: SearchProduct) => product,
 
     titleTag: prop('productTitle'),
 
-    specificationGroups: (product: CatalogProduct) => {
-      const allSpecificationsGroups = propOr<[], CatalogProduct, string[]>(
+    specificationGroups: (product: SearchProduct) => {
+      const allSpecificationsGroups = propOr<[], SearchProduct, string[]>(
         [],
         'allSpecificationsGroups',
         product

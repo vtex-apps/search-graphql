@@ -41,7 +41,7 @@ const categoriesOnlyQuery = compose<
 )
 
 const getAndParsePagetype = async (path: string, ctx: Context) => {
-  const pagetype = await ctx.clients.catalog.pageType(path).catch(() => null)
+  const pagetype = await ctx.clients.search.pageType(path).catch(() => null)
   if (!pagetype) {
     return emptyTitleTag
   }
@@ -57,7 +57,7 @@ const getCategoryMetadata = async (
 ): Promise<SearchMetadata> => {
   const {
     vtex: { account },
-    clients: { catalog },
+    clients: { search },
   } = ctx
   const queryAndMap = zipQueryAndMap(query, map)
   const cleanQuery = categoriesOnlyQuery(queryAndMap)
@@ -66,7 +66,7 @@ const getCategoryMetadata = async (
     // GoCommerce does not have pagetype query implemented yet
     const category =
       findCategoryInTree(
-        await catalog.categories(cleanQuery.split('/').length),
+        await search.categories(cleanQuery.split('/').length),
         cleanQuery.split('/')
       ) || {}
     return {
@@ -84,12 +84,12 @@ const getBrandMetadata = async (
 ): Promise<SearchMetadata> => {
   const {
     vtex: { account },
-    clients: { catalog },
+    clients: { search },
   } = ctx
   const cleanQuery = head(split('/', query || '')) || ''
 
   if (Functions.isGoCommerceAcc(account)) {
-    const brand = (await getBrandFromSlug(toLower(cleanQuery), catalog)) || {}
+    const brand = (await getBrandFromSlug(toLower(cleanQuery), search)) || {}
     return {
       metaTagDescription: path(['metaTagDescription'], brand),
       titleTag: path(['title'], brand) || path(['name'], brand),
@@ -139,7 +139,7 @@ const getNameForRemainingMaps = async (
 ) => {
   const {
     vtex: { account },
-    clients: { catalog },
+    clients: { search },
   } = ctx
   const lastCategoryIndex = getLastCategoryIndex(remainingTuples)
   const isGC = Functions.isGoCommerceAcc(account)
@@ -147,13 +147,13 @@ const getNameForRemainingMaps = async (
     remainingTuples.map(async ([query, map], index) => {
       if (map === 'c' && index === lastCategoryIndex && !isGC) {
         const cleanQuery = categoriesOnlyQuery(remainingTuples)
-        const pagetype = await catalog.pageType(cleanQuery).catch(() => null)
+        const pagetype = await search.pageType(cleanQuery).catch(() => null)
         if (pagetype) {
           return pagetype.name
         }
       }
       if (map === 'b' && !isGC) {
-        const brand = await catalog.pageType(decodeURI(query)).catch(() => null)
+        const brand = await search.pageType(decodeURI(query)).catch(() => null)
         if (brand) {
           return brand.name
         }

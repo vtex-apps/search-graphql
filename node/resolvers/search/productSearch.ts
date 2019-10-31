@@ -4,7 +4,7 @@ import { Functions } from '@gocommerce/utils'
 import { zipQueryAndMap } from './utils'
 
 interface ProductSearchParent {
-  productsRaw: IOResponse<CatalogProduct[]>
+  productsRaw: IOResponse<SearchProduct[]>
   translatedArgs: SearchArgs
   searchMetaData: {
     titleTag: string | null
@@ -27,7 +27,7 @@ export const resolvers = {
     breadcrumb: async (
       { translatedArgs, productsRaw: { data: products } }: ProductSearchParent,
       _: any,
-      { vtex: { account }, clients: { catalog } }: Context
+      { vtex: { account }, clients: { search } }: Context
     ) => {
       const query = translatedArgs.query || ''
       const map = translatedArgs.map || ''
@@ -41,7 +41,7 @@ export const resolvers = {
       const categoriesCount = map.split(',').filter(m => m === 'c').length
       const categories =
         !!categoriesCount && Functions.isGoCommerceAcc(account)
-          ? await catalog.categories(categoriesCount)
+          ? await search.categories(categoriesCount)
           : []
 
       const queryArray = query.split('/')

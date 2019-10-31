@@ -18,8 +18,8 @@ const removeAccents = (str: string) => {
 }
 
 // Parameter "S. Coifman" should output "s--coifman"
-export function catalogSlugify(str: string) {
-  // According to Bacelar, the catalog API uses a legacy method for slugifying strings.
+export function searchSlugify(str: string) {
+  // According to Bacelar, the search API uses a legacy method for slugifying strings.
   // replaces special characters with dashes, remove accents and lower cases everything
   // eslint-disable-next-line no-useless-escape
   const replaced = str.replace(/[*+~.()'"!:@&\[\]`,/ %$#?{}|><=_^]/g, '-')

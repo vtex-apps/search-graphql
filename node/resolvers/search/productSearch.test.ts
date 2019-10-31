@@ -13,7 +13,7 @@ describe('tests related to the searchMetadata query', () => {
     expect(result.metaTagDescription).toBe(
       'department/category-metaTagDescription'
     )
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(1)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(1)
   })
 
   test('get search metadata from pageType for brand', async () => {
@@ -22,7 +22,7 @@ describe('tests related to the searchMetadata query', () => {
     const result = await queries.searchMetadata({}, args, mockContext as any)
     expect(result.titleTag).toBe('Brand-title')
     expect(result.metaTagDescription).toBe('Brand-metaTagDescription')
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(1)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(1)
   })
 
   test('get search metadata for ft search', async () => {
@@ -31,7 +31,7 @@ describe('tests related to the searchMetadata query', () => {
     const result = await queries.searchMetadata({}, args, mockContext as any)
     expect(result.titleTag).toBe('Shoes')
     expect(result.metaTagDescription).toBe(null)
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(0)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(0)
   })
 
   test('get search metadata for specification filter search', async () => {
@@ -40,7 +40,7 @@ describe('tests related to the searchMetadata query', () => {
     const result = await queries.searchMetadata({}, args, mockContext as any)
     expect(result.titleTag).toBe('Large')
     expect(result.metaTagDescription).toBe(null)
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(0)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(0)
   })
 
   test('get search metadata from pageType for category with brand', async () => {
@@ -51,7 +51,7 @@ describe('tests related to the searchMetadata query', () => {
     expect(result.metaTagDescription).toBe(
       'department/category-metaTagDescription'
     )
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(2)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(2)
   })
 
   test('get search metadata from pageType for brand with category', async () => {
@@ -60,7 +60,7 @@ describe('tests related to the searchMetadata query', () => {
     const result = await queries.searchMetadata({}, args, mockContext as any)
     expect(result.titleTag).toBe('department/category - Brand-title')
     expect(result.metaTagDescription).toBe('Brand-metaTagDescription')
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(2)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(2)
   })
 
   test('get search metadata from pageType for category with brand & specification filter', async () => {
@@ -74,7 +74,7 @@ describe('tests related to the searchMetadata query', () => {
     expect(result.metaTagDescription).toBe(
       'department/category-metaTagDescription'
     )
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(2)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(2)
   })
 
   test('get search metadata from pageType for category with brand in the middle', async () => {
@@ -90,7 +90,7 @@ describe('tests related to the searchMetadata query', () => {
     expect(result.metaTagDescription).toBe(
       'department/category/subcategory-metaTagDescription'
     )
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(2)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(2)
   })
 
   test('get search metadata for search ft with category', async () => {
@@ -102,7 +102,7 @@ describe('tests related to the searchMetadata query', () => {
     const result = await queries.searchMetadata({}, args, mockContext as any)
     expect(result.titleTag).toBe('department/category - Shoes')
     expect(result.metaTagDescription).toBe(null)
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(1)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(1)
   })
 
   test('get search metadata for search ft with brand', async () => {
@@ -114,7 +114,7 @@ describe('tests related to the searchMetadata query', () => {
     const result = await queries.searchMetadata({}, args, mockContext as any)
     expect(result.titleTag).toBe('brand - Shoes')
     expect(result.metaTagDescription).toBe(null)
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(1)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(1)
   })
 
   test('get search metadata for search ft with specification filter', async () => {
@@ -126,6 +126,6 @@ describe('tests related to the searchMetadata query', () => {
     const result = await queries.searchMetadata({}, args, mockContext as any)
     expect(result.titleTag).toBe('Large - Shoes')
     expect(result.metaTagDescription).toBe(null)
-    expect(mockContext.clients.catalog.pageType).toBeCalledTimes(0)
+    expect(mockContext.clients.search.pageType).toBeCalledTimes(0)
   })
 })

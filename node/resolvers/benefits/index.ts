@@ -7,7 +7,7 @@ const DEFAULT_QUANTITY = 1
 
 export const fieldResolvers = {
   Benefit: {
-    items: async (benefit: any, _: any, { clients: { catalog } }: Context) => {
+    items: async (benefit: any, _: any, { clients: { search } }: Context) => {
       const { teaserType, conditions, effects } = benefit
 
       if (teaserType === CATALOG) {
@@ -25,7 +25,7 @@ export const fieldResolvers = {
                 SKU_SEPARATOR
               )
               const discount = effectsParameters[index].value
-              const products = await catalog.productBySku(skuIds)
+              const products = await search.productBySku(skuIds)
 
               return products.map((product: any) => {
                 const benefitSKUIds: any = []
