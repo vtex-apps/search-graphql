@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.8.3] - 2019-10-31
 ### Changed
 - Rename catalog to search everywhere since we actually use search, instead of catalog API
 
