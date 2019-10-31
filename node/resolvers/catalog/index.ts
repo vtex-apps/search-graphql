@@ -1,6 +1,6 @@
-import { NotFoundError, UserInputError } from '@vtex/api'
+import { IOContext, NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
-import { head, isEmpty, isNil, path, test, pathOr } from 'ramda'
+import { head, isEmpty, isNil, path, pathOr, test } from 'ramda'
 
 import { resolvers as assemblyOptionResolvers } from './assemblyOption'
 import { resolvers as autocompleteResolvers } from './autocomplete'
@@ -9,7 +9,9 @@ import { resolvers as categoryResolvers } from './category'
 import { resolvers as discountResolvers } from './discount'
 import { resolvers as facetsResolvers } from './facets'
 import { resolvers as itemMetadataResolvers } from './itemMetadata'
-import { resolvers as itemMetadataPriceTableItemResolvers } from './itemMetadataPriceTableItem'
+import {
+  resolvers as itemMetadataPriceTableItemResolvers,
+} from './itemMetadataPriceTableItem'
 import { resolvers as itemMetadataUnitResolvers } from './itemMetadataUnit'
 import { emptyTitleTag, getSearchMetaData } from './modules/metadata'
 import { resolvers as offerResolvers } from './offer'
@@ -60,13 +62,12 @@ const inputToCatalogCrossSelling = {
 
 const translateToStoreDefaultLanguage = async (
   clients: Context['clients'],
+  vtex: IOContext,
   term: string
 ): Promise<string> => {
-  const { segment, messagesGraphQL } = clients
-  const [{ cultureInfo: to }, { cultureInfo: from }] = await all([
-    segment.getSegmentByToken(null),
-    segment.getSegment(),
-  ])
+  const { messagesGraphQL } = clients
+  const { locale: to, tenant } = vtex
+  const { locale: from } = tenant!
   return from && from !== to
     ? messagesGraphQL
         .translateV2({
@@ -76,7 +77,7 @@ const translateToStoreDefaultLanguage = async (
               messages: [{ content: term }],
             },
           ],
-          to,
+          to: to!,
         })
         .then(head)
     : term
@@ -123,6 +124,7 @@ export const queries = {
     const {
       clients: { catalog },
       clients,
+      vtex,
     } = ctx
 
     if (!args.searchTerm) {
@@ -130,6 +132,7 @@ export const queries = {
     }
     const translatedTerm = await translateToStoreDefaultLanguage(
       clients,
+      vtex,
       args.searchTerm
     )
     const { itemsReturned } = await catalog.autocomplete({
@@ -150,9 +153,11 @@ export const queries = {
     const {
       clients: { catalog },
       clients,
+      vtex,
     } = ctx
     const translatedQuery = await translateToStoreDefaultLanguage(
       clients,
+      vtex,
       query
     )
     const segmentData = ctx.vtex.segment
@@ -278,6 +283,7 @@ export const queries = {
     const {
       clients,
       clients: { catalog },
+      vtex,
     } = ctx
     const queryTerm = args.query
     if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
@@ -294,6 +300,7 @@ export const queries = {
 
     const query = await translateToStoreDefaultLanguage(
       clients,
+      vtex,
       args.query || ''
     )
     const translatedArgs = {
@@ -345,7 +352,7 @@ export const queries = {
   },
 
   searchMetadata: async (_: any, args: SearchMetadataArgs, ctx: Context) => {
-    const { clients } = ctx
+    const { clients, vtex } = ctx
     const queryTerm = args.query
     if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
       throw new UserInputError(
@@ -354,6 +361,7 @@ export const queries = {
     }
     const query = await translateToStoreDefaultLanguage(
       clients,
+      vtex,
       args.query || ''
     )
     const translatedArgs = {
