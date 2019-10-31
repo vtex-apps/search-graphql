@@ -7,14 +7,14 @@ interface Params {
     marketingData: Record<string, string>
     countryCode: string
   }
-  items: CatalogMetadataItem[]
-  parent: CatalogMetadataItem
+  items: SearchMetadataItem[]
+  parent: SearchMetadataItem
   assemblyOption: AssemblyOption
 }
 
 // Generate a valid simulation list with this child, considering its a single item type
 const getSimulationPayloadItemsForSingleFromTree = (
-  parent: CatalogMetadataItem,
+  parent: SearchMetadataItem,
   childId: string,
   seller: string,
   parentAssemblyBinding: string
@@ -33,7 +33,7 @@ const getSimulationPayloadItemsForSingleFromTree = (
 
 // Generate a valid simulation list with this child, considering its a TOGGLE item type
 const getSimulationPayloadItemsForToggleFromTree = (
-  parent: CatalogMetadataItem,
+  parent: SearchMetadataItem,
   childId: string,
   seller: string,
   assemblyOption: AssemblyOption,
@@ -80,7 +80,7 @@ const getSimulationPayloadItemsForToggleFromTree = (
 
 // Generate a valid simulation list with this child, considering its a MULTIPLE item type
 const getSimulationPayloadItemsForMultipleFromTree = (
-  parent: CatalogMetadataItem,
+  parent: SearchMetadataItem,
   assemblyOption: AssemblyOption,
   parentBasicTree: PayloadItem[],
   childCompositionItem: CompositionItem
@@ -157,7 +157,7 @@ const simulateAndGetPrice = async (
 const getSimulationPayloadItems = (
   assemblyOption: AssemblyOption,
   compositionItem: CompositionItem,
-  parent: CatalogMetadataItem,
+  parent: SearchMetadataItem,
   fatherBasicTree: PayloadItem[]
 ) => {
   const assemblyType = getItemChoiceType(assemblyOption)

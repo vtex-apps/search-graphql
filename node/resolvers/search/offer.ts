@@ -20,7 +20,7 @@ export const resolvers = {
         : filter(({ InterestRate }) => !InterestRate, Installments)
 
       const compareFunc = criteria === InstallmentsCriteria.MAX ? gte : lte
-      const byNumberOfInstallments = comparator<CatalogInstallment>(
+      const byNumberOfInstallments = comparator<SearchInstallment>(
         (previous, next) =>
           compareFunc(previous.NumberOfInstallments, next.NumberOfInstallments)
       )

@@ -2,7 +2,7 @@ import { find, head, map, replace, slice } from 'ramda'
 
 export const resolvers = {
   SKU: {
-    attachments: ({ attachments = [] }: CatalogItem) =>
+    attachments: ({ attachments = [] }: SearchItem) =>
       map(
         (attachment: any) => ({
           ...attachment,
@@ -12,7 +12,7 @@ export const resolvers = {
       ),
 
     images: (
-      { images = [] }: CatalogItem,
+      { images = [] }: SearchItem,
       { quantity }: { quantity: number }
     ) =>
       map(
@@ -25,27 +25,27 @@ export const resolvers = {
       ),
 
     kitItems: (
-      { kitItems }: CatalogItem,
+      { kitItems }: SearchItem,
       _: any,
-      { clients: { catalog } }: Context
+      { clients: { search } }: Context
     ) =>
       !kitItems
         ? []
         : kitItems.map(async kitItem => {
-            const products = await catalog.productBySku([kitItem.itemId])
+            const products = await search.productBySku([kitItem.itemId])
             const { items: skus = [], ...product } = head(products) || {}
             const sku = find(({ itemId }) => itemId === kitItem.itemId, skus)
             return { ...kitItem, product, sku }
           }),
 
-    variations: (sku: CatalogItem) =>
+    variations: (sku: SearchItem) =>
       sku &&
       map(
         (name: string) => ({ name, values: (sku as any)[name] }),
         sku.variations || []
       ),
 
-    videos: ({ Videos }: CatalogItem) =>
+    videos: ({ Videos }: SearchItem) =>
       map(
         (video: string) => ({
           videoUrl: video,

@@ -13,11 +13,11 @@ const SIX_SECONDS_MS = 6 * 1000
 // Segments are small and immutable.
 const MAX_SEGMENT_CACHE = 10000
 const segmentCache = new LRUCache<string, any>({ max: MAX_SEGMENT_CACHE })
-const catalogCache = new LRUCache<string, any>({ max: 3000 })
+const searchCache = new LRUCache<string, any>({ max: 3000 })
 const messagesCache = new LRUCache<string, any>({ max: 3000 })
 
 metrics.trackCache('segment', segmentCache)
-metrics.trackCache('catalog', catalogCache)
+metrics.trackCache('search', searchCache)
 metrics.trackCache('messages', messagesCache)
 
 export default new Service<Clients, void, CustomContext>({
@@ -38,9 +38,9 @@ export default new Service<Clients, void, CustomContext>({
         memoryCache: segmentCache,
         timeout: THREE_SECONDS_MS,
       },
-      catalog: {
+      search: {
         concurrency: 10,
-        memoryCache: catalogCache,
+        memoryCache: searchCache,
         metrics,
         timeout: SIX_SECONDS_MS,
       },

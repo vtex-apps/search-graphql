@@ -7,7 +7,7 @@ import {
 } from '@vtex/api'
 import { stringify } from 'qs'
 
-import { searchEncodeURI, CatalogCrossSellingTypes } from '../resolvers/catalog/utils'
+import { searchEncodeURI, SearchCrossSellingTypes } from '../resolvers/search/utils'
 
 interface AutocompleteArgs {
   maxRows: number | string
@@ -23,7 +23,7 @@ const inflightKey = ({ baseURL, url, params, headers }: RequestConfig) => {
   )
 }
 
-interface CatalogPageTypeResponse {
+interface SearchPageTypeResponse {
   id: string
   pageType: string
   name: string
@@ -32,10 +32,10 @@ interface CatalogPageTypeResponse {
   metaTagDescription: string | null
 }
 
-/** Catalog API
+/** Search API
  * Docs: https://documenter.getpostman.com/view/845/catalogsystem-102/Hs44
  */
-export class Catalog extends AppClient {
+export class Search extends AppClient {
   private searchEncodeURI: (x: string) => string
 
   public constructor(ctx: IOContext, opts?: InstanceOptions) {
@@ -49,76 +49,76 @@ export class Catalog extends AppClient {
 
     const pageTypeQuery = !query || query.startsWith('?') ? query : `?${query}`
 
-    return this.get<CatalogPageTypeResponse>(
+    return this.get<SearchPageTypeResponse>(
       `/pub/portal/pagetype/${pageTypePath}${pageTypeQuery}`,
-      { metric: 'catalog-pagetype' }
+      { metric: 'search-pagetype' }
     )
   }
 
   public product = (slug: string) =>
-    this.get<CatalogProduct[]>(
+    this.get<SearchProduct[]>(
       `/pub/products/search/${this.searchEncodeURI(slug && slug.toLowerCase())}/p`,
-      { metric: 'catalog-product' }
+      { metric: 'search-product' }
     )
 
   public productByEan = (id: string) =>
-    this.get<CatalogProduct[]>(
+    this.get<SearchProduct[]>(
       `/pub/products/search?fq=alternateIds_Ean:${id}`,
       {
-        metric: 'catalog-productByEan',
+        metric: 'search-productByEan',
       }
     )
 
   public productsByEan = (ids: string[]) =>
-    this.get<CatalogProduct[]>(
+    this.get<SearchProduct[]>(
       `/pub/products/search?${ids
         .map(id => `fq=alternateIds_Ean:${id}`)
         .join('&')}`,
-      { metric: 'catalog-productByEan' }
+      { metric: 'search-productByEan' }
     )
 
   public productById = (id: string) => {
     const isVtex = this.context.platform === 'vtex'
     const url = isVtex ? '/pub/products/search?fq=productId:' : '/products/'
-    return this.get<CatalogProduct[]>(`${url}${id}`, {
-      metric: 'catalog-productById',
+    return this.get<SearchProduct[]>(`${url}${id}`, {
+      metric: 'search-productById',
     })
   }
 
   public productsById = (ids: string[]) =>
-    this.get<CatalogProduct[]>(
+    this.get<SearchProduct[]>(
       `/pub/products/search?${ids.map(id => `fq=productId:${id}`).join('&')}`,
-      { metric: 'catalog-productById' }
+      { metric: 'search-productById' }
     )
 
   public productByReference = (id: string) =>
-    this.get<CatalogProduct[]>(
+    this.get<SearchProduct[]>(
       `/pub/products/search?fq=alternateIds_RefId:${id}`,
       {
-        metric: 'catalog-productByReference',
+        metric: 'search-productByReference',
       }
     )
 
   public productsByReference = (ids: string[]) =>
-    this.get<CatalogProduct[]>(
+    this.get<SearchProduct[]>(
       `/pub/products/search?${ids
         .map(id => `fq=alternateIds_RefId:${id}`)
         .join('&')}`,
-      { metric: 'catalog-productByReference' }
+      { metric: 'search-productByReference' }
     )
 
   public productBySku = (skuIds: string[]) =>
-    this.get<CatalogProduct[]>(
+    this.get<SearchProduct[]>(
       `/pub/products/search?${skuIds
         .map(skuId => `fq=skuId:${skuId}`)
         .join('&')}`,
-      { metric: 'catalog-productBySku' }
+      { metric: 'search-productBySku' }
     )
 
   public products = (args: SearchArgs, useRaw = false) => {
     const method = useRaw ? this.getRaw : this.get
-    return method<CatalogProduct[]>(this.productSearchUrl(args), {
-      metric: 'catalog-products',
+    return method<SearchProduct[]>(this.productSearchUrl(args), {
+      metric: 'search-products',
     })
   }
 
@@ -131,42 +131,42 @@ export class Catalog extends AppClient {
   }
 
   public brands = () =>
-    this.get<Brand[]>('/pub/brand/list', { metric: 'catalog-brands' })
+    this.get<Brand[]>('/pub/brand/list', { metric: 'search-brands' })
 
   public brand = (id: number) =>
-    this.get<Brand[]>(`/pub/brand/${id}`, { metric: 'catalog-brands' })
+    this.get<Brand[]>(`/pub/brand/${id}`, { metric: 'search-brands' })
 
   public categories = (treeLevel: number) =>
     this.get<CategoryTreeResponse[]>(`/pub/category/tree/${treeLevel}/`, {
-      metric: 'catalog-categories',
+      metric: 'search-categories',
     })
 
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
-    return this.get<CatalogFacets>(
+    return this.get<SearchFacets>(
       `/pub/facets/search/${this.searchEncodeURI(encodeURI(
         `${path.trim()}${options ? '?' + options : ''}`
       ))}`,
-      { metric: 'catalog-facets' }
+      { metric: 'search-facets' }
     )
   }
 
   public category = (id: string | number) =>
     this.get<CategoryByIdResponse>(`/pub/category/${id}`, {
-      metric: 'catalog-category',
+      metric: 'search-category',
     })
 
-  public crossSelling = (id: string, type: CatalogCrossSellingTypes) =>
-    this.get<CatalogProduct[]>(`/pub/products/crossselling/${type}/${id}`, {
-      metric: 'catalog-crossSelling',
+  public crossSelling = (id: string, type: SearchCrossSellingTypes) =>
+    this.get<SearchProduct[]>(`/pub/products/crossselling/${type}/${id}`, {
+      metric: 'search-crossSelling',
     })
 
   public autocomplete = ({ maxRows, searchTerm }: AutocompleteArgs) =>
-    this.get<{ itemsReturned: CatalogAutocompleteUnit[] }>(
+    this.get<{ itemsReturned: SearchAutocompleteUnit[] }>(
       `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${this.searchEncodeURI(
         encodeURIComponent(searchTerm)
       )}`,
-      { metric: 'catalog-autocomplete' }
+      { metric: 'search-autocomplete' }
     )
 
   private get = <T = any>(url: string, config: RequestConfig = {}) => {

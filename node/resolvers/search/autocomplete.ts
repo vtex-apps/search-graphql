@@ -13,16 +13,16 @@ import { path, split } from 'ramda'
  *
  * @param item The item to extract the information
  */
-const extractSlug = (item: CatalogAutocompleteUnit) => {
+const extractSlug = (item: SearchAutocompleteUnit) => {
   const href = split('/', item.href)
   return item.criteria ? `${href[3]}/${href[4]}` : href[3]
 }
 
 export const resolvers = {
   Items: {
-    slug: (root: CatalogAutocompleteUnit) => extractSlug(root),
+    slug: (root: SearchAutocompleteUnit) => extractSlug(root),
 
-    productId: ({ items }: CatalogAutocompleteUnit) =>
+    productId: ({ items }: SearchAutocompleteUnit) =>
       items ? path([0, 'productId'], items) : null,
   },
 }

@@ -21,7 +21,7 @@ export const resolvers = {
   Category: {
     cacheId: prop('id'),
 
-    href: async ({ url }: SafeCategory, _: any) => {
+    href: async ({ url }: SafeCategory) => {
       return cleanUrl(url)
     },
 
@@ -29,17 +29,17 @@ export const resolvers = {
 
     titleTag: prop('Title'),
 
-    slug: async ({ url }: SafeCategory, _: any) => {
+    slug: async ({ url }: SafeCategory) => {
       return url ? lastSegment(url) : null
     },
 
     children: async (
       { id, children }: SafeCategory,
       _: any,
-      { clients: { catalog } }: Context
+      { clients: { search } }: Context
     ) => {
       if (children == null) {
-        const category = await getCategoryInfo(catalog, id, 5)
+        const category = await getCategoryInfo(search, id, 5)
         children = category.children
       }
       return children

@@ -2,7 +2,7 @@ const promisify = (obj: any) => {
   return new Promise(resolve => resolve(obj))
 }
 
-const catalogClientMock = {
+const searchClientMock = {
   pageType: jest.fn((query: string) =>
     promisify({
       id: '1',
@@ -35,7 +35,7 @@ const segmentClientMock = {
 export const mockContext = {
   vtex: { account: 'storecomponents', platform: 'vtex' },
   clients: {
-    catalog: catalogClientMock,
+    search: searchClientMock,
     segment: segmentClientMock,
     messagesGraphQL: messagesGraphQLClientMock,
   },
