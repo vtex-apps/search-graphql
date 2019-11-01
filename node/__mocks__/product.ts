@@ -1,5 +1,6 @@
 export const getProduct = (customFields = {}) => {
   return {
+    cacheId: 'classic-shoes-top',
     productId: '16',
     productName: 'Classic Shoes Top',
     brand: 'Mizuno',
