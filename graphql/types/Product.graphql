@@ -252,6 +252,7 @@ type Offer {
   List of gifts associated with the product
   """
   giftSkuIds: [String]
+  skippedSimulation: Boolean
 }
 
 type Teaser {

@@ -52,5 +52,16 @@ export const resolvers = {
         }),
         Videos
       ),
+    sellers: ({ sellers, skippedSimulation }: CatalogItem) =>
+      map(
+        (seller: Seller) => ({
+          ...seller,
+          commertialOffer: {
+            ...seller.commertialOffer,
+            skippedSimulation,
+          },
+        }),
+        sellers
+      ),
   },
 }

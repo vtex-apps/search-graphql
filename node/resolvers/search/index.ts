@@ -266,6 +266,35 @@ export const queries = {
     return search.products(args)
   },
 
+  productsNoSimulations: async (_: any, args: SearchArgs, ctx: Context) => {
+    const {
+      clients: { search },
+    } = ctx
+    const queryTerm = args.query
+    if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
+      throw new UserInputError(
+        `The query term contains invalid characters. query=${queryTerm}`
+      )
+    }
+
+    if (args.to && args.to > 2500) {
+      throw new UserInputError(
+        `The maximum value allowed for the 'to' argument is 2500`
+      )
+    }
+
+    const products = await search.products(args)
+    return products.map(search => {
+      return {
+        ...search,
+        items: search.items.map(item => ({
+          ...item,
+          skippedSimulation: true,
+        })),
+      }
+    })
+  },
+
   productsByIdentifier: async (
     _: any,
     args: ProductsByIdentifierArgs,
@@ -327,10 +356,11 @@ export const queries = {
     const translatedArgs = {
       ...args,
       query,
+      skipSimulation: false,
     }
 
     const [productsRaw, searchMetaData] = await all([
-      search.products(args, true),
+      search.productsRaw(args),
       isQueryingMetadata(info)
         ? getSearchMetaData(_, translatedArgs, ctx)
         : emptyTitleTag,
@@ -390,5 +420,45 @@ export const queries = {
       query,
     }
     return getSearchMetaData(_, translatedArgs, ctx)
+  },
+
+  productSearchNoSimulations: async (
+    _: any,
+    args: SearchArgs,
+    ctx: Context
+  ) => {
+    const {
+      clients,
+      clients: { search },
+      vtex,
+    } = ctx
+    const queryTerm = args.query
+    if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
+      throw new UserInputError(
+        `The query term contains invalid characters. query=${queryTerm}`
+      )
+    }
+
+    if (args.to && args.to > 2500) {
+      throw new UserInputError(
+        `The maximum value allowed for the 'to' argument is 2500`
+      )
+    }
+
+    const query = await translateToStoreDefaultLanguage(
+      clients,
+      vtex,
+      args.query || ''
+    )
+    const translatedArgs = {
+      ...args,
+      query,
+      skipSimulation: true,
+    }
+    const productsRaw = await search.productsRaw(translatedArgs)
+    return {
+      translatedArgs,
+      productsRaw,
+    }
   },
 }

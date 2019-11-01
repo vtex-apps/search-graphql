@@ -10,6 +10,7 @@ interface SearchArgs {
   to: number | null
   map: string | null
   hideUnavailableItems: boolean | null
+  skipSimulation?: boolean | null
 }
 
 interface Metadata {
@@ -109,6 +110,7 @@ interface SearchItem {
     itemId: string
     amount: number
   }[]
+  skippedSimulation?: boolean
 }
 
 interface SearchImage {
