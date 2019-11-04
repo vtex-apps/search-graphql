@@ -111,9 +111,6 @@ describe('tests related to product resolver', () => {
     const searchProduct = getProduct()
     const cacheAsSlug = await resolvers.Product.cacheId(searchProduct as any)
     expect(cacheAsSlug).toBe(searchProduct.linkText)
-
-    searchProduct.cacheId = 'CUSTOM_CACHE'
-
     const customCache = await resolvers.Product.cacheId(searchProduct as any)
     expect(customCache).toBe('CUSTOM_CACHE')
   })
