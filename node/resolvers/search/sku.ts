@@ -55,7 +55,7 @@ export const resolvers = {
           ...seller,
           commertialOffer: {
             ...seller.commertialOffer,
-            skippedSimulation,
+            skippedSimulation: !!skippedSimulation,
           },
         }),
         sellers

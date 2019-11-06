@@ -286,10 +286,10 @@ export const queries = {
     const newArgs = { ...args, skipSimulation: true }
 
     const products = await search.products(newArgs)
-    return products.map(search => {
+    return products.map(product => {
       return {
-        ...search,
-        items: search.items.map(item => ({
+        ...product,
+        items: product.items.map(item => ({
           ...item,
           skippedSimulation: true,
         })),
