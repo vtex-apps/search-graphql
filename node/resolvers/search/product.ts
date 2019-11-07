@@ -37,12 +37,12 @@ interface ItemArg {
   filter?: ItemsFilterEnum
 }
 
-const isAvailable = (item: SearchItem) =>
-  pathOr<number>(
-    0,
-    ['sellers', '0', 'commertialOffer', 'AvailableQuantity'],
-    item
-  ) > 0
+const isSellerAvailable = (seller: Seller) =>
+  pathOr(0, ['commertialOffer', 'AvailableQuantity'], seller) > 0
+
+const isAvailable = (item: SearchItem) => {
+  return item.sellers.find(isSellerAvailable)
+}
 
 const knownNotPG = [
   'allSpecifications',
