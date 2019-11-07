@@ -8,6 +8,7 @@ import {
   reject,
   split,
   toPairs,
+  pathOr,
 } from 'ramda'
 
 import { getBenefits } from '../benefits'
@@ -29,6 +30,19 @@ const objToNameValue = (
   )(record)
 
 type SearchProductWithCache = SearchProduct & { cacheId?: string }
+enum ItemsFilterEnum {
+  FIRST_AVAILABLE = 'FIRST_AVAILABLE',
+}
+interface ItemArg {
+  filter?: ItemsFilterEnum
+}
+
+const isAvailable = (item: SearchItem) =>
+  pathOr<number>(
+    0,
+    ['sellers', '0', 'commertialOffer', 'AvailableQuantity'],
+    item
+  ) > 0
 
 const knownNotPG = [
   'allSpecifications',
@@ -166,6 +180,13 @@ export const resolvers = {
         })
       )
       return specificationGroups || []
+    },
+    items: ({ items: searchItems }: SearchProduct, { filter }: ItemArg) => {
+      if (filter === ItemsFilterEnum.FIRST_AVAILABLE) {
+        const firstAvailable = searchItems.find(isAvailable)
+        return firstAvailable ? [firstAvailable] : [searchItems[0]]
+      }
+      return searchItems
     },
   },
   OnlyProduct: {

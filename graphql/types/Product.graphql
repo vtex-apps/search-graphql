@@ -35,7 +35,7 @@ type Product {
   """
   SKU objects of the product
   """
-  items: [SKU]
+  items(filter: ItemsFilter): [SKU]
   """
   Product URL
   """
@@ -89,6 +89,10 @@ type Product {
   Array of product SpecificationGroup
   """
   specificationGroups: [SpecificationGroup]
+}
+
+enum ItemsFilter {
+  FIRST_AVAILABLE
 }
 
 type OnlyProduct {
