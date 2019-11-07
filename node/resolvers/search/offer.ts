@@ -23,18 +23,16 @@ export const resolvers = {
         : Installments.filter(({ InterestRate }) => !InterestRate)
 
       const compareFunc = criteria === InstallmentsCriteria.MAX ? gte : lte
-      let value = filteredInstallments[0]
-
-      for (const installment of filteredInstallments) {
-        if (
+      const value = filteredInstallments.reduce(
+        (acc, currentValue) =>
           compareFunc(
-            installment.NumberOfInstallments,
-            value.NumberOfInstallments
+            currentValue.NumberOfInstallments,
+            acc.NumberOfInstallments
           )
-        ) {
-          value = installment
-        }
-      }
+            ? currentValue
+            : acc,
+        filteredInstallments[0]
+      )
       return [value]
     },
     teasers: propOr([], 'Teasers'),
