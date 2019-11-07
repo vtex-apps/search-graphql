@@ -173,11 +173,27 @@ type SKU {
   measurementUnit: String
   unitMultiplier: Float
   kitItems: [KitItem]
-  images(quantity: Int = 10): [Image]
+  images(
+    """
+    Returns at most this quantity of images. Applies after the filter arg.
+    """
+    quantity: Int = 10
+    """
+    Type of filter to be applied to images.
+    """
+    filter: SkuImagesFilter
+  ): [Image]
   videos: [Video]
   sellers: [Seller]
   variations: [Property]
   attachments: [Attachment] @deprecated(reason: "Use itemMetaData instead")
+}
+
+enum SkuImagesFilter {
+  """
+  Will return only the first image along with others that have imagelabel with a value
+  """
+  WITH_LABEL
 }
 
 type skuSpecification {
@@ -224,8 +240,17 @@ type DomainValues {
 }
 
 enum InstallmentsCriteria {
+  """
+  Returns installment with largest amount of installments.
+  """
   MAX
+  """
+  Returns installment with smallest amount of installments.
+  """
   MIN
+  """
+  Returns all installments.
+  """
   ALL
 }
 

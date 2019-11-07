@@ -1,4 +1,8 @@
-import { find, head, map, replace, slice } from 'ramda'
+import { find, head, map, tail } from 'ramda'
+
+enum ImagesFilter {
+  WITH_LABEL = 'WITH_LABEL',
+}
 
 export const resolvers = {
   SKU: {
@@ -13,16 +17,27 @@ export const resolvers = {
 
     images: (
       { images = [] }: SearchItem,
-      { quantity }: { quantity: number }
-    ) =>
-      map(
-        image => ({
-          cacheId: image.imageId,
-          ...image,
-          imageUrl: replace('http://', 'https://', image.imageUrl),
-        }),
-        quantity > 0 ? slice(0, quantity, images) : images
-      ),
+      { quantity, filter }: { quantity: number; filter: ImagesFilter }
+    ) => {
+      let filtered = images
+      if (filter === ImagesFilter.WITH_LABEL) {
+        // We still want to return the first image because it usually is the main image
+        filtered = [
+          head(images),
+          ...tail(images).filter(({ imageLabel }) => !!imageLabel),
+        ]
+      }
+
+      const sliced =
+        quantity > 0 && quantity > filtered.length
+          ? filtered.slice(0, quantity)
+          : filtered
+      return sliced.map(image => ({
+        cacheId: image.imageId,
+        ...image,
+        imageUrl: image.imageUrl.replace('http://', 'https://'),
+      }))
+    },
 
     kitItems: (
       { kitItems }: SearchItem,
