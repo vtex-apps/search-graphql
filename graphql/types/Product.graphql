@@ -35,7 +35,7 @@ type Product {
   """
   SKU objects of the product
   """
-  items: [SKU]
+  items(filter: ItemsFilter): [SKU]
   """
   Product URL
   """
@@ -89,6 +89,21 @@ type Product {
   Array of product SpecificationGroup
   """
   specificationGroups: [SpecificationGroup]
+}
+
+enum ItemsFilter {
+  """
+  Returns all items, same as no filter.
+  """
+  ALL
+  """
+  Returns only the first available item. Returns first if no item is available.
+  """
+  FIRST_AVAILABLE
+  """
+  Returns all available items. Returns first if no item is available.
+  """
+  ALL_AVAILABLE
 }
 
 type OnlyProduct {
