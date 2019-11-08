@@ -32,6 +32,7 @@ const objToNameValue = (
 type SearchProductWithCache = SearchProduct & { cacheId?: string }
 enum ItemsFilterEnum {
   FIRST_AVAILABLE = 'FIRST_AVAILABLE',
+  ALL_AVAILABLE = 'ALL_AVAILABLE'
 }
 interface ItemArg {
   filter?: ItemsFilterEnum
@@ -185,6 +186,10 @@ export const resolvers = {
       if (filter === ItemsFilterEnum.FIRST_AVAILABLE) {
         const firstAvailable = searchItems.find(isAvailable)
         return firstAvailable ? [firstAvailable] : [searchItems[0]]
+      }
+      if (filter === ItemsFilterEnum.ALL_AVAILABLE) {
+        const onlyAvailable = searchItems.filter(isAvailable)
+        return onlyAvailable.length > 0 ? onlyAvailable : [searchItems[0]]
       }
       return searchItems
     },

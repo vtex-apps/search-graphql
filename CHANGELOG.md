@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- Filter argument with "FIRST_AVAILABLE" value for sku list in product type.
+- Filter argument with "FIRST_AVAILABLE" and "ALL_AVAILBALE" value for sku list in product type.
 
 ## [0.8.3] - 2019-10-31
 ### Changed

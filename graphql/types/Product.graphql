@@ -92,7 +92,14 @@ type Product {
 }
 
 enum ItemsFilter {
+  """
+  Returns only the first available item. Returns first if no item is available.
+  """
   FIRST_AVAILABLE
+  """
+  Returns all available items. Returns first if no item is available.
+  """
+  ALL_AVAILABLE
 }
 
 type OnlyProduct {
