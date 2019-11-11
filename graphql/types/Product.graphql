@@ -89,6 +89,11 @@ type Product {
   Array of product SpecificationGroup
   """
   specificationGroups: [SpecificationGroup]
+
+  """
+  Returns highest and lowest prices for available SKUs in product.
+  """
+  priceRange: ProductPriceRange
 }
 
 enum ItemsFilter {
@@ -104,6 +109,16 @@ enum ItemsFilter {
   Returns all available items. Returns first if no item is available.
   """
   ALL_AVAILABLE
+}
+
+type ProductPriceRange {
+  sellingPrice: PriceRange
+  listPrice: PriceRange
+}
+
+type PriceRange {
+  highPrice: Float
+  lowPrice: Float
 }
 
 type OnlyProduct {

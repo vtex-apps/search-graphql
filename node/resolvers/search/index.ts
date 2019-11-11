@@ -9,9 +9,7 @@ import { resolvers as categoryResolvers } from './category'
 import { resolvers as discountResolvers } from './discount'
 import { resolvers as facetsResolvers } from './facets'
 import { resolvers as itemMetadataResolvers } from './itemMetadata'
-import {
-  resolvers as itemMetadataPriceTableItemResolvers,
-} from './itemMetadataPriceTableItem'
+import { resolvers as itemMetadataPriceTableItemResolvers } from './itemMetadataPriceTableItem'
 import { resolvers as itemMetadataUnitResolvers } from './itemMetadataUnit'
 import { emptyTitleTag, getSearchMetaData } from './modules/metadata'
 import { resolvers as offerResolvers } from './offer'
@@ -20,6 +18,7 @@ import { resolvers as productSearchResolvers } from './productSearch'
 import { resolvers as recommendationResolvers } from './recommendation'
 import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
+import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
 
 interface ProductIndentifier {
@@ -99,6 +98,7 @@ export const fieldResolvers = {
   ...breadcrumbResolvers,
   ...productSearchResolvers,
   ...assemblyOptionResolvers,
+  ...productPriceRangeResolvers,
 }
 
 const isValidProductIdentifier = (identifier: ProductIndentifier | undefined) =>

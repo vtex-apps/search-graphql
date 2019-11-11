@@ -9,6 +9,8 @@ import {
   split,
   toPairs,
   pathOr,
+  flatten,
+  pluck,
 } from 'ramda'
 
 import { getBenefits } from '../benefits'
@@ -196,6 +198,18 @@ export const resolvers = {
         return onlyAvailable.length > 0 ? onlyAvailable : [searchItems[0]]
       }
       return searchItems
+    },
+    priceRange: ({ items: searchItems }: SearchProduct) => {
+      const allSellers = flatten(pluck('sellers', searchItems))
+      const onlyAvailableSellers = allSellers.filter(isSellerAvailable)
+      const sellers =
+        onlyAvailableSellers.length > 0 ? onlyAvailableSellers : [allSellers[0]]
+      const offers = pluck<'commertialOffer', Seller>(
+        'commertialOffer',
+        sellers
+      )
+
+      return { offers }
     },
   },
   OnlyProduct: {
