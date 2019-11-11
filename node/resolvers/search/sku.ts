@@ -20,7 +20,7 @@ export const resolvers = {
       { quantity, filter }: { quantity: number; filter: ImagesFilter }
     ) => {
       let filtered = images
-      if (filter === ImagesFilter.WITH_LABEL) {
+      if (filter === ImagesFilter.WITH_LABEL && images.length > 1) {
         // We still want to return the first image because it usually is the main image
         filtered = [
           head(images),
