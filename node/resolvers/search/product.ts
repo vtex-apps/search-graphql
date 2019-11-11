@@ -197,6 +197,21 @@ export const resolvers = {
       }
       return searchItems
     },
+    priceRange: ({ items: searchItems }: SearchProduct) => {
+      const offers = searchItems.reduce<CommertialOffer[]>(
+        (acc, currentItem) => {
+          for (const seller of currentItem.sellers) {
+            if (isSellerAvailable(seller)) {
+              acc.push(seller.commertialOffer)
+            }
+          }
+          return acc
+        },
+        []
+      )
+
+      return { offers }
+    },
   },
   OnlyProduct: {
     categoryTree: productCategoriesToCategoryTree,
