@@ -14,7 +14,7 @@ describe('tests related to ProductPriceRange type', () => {
     const { offers } = resolvers.Product.priceRange(
       productPriceRange as any
     ) as { offers: CommertialOffer[] }
-    // productPriceResolvers.ProductPriceRange
+
     const sellingPrice = productPriceResolvers.ProductPriceRange.sellingPrice({
       offers,
     })
