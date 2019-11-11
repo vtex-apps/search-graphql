@@ -18,13 +18,13 @@ describe('tests related to ProductPriceRange type', () => {
     const sellingPrice = productPriceResolvers.ProductPriceRange.sellingPrice({
       offers,
     })
-    expect(sellingPrice).toMatchObject({ highPrice: 139, lowPrice: 119 })
+    expect(sellingPrice).toMatchObject({ highPrice: 100, lowPrice: 20 })
 
     const listPrice = productPriceResolvers.ProductPriceRange.listPrice({
       offers,
     })
 
-    expect(listPrice).toMatchObject({ highPrice: 140, lowPrice: 139 })
+    expect(listPrice).toMatchObject({ highPrice: 150, lowPrice: 30 })
   })
   test('works for products with many sellers', () => {
     const cloneProduct = clone(productPriceRange)
@@ -32,7 +32,7 @@ describe('tests related to ProductPriceRange type', () => {
       sellerId: '99',
       commertialOffer: {
         Price: 10,
-        ListPrice: 10,
+        ListPrice: 160,
         AvailableQuantity: 10,
       },
     } as any)
@@ -43,13 +43,13 @@ describe('tests related to ProductPriceRange type', () => {
     const sellingPrice = productPriceResolvers.ProductPriceRange.sellingPrice({
       offers,
     })
-    expect(sellingPrice).toMatchObject({ highPrice: 139, lowPrice: 10 })
+    expect(sellingPrice).toMatchObject({ highPrice: 100, lowPrice: 10 })
 
     const listPrice = productPriceResolvers.ProductPriceRange.listPrice({
       offers,
     })
 
-    expect(listPrice).toMatchObject({ highPrice: 140, lowPrice: 10 })
+    expect(listPrice).toMatchObject({ highPrice: 160, lowPrice: 30 })
   })
 
   test('ignores sellers with no availability', () => {
@@ -69,12 +69,12 @@ describe('tests related to ProductPriceRange type', () => {
     const sellingPrice = productPriceResolvers.ProductPriceRange.sellingPrice({
       offers,
     })
-    expect(sellingPrice).toMatchObject({ highPrice: 139, lowPrice: 119 })
+    expect(sellingPrice).toMatchObject({ highPrice: 100, lowPrice: 20 })
 
     const listPrice = productPriceResolvers.ProductPriceRange.listPrice({
       offers,
     })
 
-    expect(listPrice).toMatchObject({ highPrice: 140, lowPrice: 139 })
+    expect(listPrice).toMatchObject({ highPrice: 150, lowPrice: 30 })
   })
 })
