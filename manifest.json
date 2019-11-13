@@ -13,15 +13,25 @@
     "prereleasy": "bash lint.sh"
   },
   "dependencies": {
-    "vtex.messages": "1.x",
-    "vtex.catalog-api-proxy": "0.x"
+    "vtex.messages": "1.x"
   },
   "policies": [
     {
       "name": "vtex.messages:translate-messages"
     },
     {
-      "name": "vtex.catalog-api-proxy:catalog-proxy"
+      "name": "outbound-access",
+      "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/catalog_system/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "api.gocommerce.com",
+        "path": "/{{account}}/search/*"
+      }
     }
   ],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"

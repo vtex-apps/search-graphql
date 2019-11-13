@@ -1,13 +1,16 @@
 import {
-  AppClient,
   InstanceOptions,
   IOContext,
   RequestConfig,
   SegmentData,
+  ExternalClient,
 } from '@vtex/api'
 import { stringify } from 'qs'
 
-import { searchEncodeURI, SearchCrossSellingTypes } from '../resolvers/search/utils'
+import {
+  searchEncodeURI,
+  SearchCrossSellingTypes,
+} from '../resolvers/search/utils'
 
 interface AutocompleteArgs {
   maxRows: number | string
@@ -32,170 +35,257 @@ interface SearchPageTypeResponse {
   metaTagDescription: string | null
 }
 
-/** Search API
- * Docs: https://documenter.getpostman.com/view/845/catalogsystem-102/Hs44
- */
-export class Search extends AppClient {
+const getHost = ({ platform }: IOContext) => {
+  const isVtex = platform === 'vtex'
+  const host = isVtex
+    ? 'portal.vtexcommercestable.com.br'
+    : 'api.gocommerce.com'
+  return `http://${host}/`
+}
+
+const getCommonHeaders = ({
+  authToken,
+  operationId,
+  segmentToken,
+  storeUserAuthToken,
+}: IOContext) => {
+  return {
+    'Accept-Encoding': 'gzip',
+    'Proxy-Authorization': authToken,
+    'User-Agent': process.env.VTEX_APP_ID!,
+    ...(operationId ? { 'x-vtex-operation-id': operationId } : null),
+    ...(segmentToken && { Cookie: `vtex_segment=${segmentToken}` }),
+    ...(storeUserAuthToken
+      ? { VtexIdclientAutCookie: storeUserAuthToken }
+      : null),
+    'X-Vtex-Use-Https': 'true',
+  }
+}
+
+export class Search extends ExternalClient {
   private searchEncodeURI: (x: string) => string
 
   public constructor(ctx: IOContext, opts?: InstanceOptions) {
-    super('vtex.catalog-api-proxy', ctx, opts)
-
+    super(getHost(ctx), ctx, {
+      ...opts,
+      headers: {
+        ...(opts && opts.headers),
+        ...getCommonHeaders(ctx),
+      },
+    })
     this.searchEncodeURI = searchEncodeURI(ctx.account)
   }
 
-  public pageType = (path: string, query: string = '') => {
+  public pageType(path: string, query: string = '') {
     const pageTypePath = path.startsWith('/') ? path.substr(1) : path
 
     const pageTypeQuery = !query || query.startsWith('?') ? query : `?${query}`
-
     return this.get<SearchPageTypeResponse>(
-      `/pub/portal/pagetype/${pageTypePath}${pageTypeQuery}`,
-      { metric: 'search-pagetype' }
+      this.routes.pageType(pageTypePath, pageTypeQuery)
     )
   }
 
-  public product = (slug: string) =>
-    this.get<SearchProduct[]>(
-      `/pub/products/search/${this.searchEncodeURI(slug && slug.toLowerCase())}/p`,
+  public product(slug: string) {
+    return this.get<SearchProduct[]>(
+      this.routes.product(this.searchEncodeURI(slug && slug.toLowerCase())),
       { metric: 'search-product' }
     )
+  }
 
-  public productByEan = (id: string) =>
-    this.get<SearchProduct[]>(
-      `/pub/products/search?fq=alternateIds_Ean:${id}`,
-      {
-        metric: 'search-productByEan',
-      }
-    )
+  public productByEan(id: string) {
+    return this.get<SearchProduct[]>(this.routes.productByEan(id), {
+      metric: 'search-productByEan',
+    })
+  }
 
-  public productsByEan = (ids: string[]) =>
-    this.get<SearchProduct[]>(
-      `/pub/products/search?${ids
-        .map(id => `fq=alternateIds_Ean:${id}`)
-        .join('&')}`,
-      { metric: 'search-productByEan' }
-    )
+  public productsByEan(ids: string[]) {
+    return this.get<SearchProduct[]>(this.routes.productsByEan(ids), {
+      metric: 'search-productByEan',
+    })
+  }
 
-  public productById = (id: string) => {
-    const isVtex = this.context.platform === 'vtex'
-    const url = isVtex ? '/pub/products/search?fq=productId:' : '/products/'
-    return this.get<SearchProduct[]>(`${url}${id}`, {
+  public productById(id: string) {
+    return this.get<SearchProduct[]>(this.routes.productById(id), {
       metric: 'search-productById',
     })
   }
 
-  public productsById = (ids: string[]) =>
-    this.get<SearchProduct[]>(
-      `/pub/products/search?${ids.map(id => `fq=productId:${id}`).join('&')}`,
-      { metric: 'search-productById' }
-    )
-
-  public productByReference = (id: string) =>
-    this.get<SearchProduct[]>(
-      `/pub/products/search?fq=alternateIds_RefId:${id}`,
-      {
-        metric: 'search-productByReference',
-      }
-    )
-
-  public productsByReference = (ids: string[]) =>
-    this.get<SearchProduct[]>(
-      `/pub/products/search?${ids
-        .map(id => `fq=alternateIds_RefId:${id}`)
-        .join('&')}`,
-      { metric: 'search-productByReference' }
-    )
-
-  public productBySku = (skuIds: string[]) =>
-    this.get<SearchProduct[]>(
-      `/pub/products/search?${skuIds
-        .map(skuId => `fq=skuId:${skuId}`)
-        .join('&')}`,
-      { metric: 'search-productBySku' }
-    )
-
-  public products = (args: SearchArgs, useRaw = false) => {
-    const method = useRaw ? this.getRaw : this.get
-    return method<SearchProduct[]>(this.productSearchUrl(args), {
-      metric: 'search-products',
+  public productsById(ids: string[]) {
+    return this.get<SearchProduct[]>(this.routes.productsById(ids), {
+      metric: 'search-productById',
     })
   }
 
-  public productsQuantity = async (args: SearchArgs) => {
+  public productByReference(id: string) {
+    return this.get<SearchProduct[]>(this.routes.productByReference(id), {
+      metric: 'search-productByReference',
+    })
+  }
+
+  public productsByReference(ids: string[]) {
+    return this.get<SearchProduct[]>(this.routes.productsByReference(ids), {
+      metric: 'search-productByReference',
+    })
+  }
+
+  public productBySku(skuIds: string[]) {
+    return this.get<SearchProduct[]>(this.routes.productBySku(skuIds), {
+      metric: 'search-productBySku',
+    })
+  }
+
+  public products(args: SearchArgs, useRaw = false) {
+    const method = useRaw ? this.getRaw : this.get
+    return method<SearchProduct[]>(
+      this.routes.products(this.productSearchUrl(args)),
+      {
+        metric: 'search-products',
+      }
+    )
+  }
+
+  public async productsQuantity(args: SearchArgs) {
     const {
       headers: { resources },
-    } = await this.getRaw(this.productSearchUrl(args))
+    } = await this.getRaw(this.routes.products(this.productSearchUrl(args)), {
+      metric: 'search-products-quantity',
+    })
     const quantity = resources.split('/')[1]
     return parseInt(quantity, 10)
   }
 
-  public brands = () =>
-    this.get<Brand[]>('/pub/brand/list', { metric: 'search-brands' })
+  public brands() {
+    return this.get<Brand[]>(this.routes.brands, {
+      metric: 'search-brands',
+    })
+  }
 
-  public brand = (id: number) =>
-    this.get<Brand[]>(`/pub/brand/${id}`, { metric: 'search-brands' })
+  public brand(id: number) {
+    return this.get<Brand[]>(this.routes.brand(id), {
+      metric: 'search-brand-id',
+    })
+  }
 
-  public categories = (treeLevel: number) =>
-    this.get<CategoryTreeResponse[]>(`/pub/category/tree/${treeLevel}/`, {
+  public categories(treeLevel: number) {
+    return this.get<CategoryTreeResponse[]>(this.routes.categories(treeLevel), {
       metric: 'search-categories',
     })
+  }
 
-  public facets = (facets: string = '') => {
+  public facets(facets: string = '') {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<SearchFacets>(
-      `/pub/facets/search/${this.searchEncodeURI(encodeURI(
-        `${path.trim()}${options ? '?' + options : ''}`
-      ))}`,
+      this.routes.facets(
+        this.searchEncodeURI(
+          encodeURI(`${path.trim()}${options ? '?' + options : ''}`)
+        )
+      ),
       { metric: 'search-facets' }
     )
   }
 
-  public category = (id: string | number) =>
-    this.get<CategoryByIdResponse>(`/pub/category/${id}`, {
+  public category(id: string | number) {
+    return this.get<CategoryByIdResponse>(this.routes.category(id), {
       metric: 'search-category',
     })
-
-  public crossSelling = (id: string, type: SearchCrossSellingTypes) =>
-    this.get<SearchProduct[]>(`/pub/products/crossselling/${type}/${id}`, {
-      metric: 'search-crossSelling',
-    })
-
-  public autocomplete = ({ maxRows, searchTerm }: AutocompleteArgs) =>
-    this.get<{ itemsReturned: SearchAutocompleteUnit[] }>(
-      `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${this.searchEncodeURI(
-        encodeURIComponent(searchTerm)
-      )}`,
-      { metric: 'search-autocomplete' }
-    )
-
-  private get = <T = any>(url: string, config: RequestConfig = {}) => {
-    const segmentData: SegmentData | undefined = (this
-      .context! as CustomIOContext).segment
-    const { channel: salesChannel = '' } = segmentData || {}
-
-    config.params = {
-      ...config.params,
-      ...(!!salesChannel && { sc: salesChannel }),
-    }
-
-    config.inflightKey = inflightKey
-
-    return this.http.get<T>(`/proxy/catalog${url}`, config)
   }
 
-  private getRaw = <T = any>(url: string, config: RequestConfig = {}) => {
+  public crossSelling(id: string, type: SearchCrossSellingTypes) {
+    return this.get<SearchProduct[]>(this.routes.crossSelling(id, type), {
+      metric: 'search-crossSelling',
+    })
+  }
+
+  public autocomplete({ maxRows, searchTerm }: AutocompleteArgs) {
+    return this.get<{ itemsReturned: SearchAutocompleteUnit[] }>(
+      this.routes.autocomplete(
+        maxRows,
+        this.searchEncodeURI(encodeURIComponent(searchTerm))
+      ),
+      { metric: 'search-autocomplete' }
+    )
+  }
+
+  protected get = async <T = any>(url: string, config: RequestConfig = {}) => {
     const segmentData: SegmentData | undefined = (this
       .context! as CustomIOContext).segment
     const { channel: salesChannel = '' } = segmentData || {}
+    const { account } = this.context
 
     config.params = {
       ...config.params,
+      an: account,
       ...(!!salesChannel && { sc: salesChannel }),
     }
 
     config.inflightKey = inflightKey
-    return this.http.getRaw<T>(`/proxy/catalog${url}`, config)
+    return this.http.get<T>(url, config)
+  }
+
+  protected getRaw = async <T = any>(
+    url: string,
+    config: RequestConfig = {}
+  ) => {
+    const segmentData: SegmentData | undefined = (this
+      .context! as CustomIOContext).segment
+    const { channel: salesChannel = '' } = segmentData || {}
+    const { account } = this.context
+
+    config.params = {
+      ...config.params,
+      an: account,
+      ...(!!salesChannel && { sc: salesChannel }),
+    }
+
+    config.inflightKey = inflightKey
+    return this.http.getRaw<T>(url, config)
+  }
+
+  private get routes() {
+    const { platform, account } = this.context
+    const isVtex = platform === 'vtex'
+    const base = isVtex ? 'api/catalog_system/' : `${account}/search/`
+    return {
+      pageType: (path: string, query: string) =>
+        `${base}pub/portal/pagetype/${path}${query}`,
+      product: (slug: string) => `${base}pub/products/search/${slug}/p`,
+      productByEan: (id: string) =>
+        `${base}pub/products/search?fq=alternateIds_Ean:${id}`,
+      productsByEan: (ids: string[]) =>
+        `${base}pub/products/search?${ids
+          .map(id => `fq=alternateIds_Ean:${id}`)
+          .join('&')}`,
+      productById: (id: string) =>
+        `${base}${
+          isVtex ? 'pub/products/search?fq=productId:' : 'products/'
+        }${id}`,
+      productsById: (ids: string[]) =>
+        `${base}pub/products/search?${ids
+          .map(id => `fq=productId:${id}`)
+          .join('&')}`,
+      productByReference: (id: string) =>
+        `${base}pub/products/search?fq=alternateIds_RefId:${id}`,
+      productsByReference: (ids: string[]) =>
+        `${base}pub/products/search?${ids
+          .map(id => `fq=alternateIds_RefId:${id}`)
+          .join('&')}`,
+      productBySku: (skuIds: string[]) =>
+        `${base}pub/products/search?${skuIds
+          .map(skuId => `fq=skuId:${skuId}`)
+          .join('&')}`,
+      products: (searchUrl: string) => `${base}${searchUrl}`,
+      productsQuantity: (searchUrl: string) => `${base}${searchUrl}`,
+      brands: `${base}pub/brand/list`,
+      brand: (id: string | number) => `${base}pub/brand/${id}`,
+      categories: (level: number | string) =>
+        `${base}pub/category/tree/${level}`,
+      facets: (searchUrl: string) => `${base}pub/facets/search/${searchUrl}`,
+      category: (id: string | number) => `${base}pub/category/${id}`,
+      crossSelling: (id: string, type: SearchCrossSellingTypes) =>
+        `${base}pub/products/crossselling/${type}/${id}`,
+      autocomplete: (maxRows: string | number, searchTerm: string) =>
+        `buscaautocomplete?maxRows=${maxRows}&productNameContains=${searchTerm}`,
+    }
   }
 
   private productSearchUrl = ({
@@ -212,15 +302,14 @@ export class Search extends AppClient {
     hideUnavailableItems = false,
   }: SearchArgs) => {
     const sanitizedQuery = this.searchEncodeURI(
-      encodeURIComponent(
-        decodeURIComponent(query || '').trim()
-      )
+      encodeURIComponent(decodeURIComponent(query || '').trim())
     )
+
     if (hideUnavailableItems) {
       const segmentData = (this.context as CustomIOContext).segment
       salesChannel = (segmentData && segmentData.channel.toString()) || ''
     }
-    let url = `/pub/products/search/${sanitizedQuery}?`
+    let url = `pub/products/search/${sanitizedQuery}?`
     if (category && !query) {
       url += `&fq=C:/${category}/`
     }
