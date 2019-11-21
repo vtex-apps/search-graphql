@@ -178,9 +178,7 @@ export class Search extends AppClient {
       ...config.params,
       ...(!!salesChannel && { sc: salesChannel }),
     }
-
     config.inflightKey = inflightKey
-    config.forceMaxAge = 1e6
 
     return this.http.get<T>(`/proxy/catalog${url}`, config)
   }
@@ -194,9 +192,7 @@ export class Search extends AppClient {
       ...config.params,
       ...(!!salesChannel && { sc: salesChannel }),
     }
-
     config.inflightKey = inflightKey
-    config.forceMaxAge = 1e6
 
     return this.http.getRaw<T>(`/proxy/catalog${url}`, config)
   }
