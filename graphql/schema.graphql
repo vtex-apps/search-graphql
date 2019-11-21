@@ -123,7 +123,7 @@ type Query {
     Defines terms types: Brand, Category, Department e.g.: c,b
     """
     map: String = ""
-  ): SearchMetadata @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): SearchMetadata @cacheControl(scope: PUBLIC, maxAge: MEDIUM) @withSegment
 
   """
   Returns products list filtered and ordered
