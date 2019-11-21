@@ -11,10 +11,7 @@ export const resolvers = {
         attachments
       ),
 
-    images: (
-      { images = [] }: SearchItem,
-      { quantity }: { quantity: number }
-    ) =>
+    images: ({ images = [] }: SearchItem, { quantity }: { quantity: number }) =>
       map(
         image => ({
           cacheId: image.imageId,
@@ -51,6 +48,17 @@ export const resolvers = {
           videoUrl: video,
         }),
         Videos
+      ),
+    sellers: ({ sellers, skippedSimulation }: EnhancedSearchItem) =>
+      map(
+        (seller: Seller) => ({
+          ...seller,
+          commertialOffer: {
+            ...seller.commertialOffer,
+            skippedSimulation: !!skippedSimulation,
+          },
+        }),
+        sellers
       ),
   },
 }

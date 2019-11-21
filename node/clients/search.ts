@@ -7,7 +7,10 @@ import {
 } from '@vtex/api'
 import { stringify } from 'qs'
 
-import { searchEncodeURI, SearchCrossSellingTypes } from '../resolvers/search/utils'
+import {
+  searchEncodeURI,
+  SearchCrossSellingTypes,
+} from '../resolvers/search/utils'
 
 interface AutocompleteArgs {
   maxRows: number | string
@@ -57,7 +60,9 @@ export class Search extends AppClient {
 
   public product = (slug: string) =>
     this.get<SearchProduct[]>(
-      `/pub/products/search/${this.searchEncodeURI(slug && slug.toLowerCase())}/p`,
+      `/pub/products/search/${this.searchEncodeURI(
+        slug && slug.toLowerCase()
+      )}/p`,
       { metric: 'search-product' }
     )
 
@@ -115,9 +120,14 @@ export class Search extends AppClient {
       { metric: 'search-productBySku' }
     )
 
-  public products = (args: SearchArgs, useRaw = false) => {
-    const method = useRaw ? this.getRaw : this.get
-    return method<SearchProduct[]>(this.productSearchUrl(args), {
+  public products = (args: SearchArgs) => {
+    return this.get<SearchProduct[]>(this.productSearchUrl(args), {
+      metric: 'search-products',
+    })
+  }
+
+  public productsRaw = (args: SearchArgs) => {
+    return this.getRaw<SearchProduct[]>(this.productSearchUrl(args), {
       metric: 'search-products',
     })
   }
@@ -144,9 +154,9 @@ export class Search extends AppClient {
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<SearchFacets>(
-      `/pub/facets/search/${this.searchEncodeURI(encodeURI(
-        `${path.trim()}${options ? '?' + options : ''}`
-      ))}`,
+      `/pub/facets/search/${this.searchEncodeURI(
+        encodeURI(`${path.trim()}${options ? '?' + options : ''}`)
+      )}`,
       { metric: 'search-facets' }
     )
   }
@@ -210,11 +220,10 @@ export class Search extends AppClient {
     to = 9,
     map = '',
     hideUnavailableItems = false,
+    skipSimulation = false,
   }: SearchArgs) => {
     const sanitizedQuery = this.searchEncodeURI(
-      encodeURIComponent(
-        decodeURIComponent(query || '').trim()
-      )
+      encodeURIComponent(decodeURIComponent(query || '').trim())
     )
     if (hideUnavailableItems) {
       const segmentData = (this.context as CustomIOContext).segment
@@ -248,6 +257,10 @@ export class Search extends AppClient {
     if (to != null && to > -1) {
       url += `&_to=${to}`
     }
+    if (skipSimulation) {
+      url += '&simulation=false'
+    }
+
     return url
   }
 }

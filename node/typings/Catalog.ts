@@ -10,6 +10,7 @@ interface SearchArgs {
   to: number | null
   map: string | null
   hideUnavailableItems: boolean | null
+  skipSimulation?: boolean | null
 }
 
 interface Metadata {
@@ -84,6 +85,8 @@ interface SearchProduct {
   allSpecificationsGroups?: string[]
 }
 
+// This type is meant to reflect EXACTLY what is returned from the API.
+// If you want to artificially add fields in your resolvers and have types for it, use the EnhancedSearchItem type.
 interface SearchItem {
   itemId: string
   name: string
@@ -109,6 +112,10 @@ interface SearchItem {
     itemId: string
     amount: number
   }[]
+}
+
+interface EnhancedSearchItem extends SearchItem {
+  skippedSimulation?: boolean
 }
 
 interface SearchImage {

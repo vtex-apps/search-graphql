@@ -23,7 +23,20 @@ export const resolvers = {
       const quantity = resources.split('/')[1]
       return parseInt(quantity, 10)
     },
-    products: path(['productsRaw', 'data']),
+    products: ({
+      translatedArgs: { skipSimulation },
+      productsRaw: { data },
+    }: ProductSearchParent) => {
+      return data.map(product => {
+        return {
+          ...product,
+          items: product.items.map(item => ({
+            ...item,
+            skippedSimulation: !!skipSimulation,
+          })),
+        }
+      })
+    },
     breadcrumb: async (
       { translatedArgs, productsRaw: { data: products } }: ProductSearchParent,
       _: any,

@@ -1,6 +1,16 @@
 import { IOContext, NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
-import { head, isEmpty, isNil, path, pluck, test, pathOr, zip, tail } from 'ramda'
+import {
+  head,
+  isEmpty,
+  isNil,
+  path,
+  pluck,
+  test,
+  pathOr,
+  zip,
+  tail,
+} from 'ramda'
 
 import { resolvers as assemblyOptionResolvers } from './assemblyOption'
 import { resolvers as autocompleteResolvers } from './autocomplete'
@@ -115,7 +125,7 @@ const isQueryingMetadata = (info: any) => {
   )
 }
 
-const filterSpecificationFilters = ({query, map, ...rest}: FacetsArgs) => {
+const filterSpecificationFilters = ({ query, map, ...rest }: FacetsArgs) => {
   const queryArray = query.split('/')
   const mapArray = map.split(',')
   const queryAndMap = zip(queryArray, mapArray)
@@ -124,9 +134,9 @@ const filterSpecificationFilters = ({query, map, ...rest}: FacetsArgs) => {
     ...tail(queryAndMap).filter(
       ([_, tupleMap]) => tupleMap === 'c' || tupleMap === 'ft'
     ),
-  ]
-  const finalQuery = pluck(0, relevantArgs).join('/')
-  const finalMap = pluck(1, relevantArgs).join(',')
+  ] as [string, string][]
+  const finalQuery = pluck<string>(0, relevantArgs).join('/')
+  const finalMap = pluck<string>(1, relevantArgs).join(',')
 
   return {
     ...rest,
@@ -165,12 +175,10 @@ export const queries = {
     }
   },
 
-  facets: async (
-    _: any,
-    args: FacetsArgs,
-    ctx: Context
-  ) => {
-    const { query, map, hideUnavailableItems } = filterSpecificationFilters(args)
+  facets: async (_: any, args: FacetsArgs, ctx: Context) => {
+    const { query, map, hideUnavailableItems } = filterSpecificationFilters(
+      args
+    )
     const {
       clients: { search },
       clients,
@@ -266,6 +274,37 @@ export const queries = {
     return search.products(args)
   },
 
+  productsNoSimulations: async (_: any, args: SearchArgs, ctx: Context) => {
+    const {
+      clients: { search },
+    } = ctx
+    const queryTerm = args.query
+    if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
+      throw new UserInputError(
+        `The query term contains invalid characters. query=${queryTerm}`
+      )
+    }
+
+    if (args.to && args.to > 2500) {
+      throw new UserInputError(
+        `The maximum value allowed for the 'to' argument is 2500`
+      )
+    }
+
+    const newArgs = { ...args, skipSimulation: true }
+
+    const products = await search.products(newArgs)
+    return products.map(product => {
+      return {
+        ...product,
+        items: product.items.map(item => ({
+          ...item,
+          skippedSimulation: true,
+        })),
+      }
+    })
+  },
+
   productsByIdentifier: async (
     _: any,
     args: ProductsByIdentifierArgs,
@@ -327,10 +366,11 @@ export const queries = {
     const translatedArgs = {
       ...args,
       query,
+      skipSimulation: false,
     }
 
     const [productsRaw, searchMetaData] = await all([
-      search.products(args, true),
+      search.productsRaw(args),
       isQueryingMetadata(info)
         ? getSearchMetaData(_, translatedArgs, ctx)
         : emptyTitleTag,
@@ -390,5 +430,45 @@ export const queries = {
       query,
     }
     return getSearchMetaData(_, translatedArgs, ctx)
+  },
+
+  productSearchNoSimulations: async (
+    _: any,
+    args: SearchArgs,
+    ctx: Context
+  ) => {
+    const {
+      clients,
+      clients: { search },
+      vtex,
+    } = ctx
+    const queryTerm = args.query
+    if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
+      throw new UserInputError(
+        `The query term contains invalid characters. query=${queryTerm}`
+      )
+    }
+
+    if (args.to && args.to > 2500) {
+      throw new UserInputError(
+        `The maximum value allowed for the 'to' argument is 2500`
+      )
+    }
+
+    const query = await translateToStoreDefaultLanguage(
+      clients,
+      vtex,
+      args.query || ''
+    )
+    const translatedArgs = {
+      ...args,
+      query,
+      skipSimulation: true,
+    }
+    const productsRaw = await search.productsRaw(translatedArgs)
+    return {
+      translatedArgs,
+      productsRaw,
+    }
   },
 }
