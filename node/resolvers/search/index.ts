@@ -1,6 +1,16 @@
 import { IOContext, NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
-import { head, isEmpty, isNil, path, pluck, test, pathOr, zip, tail } from 'ramda'
+import {
+  head,
+  isEmpty,
+  isNil,
+  path,
+  pluck,
+  test,
+  pathOr,
+  zip,
+  tail,
+} from 'ramda'
 
 import { resolvers as assemblyOptionResolvers } from './assemblyOption'
 import { resolvers as autocompleteResolvers } from './autocomplete'
@@ -115,7 +125,7 @@ const isQueryingMetadata = (info: any) => {
   )
 }
 
-const filterSpecificationFilters = ({query, map, ...rest}: FacetsArgs) => {
+const filterSpecificationFilters = ({ query, map, ...rest }: FacetsArgs) => {
   const queryArray = query.split('/')
   const mapArray = map.split(',')
   const queryAndMap = zip(queryArray, mapArray)
@@ -124,9 +134,9 @@ const filterSpecificationFilters = ({query, map, ...rest}: FacetsArgs) => {
     ...tail(queryAndMap).filter(
       ([_, tupleMap]) => tupleMap === 'c' || tupleMap === 'ft'
     ),
-  ]
-  const finalQuery = pluck(0, relevantArgs).join('/')
-  const finalMap = pluck(1, relevantArgs).join(',')
+  ] as [string, string][]
+  const finalQuery = pluck<string>(0, relevantArgs).join('/')
+  const finalMap = pluck<string>(1, relevantArgs).join(',')
 
   return {
     ...rest,
@@ -165,12 +175,10 @@ export const queries = {
     }
   },
 
-  facets: async (
-    _: any,
-    args: FacetsArgs,
-    ctx: Context
-  ) => {
-    const { query, map, hideUnavailableItems } = filterSpecificationFilters(args)
+  facets: async (_: any, args: FacetsArgs, ctx: Context) => {
+    const { query, map, hideUnavailableItems } = filterSpecificationFilters(
+      args
+    )
     const {
       clients: { search },
       clients,
