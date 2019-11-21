@@ -1307,10 +1307,10 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-"@vtex/api@^6.0.0-beta.0":
-  version "6.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-6.0.0-beta.0.tgz#2be49bc04812db1926967e0fc8c993abd0dbab16"
-  integrity sha512-dxpJS3iiw+5M96FHHvmuumil+33QreWiIORW77SjaLoCwe1W8viRMdw3tLIfO9FHOITZ9dON6hMkk2SRqMPiRw==
+"@vtex/api@^6.0.0-beta.6":
+  version "6.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-6.0.0-beta.6.tgz#10bb276b35bcf20232605b04fc0d93d16ffbe105"
+  integrity sha512-VR1eDqSzQZnXmS5tFtwdF8/4q+RA3g7fjbHpeB1UK8OM4D8/OMfeJEifhuf3UirC7/UBWQSvrawtBChiLWkSOw==
   dependencies:
     "@types/koa" "^2.0.48"
     "@types/koa-compose" "^3.2.3"

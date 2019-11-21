@@ -31,7 +31,7 @@
     "@types/node": "10.x",
     "@types/qs": "^6.5.1",
     "@types/ramda": "^0.26.21",
-    "@vtex/api": "^6.0.0-beta.0",
+    "@vtex/api": "^6.0.0-beta.6",
     "@vtex/test-tools": "^1.2.0",
     "@vtex/tsconfig": "^0.2.0",
     "eslint": "^5.15.3",
