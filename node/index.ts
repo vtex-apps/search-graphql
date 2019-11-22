@@ -41,7 +41,6 @@ export default new Service<Clients, void, CustomContext>({
       search: {
         concurrency: 10,
         memoryCache: searchCache,
-        metrics,
         timeout: SIX_SECONDS_MS,
       },
     },
