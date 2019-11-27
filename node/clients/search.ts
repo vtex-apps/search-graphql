@@ -39,7 +39,7 @@ export class Search extends AppClient {
   private searchEncodeURI: (x: string) => string
 
   public constructor(ctx: IOContext, opts?: InstanceOptions) {
-    super('vtex.catalog-api-proxy', ctx, opts)
+    super('vtex.catalog-api-proxy@0.x', ctx, opts)
 
     this.searchEncodeURI = searchEncodeURI(ctx.account)
   }
@@ -178,7 +178,6 @@ export class Search extends AppClient {
       ...config.params,
       ...(!!salesChannel && { sc: salesChannel }),
     }
-
     config.inflightKey = inflightKey
 
     return this.http.get<T>(`/proxy/catalog${url}`, config)
@@ -193,8 +192,8 @@ export class Search extends AppClient {
       ...config.params,
       ...(!!salesChannel && { sc: salesChannel }),
     }
-
     config.inflightKey = inflightKey
+
     return this.http.getRaw<T>(`/proxy/catalog${url}`, config)
   }
 

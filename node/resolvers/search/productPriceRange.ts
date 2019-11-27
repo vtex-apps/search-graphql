@@ -31,4 +31,7 @@ export const resolvers = {
       return getMaxAndMinForAttribute(offers, 'ListPrice')
     },
   },
+  PriceRange: {
+    lowPrice: ({ lowPrice }: any) => lowPrice !== Infinity ? lowPrice : null
+  }
 }

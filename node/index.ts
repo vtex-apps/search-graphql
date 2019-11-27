@@ -1,6 +1,6 @@
 import './globals'
 
-import { LRUCache, Service } from '@vtex/api'
+import { Cached, LRUCache, Service } from '@vtex/api'
 
 import { Clients } from './clients'
 import { schemaDirectives } from './directives'
@@ -12,9 +12,9 @@ const SIX_SECONDS_MS = 6 * 1000
 
 // Segments are small and immutable.
 const MAX_SEGMENT_CACHE = 10000
-const segmentCache = new LRUCache<string, any>({ max: MAX_SEGMENT_CACHE })
-const searchCache = new LRUCache<string, any>({ max: 3000 })
-const messagesCache = new LRUCache<string, any>({ max: 3000 })
+const segmentCache = new LRUCache<string, Cached>({ max: MAX_SEGMENT_CACHE })
+const searchCache = new LRUCache<string, Cached>({ max: 3000 })
+const messagesCache = new LRUCache<string, Cached>({ max: 3000 })
 
 metrics.trackCache('segment', segmentCache)
 metrics.trackCache('search', searchCache)
@@ -41,7 +41,6 @@ export default new Service<Clients, void, CustomContext>({
       search: {
         concurrency: 10,
         memoryCache: searchCache,
-        metrics,
         timeout: SIX_SECONDS_MS,
       },
     },
