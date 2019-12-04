@@ -69,16 +69,16 @@ const translateToStoreDefaultLanguage = async (
   const { locale: from } = tenant!
   return from && from !== to
     ? messagesGraphQL
-        .translateV2({
-          indexedByFrom: [
-            {
-              from,
-              messages: [{ content: term }],
-            },
-          ],
-          to: to!,
-        })
-        .then(head)
+      .translateV2({
+        indexedByFrom: [
+          {
+            from,
+            messages: [{ content: term }],
+          },
+        ],
+        to: to!,
+      })
+      .then(head)
     : term
 }
 
@@ -115,9 +115,10 @@ const isQueryingMetadata = (info: any) => {
   )
 }
 
-const filterSpecificationFilters = ({query, map, ...rest}: FacetsArgs) => {
+const filterSpecificationFilters = ({ query, map, ...rest }: Required<FacetsArgs>) => {
   const queryArray = query.split('/')
   const mapArray = map.split(',')
+
   const queryAndMap = zip(queryArray, mapArray)
   const relevantArgs = [
     head(queryAndMap),
@@ -133,6 +134,15 @@ const filterSpecificationFilters = ({query, map, ...rest}: FacetsArgs) => {
     map: finalMap,
     query: finalQuery,
   }
+}
+
+const hasFacetsBadArgs = ({ query, map }: FacetsArgs) => {
+  if (!query || !map) {
+    return true
+  }
+  const queryArray = query.split('/')
+  const mapArray = map.split(',')
+  return queryArray.length !== mapArray.length
 }
 
 export const queries = {
@@ -170,7 +180,10 @@ export const queries = {
     args: FacetsArgs,
     ctx: Context
   ) => {
-    const { query, map, hideUnavailableItems } = filterSpecificationFilters(args)
+    if (hasFacetsBadArgs(args)) {
+      throw new UserInputError('No query or map provided')
+    }
+    const { query, map, hideUnavailableItems } = filterSpecificationFilters(args as Required<FacetsArgs>)
     const {
       clients: { search },
       clients,
