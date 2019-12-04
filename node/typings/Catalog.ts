@@ -52,9 +52,9 @@ interface CategoryByIdResponse {
 }
 
 interface FacetsArgs {
-  query: string
-  map: string
-  hideUnavailableItems: boolean
+  query?: string
+  map?: string
+  hideUnavailableItems?: boolean
 }
 
 interface SearchProduct {
