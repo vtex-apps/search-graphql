@@ -26,6 +26,9 @@
     },
     {
       "name": "vbase-read-write"
+    },
+    {
+      "name": "colossus-fire-event"
     }
   ],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
