@@ -29,6 +29,7 @@ import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
 import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
+import * as searchStats from '../../utils/searchStats'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -374,6 +375,10 @@ export const queries = {
     ])
 
     searchFirstElements(productsRaw.data, args.from, search)
+    
+    if (productsRaw.status === 200) {
+      searchStats.count(ctx, args)
+    }
     return {
       translatedArgs,
       searchMetaData,
