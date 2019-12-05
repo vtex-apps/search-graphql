@@ -29,6 +29,7 @@ import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
 import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
+import * as searchStats from '../../utils/searchStats'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -374,6 +375,10 @@ export const queries = {
     ])
 
     searchFirstElements(productsRaw.data, args.from, search)
+    
+     if (productsRaw.status === 200) {
+      searchStats.count(ctx, args)
+    }
     return {
       translatedArgs,
       searchMetaData,
@@ -400,6 +405,7 @@ export const queries = {
       productId,
       searchType
     )
+    
     searchFirstElements(products, 0, ctx.clients.search)
     // We add a custom cacheId because these products are not exactly like the other products from search apis.
     // Each product is basically a SKU and you may have two products in response with same ID but each one representing a SKU.
