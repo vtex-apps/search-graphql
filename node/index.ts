@@ -1,6 +1,6 @@
 import './globals'
 
-import { Cached, LRUCache, Service } from '@vtex/api'
+import { Cached, LRUCache, RecorderState, Service } from '@vtex/api'
 
 import { Clients } from './clients'
 import { schemaDirectives } from './directives'
@@ -20,7 +20,7 @@ metrics.trackCache('segment', segmentCache)
 metrics.trackCache('search', searchCache)
 metrics.trackCache('messages', messagesCache)
 
-export default new Service<Clients, void, CustomContext>({
+export default new Service<Clients, RecorderState, CustomContext>({
   clients: {
     implementation: Clients,
     options: {

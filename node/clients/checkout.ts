@@ -4,6 +4,7 @@ import {
   JanusClient,
   RequestConfig,
 } from '@vtex/api'
+
 import { statusToError } from '../utils'
 
 export class Checkout extends JanusClient {

@@ -1,6 +1,8 @@
 import {
   IOContext,
   MetricsAccumulator,
+  ParamsContext,
+  RecorderState,
   SegmentData,
   ServiceContext,
 } from '@vtex/api'
@@ -13,9 +15,9 @@ if (!global.metrics) {
 }
 
 declare global {
-  type Context = ServiceContext<Clients, void, CustomContext>
+  type Context = ServiceContext<Clients, RecorderState, CustomContext>
 
-  interface CustomContext {
+  interface CustomContext extends ParamsContext {
     cookie: string
     originalPath: string
     vtex: CustomIOContext
