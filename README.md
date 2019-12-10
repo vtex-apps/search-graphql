@@ -1,1 +1,0 @@
-# VTEX Search Graphql
