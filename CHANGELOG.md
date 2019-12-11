@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.12.3] - 2019-12-11
+
 ## [0.12.2] - 2019-12-11
 ### Fixed
 - Fix translating to wrong language when locale is different than tenant default language.
