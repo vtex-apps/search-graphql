@@ -65,8 +65,9 @@ const translateToStoreDefaultLanguage = async (
   term: string
 ): Promise<string> => {
   const { messagesGraphQL } = clients
-  const { locale: to, tenant } = vtex
-  const { locale: from } = tenant!
+  const { locale: from, tenant } = vtex
+  const { locale: to } = tenant!
+
   return from && from !== to
     ? messagesGraphQL
       .translateV2({
@@ -76,7 +77,7 @@ const translateToStoreDefaultLanguage = async (
             messages: [{ content: term }],
           },
         ],
-        to: to!,
+        to,
       })
       .then(head)
     : term
@@ -343,7 +344,7 @@ export const queries = {
     }
 
     const [productsRaw, searchMetaData] = await all([
-      search.products(args, true),
+      search.products(translatedArgs, true),
       isQueryingMetadata(info)
         ? getSearchMetaData(_, translatedArgs, ctx)
         : emptyTitleTag,
