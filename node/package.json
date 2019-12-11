@@ -38,5 +38,5 @@
     "eslint-config-vtex": "^10.1.0",
     "prettier": "^1.16.4"
   },
-  "version": "0.12.3"
+  "version": "0.12.4"
 }
