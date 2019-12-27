@@ -55,6 +55,7 @@ interface FacetsArgs {
   query?: string
   map?: string
   hideUnavailableItems?: boolean
+  ignoreSpecificationFilters?: boolean
 }
 
 interface SearchProduct {

@@ -1,6 +1,16 @@
 import { IOContext, NotFoundError, UserInputError } from '@vtex/api'
 import { all } from 'bluebird'
-import { head, isEmpty, isNil, path, pluck, test, pathOr, zip, tail } from 'ramda'
+import {
+  head,
+  isEmpty,
+  isNil,
+  path,
+  pluck,
+  test,
+  pathOr,
+  zip,
+  tail,
+} from 'ramda'
 
 import { resolvers as assemblyOptionResolvers } from './assemblyOption'
 import { resolvers as autocompleteResolvers } from './autocomplete'
@@ -70,16 +80,16 @@ const translateToStoreDefaultLanguage = async (
 
   return from && from !== to
     ? messagesGraphQL
-      .translateV2({
-        indexedByFrom: [
-          {
-            from,
-            messages: [{ content: term }],
-          },
-        ],
-        to,
-      })
-      .then(head)
+        .translateV2({
+          indexedByFrom: [
+            {
+              from,
+              messages: [{ content: term }],
+            },
+          ],
+          to,
+        })
+        .then(head)
     : term
 }
 
@@ -116,7 +126,11 @@ const isQueryingMetadata = (info: any) => {
   )
 }
 
-const filterSpecificationFilters = ({ query, map, ...rest }: Required<FacetsArgs>) => {
+const filterSpecificationFilters = ({
+  query,
+  map,
+  ...rest
+}: Required<FacetsArgs>) => {
   const queryArray = query.split('/')
   const mapArray = map.split(',')
 
@@ -176,15 +190,13 @@ export const queries = {
     }
   },
 
-  facets: async (
-    _: any,
-    args: FacetsArgs,
-    ctx: Context
-  ) => {
+  facets: async (_: any, args: FacetsArgs, ctx: Context) => {
     if (hasFacetsBadArgs(args)) {
       throw new UserInputError('No query or map provided')
     }
-    const { query, map, hideUnavailableItems } = filterSpecificationFilters(args as Required<FacetsArgs>)
+    const { query, map, hideUnavailableItems } = args.ignoreSpecificationFilters
+      ? filterSpecificationFilters(args as Required<FacetsArgs>)
+      : (args as Required<FacetsArgs>)
     const {
       clients: { search },
       clients,

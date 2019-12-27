@@ -322,6 +322,10 @@ facets(
   If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel.
   """
   hideUnavailableItems: Boolean = false
+  """
+  If true, ignores SpecificationFilters received on the map and query when returning the facets available.
+  """
+  ignoreSpecificationFilters: Boolean = true
 ): Facets
 ```
 
