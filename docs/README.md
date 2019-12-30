@@ -323,9 +323,10 @@ facets(
   """
   hideUnavailableItems: Boolean = false
   """
-  If true, ignores SpecificationFilters received on the map and query when returning the facets available.
+  If Static, ignores SpecificationFilters received on the map and query when returning 
+  the facets available, which makes the facets never change.
   """
-  ignoreSpecificationFilters: Boolean = true
+  behavior: String = "Static"
 ): Facets
 ```
 

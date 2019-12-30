@@ -194,7 +194,7 @@ export const queries = {
     if (hasFacetsBadArgs(args)) {
       throw new UserInputError('No query or map provided')
     }
-    const { query, map, hideUnavailableItems } = args.ignoreSpecificationFilters
+    const { query, map, hideUnavailableItems } = args.behavior === 'Static'
       ? filterSpecificationFilters(args as Required<FacetsArgs>)
       : (args as Required<FacetsArgs>)
     const {
