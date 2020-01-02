@@ -55,6 +55,12 @@ interface FacetsArgs {
   query?: string
   map?: string
   hideUnavailableItems?: boolean
+  behavior?: FacetsBehavior
+}
+
+enum FacetsBehavior {
+  STATIC = "Static",
+  DYNAMIC = "Dynamic"
 }
 
 interface SearchProduct {

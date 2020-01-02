@@ -322,6 +322,11 @@ facets(
   If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel.
   """
   hideUnavailableItems: Boolean = false
+  """
+  If Static, ignores SpecificationFilters received on the map and query when returning 
+  the facets available, which makes the facets never change.
+  """
+  behavior: String = "Static"
 ): Facets
 ```
 
