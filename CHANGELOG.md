@@ -6,8 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Minor performance improvements in facets and some product resolvers.
 
 ## [0.13.1] - 2020-01-03
+### Changed
+- Stop using bluebird methods and promises. Use native promises instead.
 
 ## [0.13.0] - 2020-01-02
 ### Added
