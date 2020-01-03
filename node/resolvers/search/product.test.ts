@@ -137,7 +137,50 @@ describe('tests related to product resolver', () => {
     const product = getProduct()
     product.productClusters = null
     const result = resolvers.Product.productClusters(product as any)
-    // console.log(result)
+    expect(result).toMatchObject([])
+  })
+
+  test('clusterHighlights should be properly formatted', () => {
+    const product = getProduct()
+    product.clusterHighlights = {
+      "140": 'Casual Footwear',
+      "195": 'All products',
+      "201": "Third"
+    }
+    const result = resolvers.Product.clusterHighlights(product as any)
+    expect(result).toMatchObject([
+      { id: '140', name: 'Casual Footwear' },
+      { id: '195', name: 'All products' },
+      { id: '201', name: 'Third' }
+    ])
+  })
+
+  test('clusterHighlights should not break if value is null', () => {
+    const product = getProduct()
+    product.clusterHighlights = null
+    const result = resolvers.Product.clusterHighlights(product as any)
+    expect(result).toMatchObject([])
+  })
+
+  test('clusterHighlights should be properly formatted', () => {
+    const product = getProduct()
+    product.clusterHighlights = {
+      "140": 'Casual Footwear',
+      "195": 'All products',
+      "201": "Third"
+    }
+    const result = resolvers.Product.clusterHighlights(product as any)
+    expect(result).toMatchObject([
+      { id: '140', name: 'Casual Footwear' },
+      { id: '195', name: 'All products' },
+      { id: '201', name: 'Third' }
+    ])
+  })
+
+  test('clusterHighlights should not break if value is null', () => {
+    const product = getProduct()
+    product.clusterHighlights = null
+    const result = resolvers.Product.clusterHighlights(product as any)
     expect(result).toMatchObject([])
   })
 })
