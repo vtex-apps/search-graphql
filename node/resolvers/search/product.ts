@@ -5,29 +5,32 @@ import {
   omit,
   prop,
   propOr,
-  reject,
   split,
-  toPairs,
   pathOr,
 } from 'ramda'
 
 import { getBenefits } from '../benefits'
 import { buildCategoryMap } from './utils'
 
-type MaybeRecord = false | Record<string, any>
 const objToNameValue = (
   keyName: string,
   valueName: string,
-  record: Record<string, any>
-) =>
-  compose<Record<string, any>, [string, any][], MaybeRecord[], MaybeRecord>(
-    reject<MaybeRecord>(value => typeof value === 'boolean' && value === false),
-    map<[string, any], MaybeRecord>(
-      ([key, value]) =>
-        typeof value === 'string' && { [keyName]: key, [valueName]: value }
-    ),
-    toPairs
-  )(record)
+  record: Record<string, any> | null | undefined
+) => {
+  if (!record) {
+    return []
+  }
+  return Object.keys(record).reduce(
+    (acc, key: any) => {
+      const value = record[key]
+      if (typeof value === 'string') {
+        acc.push({ [keyName]: key, [valueName]: value })
+      }
+      return acc
+    },
+    [] as Record<string, string>[]
+  )
+}
 
 type SearchProductWithCache = SearchProduct & { cacheId?: string }
 enum ItemsFilterEnum {
@@ -130,7 +133,7 @@ export const resolvers = {
     cacheId: ({ linkText, cacheId }: SearchProductWithCache) =>
       cacheId || linkText,
 
-    clusterHighlights: ({ clusterHighlights = {} }) =>
+    clusterHighlights: ({ clusterHighlights = {} }: SearchProduct) =>
       objToNameValue('id', 'name', clusterHighlights),
 
     jsonSpecifications: (product: SearchProduct) => {

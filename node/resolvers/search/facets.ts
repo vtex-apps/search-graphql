@@ -10,6 +10,7 @@ const addSelected = (
   facets: EitherFacet[],
   { query, map }: { query: string; map: string }
 ): EitherFacet[] => {
+  const joinedQueryAndMap = zipQueryAndMap(query, map)
   return facets.map(facet => {
     let children = facet.Children
 
@@ -19,7 +20,7 @@ const addSelected = (
 
     const currentFacetSlug = decodeURIComponent(facet.Value).toLowerCase()
     const isSelected =
-      zipQueryAndMap(query, map).find(
+      joinedQueryAndMap.find(
         ([slug, slugMap]) => slug === currentFacetSlug && facet.Map === slugMap
       ) !== undefined
 
