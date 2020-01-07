@@ -19,6 +19,36 @@ enum SimulationBehavior {
   DEFAULT = 'default'
 }
 
+export interface FieldResponseAPI {
+  Name: string
+  CategoryId: number | null
+  FieldId: number
+  IsActive: boolean
+  IsRequired: boolean
+  FieldTypeId: number
+  FieldTypeName: string
+  FieldValueId: string | null
+  Description: string | null
+  IsStockKeepingUnit: boolean
+  IsFilter: boolean
+  IsOnProductDetails: boolean
+  Position: number
+  IsWizard: boolean
+  IsTopMenuLinkActive: boolean
+  IsSideMenuLinkActive: boolean
+  DefaultValue: string | null
+  FieldGroupId: number
+  FieldGroupName: string
+}
+
+export interface FieldTreeResponseAPI{
+  Name:	string
+  CategoryId: number
+  FieldId: number
+  IsActive:	boolean
+  IsStockKeepingUnit: boolean
+}
+
 const inflightKey = ({ baseURL, url, params, headers }: RequestConfig) => {
   return (
     baseURL! +
@@ -179,6 +209,12 @@ export class Search extends AppClient {
       { metric: 'search-autocomplete' }
     )
 
+  public getFieldsByCategoryId = (id: number) =>
+    this.get<FieldTreeResponseAPI[]>(
+      `/pub/specification/field/listTreeByCategoryId/${id}`,
+    { metric: 'catalog-get-fields' }
+  )
+
   private get = <T = any>(url: string, config: RequestConfig = {}) => {
     const segmentData: SegmentData | undefined = (this
       .context! as CustomIOContext).segment
@@ -192,6 +228,12 @@ export class Search extends AppClient {
 
     return this.http.get<T>(`/proxy/catalog${url}`, config)
   }
+
+  public getField = (id: number) =>
+    this.get<FieldResponseAPI>(
+      `/pub/specification/fieldGet/${id}`,
+      { metric: 'catalog-get-field-by-id' }
+    )
 
   private getRaw = <T = any>(url: string, config: RequestConfig = {}) => {
     const segmentData: SegmentData | undefined = (this

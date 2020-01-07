@@ -4,6 +4,7 @@ type ProductSearch {
   titleTag: String
   metaTagDescription: String
   breadcrumb: [SearchBreadcrumb]
+  canonical: String
 }
 
 type SearchBreadcrumb {
