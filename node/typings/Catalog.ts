@@ -1,5 +1,9 @@
-interface SearchArgs {
-  query: string | null
+interface QueryArgs {
+  query?: string
+  map?: string
+}
+
+interface SearchArgs extends QueryArgs {
   category: string | null
   specificationFilters: string[] | null
   priceRange: string | null
@@ -8,7 +12,6 @@ interface SearchArgs {
   orderBy: string | null
   from: number | null
   to: number | null
-  map: string | null
   hideUnavailableItems: boolean | null
 }
 
@@ -51,9 +54,7 @@ interface CategoryByIdResponse {
   MetaTagDescription: string
 }
 
-interface FacetsArgs {
-  query?: string
-  map?: string
+interface FacetsArgs extends QueryArgs {
   hideUnavailableItems?: boolean
   behavior?: FacetsBehavior
 }
