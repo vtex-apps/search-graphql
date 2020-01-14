@@ -1,5 +1,4 @@
 import { IOContext, NotFoundError, UserInputError } from '@vtex/api'
-import { all } from 'bluebird'
 import {
   head,
   isEmpty,
@@ -355,7 +354,7 @@ export const queries = {
       query,
     }
 
-    const [productsRaw, searchMetaData] = await all([
+    const [productsRaw, searchMetaData] = await Promise.all([
       search.products(translatedArgs, true),
       isQueryingMetadata(info)
         ? getSearchMetaData(_, translatedArgs, ctx)

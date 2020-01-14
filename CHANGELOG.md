@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `skuSpecifications` on the `Product` query.
 
+## [0.13.2] - 2020-01-06
+### Changed
+- Minor performance improvements in facets and some product resolvers.
+
+## [0.13.1] - 2020-01-03
+### Changed
+- Stop using bluebird methods and promises. Use native promises instead.
+
 ## [0.13.0] - 2020-01-02
 ### Added
 - `behavior` to the `facets`'s query resolver.
