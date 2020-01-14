@@ -37,6 +37,10 @@ type Product {
   """
   items(filter: ItemsFilter): [SKU]
   """
+  List of SKU Specifications
+  """
+  skuSpecifications: [SkuSpecification]
+  """
   Product URL
   """
   link: String
@@ -180,9 +184,17 @@ type SKU {
   attachments: [Attachment] @deprecated(reason: "Use itemMetaData instead")
 }
 
-type skuSpecification {
-  fieldName: String @translatableV2
-  fieldValues: [String] @translatableV2
+type SkuSpecification {
+  field: SKUSpecificationField
+  values: [SKUSpecificationValue]
+}
+
+type SKUSpecificationField {
+  name: String
+}
+
+type SKUSpecificationValue {
+  name: String
 }
 
 type productSpecification {
