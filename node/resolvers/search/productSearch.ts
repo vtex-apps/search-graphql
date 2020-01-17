@@ -40,7 +40,7 @@ export const resolvers = {
         .map(([q]) => q)
       const categoriesCount = map.split(',').filter(m => m === 'c').length
       const categories =
-        !!categoriesCount && Functions.isGoCommerceAcvulc(account)
+        !!categoriesCount && Functions.isGoCommerceAcc(account)
           ? await search.categories(categoriesCount)
           : []
 
