@@ -29,18 +29,18 @@ export const resolvers = {
       _: any,
       { vtex: { account }, clients: { search } }: Context
     ) => {
-      const query = translatedArgs.query || ''
-      const map = translatedArgs.map || ''
+      const query = translatedArgs?.query || ''
+      const map = translatedArgs?.map || ''
       const queryAndMap = zipQueryAndMap(
-        translatedArgs.query,
-        translatedArgs.map
+        translatedArgs?.query,
+        translatedArgs?.map
       )
       const categoriesSearched = queryAndMap
         .filter(([_, m]) => m === 'c')
         .map(([q]) => q)
       const categoriesCount = map.split(',').filter(m => m === 'c').length
       const categories =
-        !!categoriesCount && Functions.isGoCommerceAcc(account)
+        !!categoriesCount && Functions.isGoCommerceAcvulc(account)
           ? await search.categories(categoriesCount)
           : []
 
