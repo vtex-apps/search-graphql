@@ -416,7 +416,7 @@ export const queries = {
       searchStats.count(ctx, args)
     }
     return {
-      translatedArgs,
+      translatedArgs: compatibilityArgs,
       searchMetaData,
       productsRaw,
       canonical
