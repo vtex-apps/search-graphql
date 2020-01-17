@@ -48,7 +48,8 @@
     "@vtex/tsconfig": "^0.2.0",
     "eslint": "^5.15.3",
     "eslint-config-vtex": "^10.1.0",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "typemoq": "^2.1.0"
   },
   "version": "0.14.0"
 }

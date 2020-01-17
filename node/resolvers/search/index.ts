@@ -30,11 +30,10 @@ import { resolvers as skuResolvers } from './sku'
 import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
 import * as searchStats from '../../utils/searchStats'
-import { getOrCreateCanonical, toCompatibilityArgs } from './newURLs'
+import { toCompatibilityArgs } from './newURLs'
 
 const SPEC_FILTER = 'specificationFilter'
 const MAP_VALUES_SEP = ','
-const SEARCH_URLS_BUCKET = 'searchPath'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -384,13 +383,7 @@ export const queries = {
     const compatibilityArgs = isLegacySearch
       ? translatedArgs
       : await toCompatibilityArgs<SearchArgs>(vbase, search, translatedArgs)
-
-    const canonical = isLegacySearch? await getOrCreateCanonical(vbase, search, translatedArgs): translatedArgs.query
-    vbase.saveJSON(SEARCH_URLS_BUCKET, canonical, {
-      query: translatedArgs.query,
-      map: translatedArgs.map,
-    })
-
+    
     const [productsRaw, searchMetaData] = await Promise.all([
       search.products(compatibilityArgs, true),
       isQueryingMetadata(info)
@@ -405,8 +398,7 @@ export const queries = {
     return {
       translatedArgs,
       searchMetaData,
-      productsRaw,
-      canonical
+      productsRaw
     }
   },
 

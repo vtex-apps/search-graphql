@@ -1,4 +1,7 @@
-export const LEGACY_SEARCH_URLS_BUCKET = 'legacySearch'
+export const SEARCH_URLS_BUCKET = 'newSearchURLs'
+export const CATEGORY_TREE_ROOT_BUCKET = 'categoryTree'
+export const CATEGORY_TREE_CHILDREN_BUCKET = 'categoryTreeChildren'
+export const CATEGORY_TREE_ROOT_PATH = 'categoryTree.json'
 export const SPEC_FILTER = 'specificationFilter'
 export const MAP_QUERY_KEY = 'map'
 export const MAP_VALUES_SEP = ','

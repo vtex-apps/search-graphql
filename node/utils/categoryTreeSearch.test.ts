@@ -1,4 +1,8 @@
-import { categoryTreeSearch } from "./categoryTreeSearch"
+import * as TypeMoq from 'typemoq'
+import { CategoryTreeSegmentsFinder } from "./CategoryTreeSegmentsFinder"
+import { VBase } from "@vtex/api"
+import { Search } from "../clients/search"
+
 
 /*  CategoryTree 
  *         c0 
@@ -43,8 +47,16 @@ const c0 = {
 
 
 describe('Category Tree Search tests', () => {
+  const vbaseMock = TypeMoq.Mock.ofType<VBase>()
+  const searchMock = TypeMoq.Mock.ofType<Search>()
+  const finder = class CategoryTreeSegmentsFinderMock extends CategoryTreeSegmentsFinder {
+    constructor(segments: string[]){
+      super({vbase: vbaseMock.object, search: searchMock.object}, segments)
+    }
+  }
+
   test('It should find a complete tree of categories', () => {
-    const result = categoryTreeSearch([c0] as CategoryTreeResponse[], '/c0/c1/c4')
+    const result = finder.find([c0] as CategoryTreeResponse[], '/c0/c1/c4')
     expect(result).toStrictEqual([c0, c1, c4])
   })
 

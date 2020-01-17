@@ -170,6 +170,11 @@ export class Search extends AppClient {
     this.get<CategoryTreeResponse[]>(`/pub/category/tree/${treeLevel}/`, {
       metric: 'search-categories',
     })
+  
+  public getCategoryChildren = (id: number) =>
+    this.get<Record<string, string>>(`/pub/category/categories/children?id=${id}`, {
+      metric: 'search-category-children'
+    })
 
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
@@ -199,7 +204,7 @@ export class Search extends AppClient {
       { metric: 'search-autocomplete' }
     )
 
-  public getFieldsByCategoryId = (id: number) =>
+  public getFieldsByCategoryId = (id: string) =>
     this.get<FieldTreeResponseAPI[]>(
       `/pub/specification/field/listTreeByCategoryId/${id}`,
     { metric: 'catalog-get-fields' }
