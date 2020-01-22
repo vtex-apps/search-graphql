@@ -22,7 +22,8 @@ export const staleFromVBaseWhileRevalidate = async <T>(
       return data
     }
     const endDate = getTTL(options?.expirationInHours)
-    return await revalidate<T>(vbase, bucket, filePath, endDate, validateFunction, params)
+    revalidate<T>(vbase, bucket, filePath, endDate, validateFunction, params)
+    return data
 }
 
 const getTTL = (expirationInHours?: number) => {
