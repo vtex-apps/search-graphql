@@ -214,6 +214,7 @@ export const queries = {
       clients,
       vtex,
     } = ctx
+    args.map = args.map && decodeURIComponent(args.map)
     const translatedQuery = await translateToStoreDefaultLanguage(
       clients,
       vtex,
@@ -365,6 +366,8 @@ export const queries = {
       vtex,
     } = ctx
     const queryTerm = args.query
+    args.map = args.map && decodeURIComponent(args.map)
+  
     if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
       throw new UserInputError(
         `The query term contains invalid characters. query=${queryTerm}`
