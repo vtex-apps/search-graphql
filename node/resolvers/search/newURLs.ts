@@ -4,6 +4,8 @@ import { VBase } from '@vtex/api'
 import {
   SPEC_FILTER,
   SEARCH_URLS_BUCKET,
+  CLUSTER_SEGMENT,
+  CATEGORY_SEGMENT,
 } from './constants'
 import { CategoryTreeSegmentsFinder } from '../../utils/CategoryTreeSegmentsFinder'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
@@ -48,10 +50,41 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
       compatQuerySegments.push(querySegment)
     }
   }
+
+  const { query: joinedQuerySegments, map: joinedCategoryMapSegments } = joinCategories(compatQuerySegments, compatMapSegments)
   
-  const compatibilityQuery = compatQuerySegments.join('/')
-  const compatibilityMap = compatMapSegments.join(',')
+  const compatibilityQuery = joinedQuerySegments.join('/')
+  const compatibilityMap = joinedCategoryMapSegments.join(',')
   return { query: compatibilityQuery, map: compatibilityMap}
 }
 
 const normalizeName = (name: string): string => name.replace(/\s/g, '-').toLocaleLowerCase()
+
+const joinCategories = (querySegments: string[], mapSegments: string[]) => {
+  const result : { query: string[], map: string[] } = { query: querySegments, map: mapSegments }
+  for (let i = 0; i < mapSegments.length - 1; i++){
+    const mapSegment = mapSegments[i]
+    const querySegment = querySegments[i]
+    const nextMapSegment = mapSegments[i + 1]
+    const nextQuerySegment = querySegments[i + 1]
+
+    const shouldShift = hasNoClusterIdAsFirstSegment(i, mapSegment) && hasCategoryMissplaced(mapSegment, nextMapSegment)
+
+    if(shouldShift){
+      result.map[i] = nextMapSegment
+      result.query[i] = nextQuerySegment
+      result.query[i+1] = querySegment
+      result.map[i+1] = mapSegment
+    }
+  }
+  return result
+}
+
+const hasCategoryMissplaced = (mapSegment: string, nextMapSegment: string): boolean => {
+  return (mapSegment !== CATEGORY_SEGMENT &&
+    nextMapSegment === CATEGORY_SEGMENT)
+}
+function hasNoClusterIdAsFirstSegment(index: number, mapSegment: string) {
+  return !(index === 0 && mapSegment === CLUSTER_SEGMENT)
+}
+

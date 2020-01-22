@@ -11,6 +11,7 @@ interface Clients{
 interface LazyCategoryTreeNode{
   id: number
   name: string
+  hasChildren: boolean
 }
 
   
@@ -32,7 +33,6 @@ const fetchChildrenFromSearch = async (params: { search: Search, id: number }): 
   const {search, id} = params
   const categoryChildren = await search.getCategoryChildren(id)
   const categoryChildrenBySlug = Object.keys(categoryChildren).reduce((acc, categoryChildId: string) => {
-    debugger
     const categoryChildName = categoryChildren[categoryChildId]
     const categoryChildSlug = searchSlugify(categoryChildName)
     return {...acc, [categoryChildSlug]: categoryChildId}
@@ -56,7 +56,11 @@ export class CategoryTreeSegmentsFinder {
     const categoryTree = await this.clients.search.categories(0)
     return categoryTree.reduce((acc, categoryTreeNode) => {
       const categorySlug = searchSlugify(categoryTreeNode.name)
-      const lazyCategoryTreeNode = {id: categoryTreeNode.id, name: categoryTreeNode.name}
+      const lazyCategoryTreeNode = {
+        id: categoryTreeNode.id,
+        name: categoryTreeNode.name,
+        hasChildren: categoryTreeNode.hasChildren,
+      }
       return {...acc, [categorySlug]: lazyCategoryTreeNode}
     }, {} as Record<string, LazyCategoryTreeNode>)
   }
@@ -87,12 +91,10 @@ export class CategoryTreeSegmentsFinder {
   private findCategoriesFromChildren = async (category: LazyCategoryTreeNode, segments: string[]) => {
     const result: string[] = []
     for(const segment of segments){
-      const children = await getChildren(this.clients, category.id)
-      debugger
+      const children = category.hasChildren
+        ? await getChildren(this.clients, category.id)
+        : {}
       const categoryId = children[segment]
-      if(!categoryId){
-        return result
-      }
       result.push(categoryId)
     }
     return result
