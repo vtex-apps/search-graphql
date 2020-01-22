@@ -84,18 +84,19 @@ export class CategoryTreeSegmentsFinder {
   
     result[index] = category.id.toString()
     const segmentsTail = segments.slice(index+1)
-    const categorySegmentsFromChildren = await this.findCategoriesFromChildren(category, segmentsTail)
+    const categorySegmentsFromChildren = await this.findCategoriesFromChildren(category.id, segmentsTail)
     return result.concat(categorySegmentsFromChildren)
   }
   
-  private findCategoriesFromChildren = async (category: LazyCategoryTreeNode, segments: string[]) => {
+  private findCategoriesFromChildren = async (categoryId: number, segments: string[]) => {
     const result: string[] = []
     for(const segment of segments){
-      const children = category.hasChildren
-        ? await getChildren(this.clients, category.id)
-        : {}
-      const categoryId = children[segment]
-      result.push(categoryId)
+      const children = await getChildren(this.clients, categoryId)
+      const childCategoryId = children[segment]
+      if(childCategoryId){
+        categoryId = Number(childCategoryId)
+      }
+      result.push(childCategoryId)
     }
     return result
   }

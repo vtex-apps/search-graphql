@@ -1,5 +1,4 @@
-import { Search } from '../../clients/search'
-import { flatten } from 'ramda'
+import { Search, FieldTreeResponseAPI } from '../../clients/search'
 import { VBase } from '@vtex/api'
 import {
   SPEC_FILTER,
@@ -29,9 +28,11 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   const categoryTreeFinder = new CategoryTreeSegmentsFinder({vbase, search}, querySegments)
   const categories = await categoryTreeFinder.find()
 
-  const fields = flatten(
+  const ambiguousFields =
     await Promise.all(
-      categories.filter(categoryId => categoryId).map(categoryId => search.getFieldsByCategoryId(categoryId))))
+      categories.filter(categoryId => categoryId).map(categoryId => search.getFieldsByCategoryId(categoryId)))
+  
+  const fieldsLookup = removeFieldsAmbuguity(ambiguousFields)
 
   const compatMapSegments = []
   const compatQuerySegments = []
@@ -39,7 +40,7 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   for(let segmentIndex = 0; segmentIndex < querySegments.length; segmentIndex++ ) {
     const querySegment = querySegments[segmentIndex]
     const [fieldName, fieldValue] = querySegment.split('_')
-    const compatMapSegment = fields.find(field => normalizeName(field.Name) === fieldName)
+    const compatMapSegment = fieldsLookup[fieldName]
     const mapSegment = !categories[segmentIndex] && !compatMapSegment && mapSegments.shift()
     
     if(compatMapSegment){
@@ -84,6 +85,22 @@ const hasCategoryMissplaced = (mapSegment: string, nextMapSegment: string): bool
   return (mapSegment !== CATEGORY_SEGMENT &&
     nextMapSegment === CATEGORY_SEGMENT)
 }
+const removeFieldsAmbuguity = (ambiguousFields: FieldTreeResponseAPI[][]) => {
+  // Somehow there are global specification filters. 
+  // These filters don't have a categoryId and have priority over category filters
+  return ambiguousFields.reduce((acc, fields) => {
+    return fields.reduce((accAux, field) => {
+      const fieldName = normalizeName(field.Name)
+      const fieldFound = accAux[fieldName]
+      accAux[fieldName] = field
+      if (fieldFound && !fieldFound.CategoryId) {
+        accAux[fieldName] = fieldFound
+      }
+      return acc
+    }, acc)
+  }, {} as Record<string, FieldTreeResponseAPI>)
+}
+
 function hasNoClusterIdAsFirstSegment(index: number, mapSegment: string) {
   return !(index === 0 && mapSegment === CLUSTER_SEGMENT)
 }
