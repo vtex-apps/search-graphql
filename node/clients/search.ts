@@ -256,7 +256,6 @@ export class Search extends AppClient {
     if (simulationBehavior === SimulationBehavior.SKIP) {
       url += `&simulation=false`
     }
-    console.log('teste url: ', url)
     return url
   }
 }
