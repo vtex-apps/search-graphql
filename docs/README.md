@@ -120,6 +120,10 @@ productSearch(
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg
     """
     hideUnavailableItems: Boolean = false
+    """
+    If you want faster searches and not care about most up to date prices and promotions, use skip value.
+    """
+    simulationBehavior: SimulationBehavior = default
   ): ProductSearch
   ```
 

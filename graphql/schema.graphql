@@ -61,6 +61,10 @@ type Query {
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg
     """
     hideUnavailableItems: Boolean = false
+    """
+    If you want faster searches and not care about most up to date prices and promotions, use skip value.
+    """
+    simulationBehavior: SimulationBehavior = default
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
@@ -122,6 +126,10 @@ type Query {
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg
     """
     hideUnavailableItems: Boolean = false
+    """
+    If you want faster searches and not care about most up to date prices and promotions, use skip value.
+    """
+    simulationBehavior: SimulationBehavior = default
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productRecommendations(
@@ -170,4 +178,15 @@ type Query {
     """
     searchTerm: String
   ): Suggestions @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
+}
+
+enum SimulationBehavior {
+  """
+  Does simulation on catalog as usual
+  """
+  default
+  """
+  Calls catalog passing a parameter to not simulate each SKU and get its most up to date price.
+  """
+  skip
 }
