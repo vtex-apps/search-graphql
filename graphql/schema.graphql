@@ -62,7 +62,7 @@ type Query {
     """
     hideUnavailableItems: Boolean = false
     """
-    If you want faster searches and does not care about most up to date prices and promotions, use skip value.
+    If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
     simulationBehavior: SimulationBehavior = default
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
@@ -127,7 +127,7 @@ type Query {
     """
     hideUnavailableItems: Boolean = false
     """
-    If you want faster searches and does not care about most up to date prices and promotions, use skip value.
+    If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
     simulationBehavior: SimulationBehavior = default
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
