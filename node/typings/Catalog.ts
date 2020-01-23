@@ -10,6 +10,7 @@ interface SearchArgs {
   to: number | null
   map: string | null
   hideUnavailableItems: boolean | null
+  simulationBehavior: 'skip' | 'default' | null
 }
 
 interface Metadata {
