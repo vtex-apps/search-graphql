@@ -121,7 +121,7 @@ productSearch(
     """
     hideUnavailableItems: Boolean = false
     """
-    If you want faster searches and not care about most up to date prices and promotions, use skip value.
+    If you want faster searches and does not care about most up to date prices and promotions, use skip value.
     """
     simulationBehavior: SimulationBehavior = default
   ): ProductSearch
