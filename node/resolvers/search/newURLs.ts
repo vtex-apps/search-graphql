@@ -5,24 +5,26 @@ import {
   SEARCH_URLS_BUCKET,
   CLUSTER_SEGMENT,
   CATEGORY_SEGMENT,
+  SPEC_FILTERS_URLS_BUCKET,
 } from './constants'
 import { CategoryTreeSegmentsFinder } from '../../utils/CategoryTreeSegmentsFinder'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
 
-export const toCompatibilityArgs = async <T extends QueryArgs>(vbase:VBase, search: Search, args: T): Promise<T> => {
+export const toCompatibilityArgs = async (vbase:VBase, search: Search, args: QueryArgs): Promise<QueryArgs|undefined> => {
   const {query} = args
+  if(!query){
+    return
+  }
   const { query: compatibilityQuery, map: compatibilityMap } = await staleFromVBaseWhileRevalidate(
-    vbase, SEARCH_URLS_BUCKET, query!, mountCompatibilityQuery, {vbase, search, args} )
-  args.query = compatibilityQuery
-  args.map = compatibilityMap
-
-  return args
+    vbase, SEARCH_URLS_BUCKET, query, mountCompatibilityQuery, {vbase, search, args} )
+  return { query: compatibilityQuery, map: compatibilityMap }
 }
 
 const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, args: any}) => {
   const {vbase, search, args} = params
   const { query, map } = args
   const querySegments = query.startsWith('/')? query.split('/').slice(1): query.split('/')
+  debugger
   const mapSegments = map.split(',')
 
   const categoryTreeFinder = new CategoryTreeSegmentsFinder({vbase, search}, querySegments)
@@ -30,7 +32,7 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
 
   const ambiguousFields =
     await Promise.all(
-      categories.filter(categoryId => categoryId).map(categoryId => search.getFieldsByCategoryId(categoryId)))
+      categories.filter(categoryId => categoryId).map(categoryId => getCategoryFields(vbase, search, categoryId)))
   
   const fieldsLookup = removeFieldsAmbuguity(ambiguousFields)
 
@@ -99,6 +101,11 @@ const removeFieldsAmbuguity = (ambiguousFields: FieldTreeResponseAPI[][]) => {
       return acc
     }, acc)
   }, {} as Record<string, FieldTreeResponseAPI>)
+}
+
+const getCategoryFields = async (vbase: VBase, search: Search, categoryId: string) => {
+  return staleFromVBaseWhileRevalidate<FieldTreeResponseAPI[]>(
+    vbase, SPEC_FILTERS_URLS_BUCKET, categoryId, search.getFieldsByCategoryId, {vbase, categoryId} )
 }
 
 function hasNoClusterIdAsFirstSegment(index: number, mapSegment: string) {

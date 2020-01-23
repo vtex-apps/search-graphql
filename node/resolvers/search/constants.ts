@@ -1,4 +1,5 @@
 export const LEGACY_SEARCH_URLS_BUCKET = 'legacySearch'
+export const SPEC_FILTERS_URLS_BUCKET = 'specificationFilters'
 export const SPEC_FILTER = 'specificationFilter'
 export const MAP_QUERY_KEY = 'map'
 export const MAP_VALUES_SEP = ','

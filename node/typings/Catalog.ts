@@ -1,5 +1,5 @@
 interface QueryArgs {
-  query?: string
+  query: string
   map?: string
 }
 

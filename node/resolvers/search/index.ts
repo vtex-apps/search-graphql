@@ -128,11 +128,16 @@ export const fieldResolvers = {
   ...productPriceRangeResolvers,
 }
 
-const isLegacySearchFormat = (query: string, queryMap: Record<string, any>, pathSegments: string[]) => {
+const getCompatibilityArgs = async <T extends QueryArgs>(ctx: Context, args: T) => {
+  const { clients: {vbase, search} } = ctx
+  const compatArgs = !isLegacySearchFormat(args)? await toCompatibilityArgs(vbase, search, args): null
+  return compatArgs? {...args, ...compatArgs}: args
+}
+
+const isLegacySearchFormat = ({query, map}: {query: string, map?: string}) => {
   return (
     query.includes(SPEC_FILTER) ||
-    (queryMap.map &&
-      queryMap.map.split(MAP_VALUES_SEP).length === pathSegments.length)
+    (map && map.split(MAP_VALUES_SEP).length === query.split('/').length)
   )
 }
 
@@ -208,9 +213,9 @@ export const queries = {
   },
 
   facets: async (_: any, args: FacetsArgs, ctx: Context) => {
-    const { query, map, hideUnavailableItems } = args
+    const { query, hideUnavailableItems } = args
     const {
-      clients: { search, vbase },
+      clients: { search },
       clients,
       vtex,
     } = ctx
@@ -220,17 +225,8 @@ export const queries = {
       vtex,
       query!,
     )
-
-    const compatibilityArgs = isLegacySearchFormat(
-      translatedQuery,
-      args,
-      translatedQuery.split('/')
-    )
-      ? args
-      : await toCompatibilityArgs<FacetsArgs>(vbase, search, {
-          query: translatedQuery,
-          map,
-        })
+    args.query = translatedQuery
+    const compatibilityArgs = await getCompatibilityArgs<FacetsArgs>(ctx, args)
 
     if (hasFacetsBadArgs(compatibilityArgs)) {
       throw new UserInputError('No query or map provided')
@@ -362,7 +358,7 @@ export const queries = {
   productSearch: async (_: any, args: SearchArgs, ctx: Context, info: any) => {
     const {
       clients,
-      clients: { search, vbase },
+      clients: { search },
       vtex,
     } = ctx
     const queryTerm = args.query
@@ -390,15 +386,7 @@ export const queries = {
       query,
     }
 
-    const isLegacySearch = isLegacySearchFormat(
-      translatedArgs.query,
-      translatedArgs,
-      translatedArgs.query.split('/')
-    )
-
-    const compatibilityArgs = isLegacySearch
-      ? translatedArgs
-      : await toCompatibilityArgs<SearchArgs>(vbase, search, translatedArgs)
+    const compatibilityArgs = await getCompatibilityArgs<SearchArgs>(ctx, translatedArgs)
 
     const canonical = isLegacySearch? await getOrCreateCanonical(vbase, search, translatedArgs): translatedArgs.query
     vbase.saveJSON(SEARCH_URLS_BUCKET, canonical, {
@@ -475,11 +463,7 @@ export const queries = {
       ...args,
       query,
     }
-    const compatibilityArgs = await toCompatibilityArgs(
-      clients.vbase,
-      clients.search,
-      { query: translatedArgs.query, map: translatedArgs.map } as SearchArgs
-    )
+    const compatibilityArgs = await getCompatibilityArgs<SearchArgs>(ctx, translatedArgs as SearchArgs)
     return getSearchMetaData(_, compatibilityArgs, ctx)
   },
 }
