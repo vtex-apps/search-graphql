@@ -181,6 +181,11 @@ export class Search extends AppClient {
       metric: 'search-categories',
     })
 
+  public getCategoryChildren = (id: number) =>
+  this.get<Record<string, string>>(`/pub/category/categories/children?id=${id}`, {
+    metric: 'search-category-children'
+  })
+
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<SearchFacets>(
