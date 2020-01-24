@@ -4,7 +4,7 @@ const URL_COUNT_PATH = 'searchUrlsCount.json'
 const INDEXING_UPDATE_FREQUENCY = 10
 const INDEXING_EVENT_ROUTE_NAME = 'searchUrlsCountIndex'
 
-interface SearchStatsUrlCount{
+export interface SearchStatsUrlCount{
   updatedCount: number
   searchUrlCount: Record<string, number>
 }
