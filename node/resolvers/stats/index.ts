@@ -7,6 +7,8 @@ export const queries = {
     ctx: Context
   ) => {
     const { clients: { vbase } } = ctx
-    return searchURLsCount(vbase, args.limit, args.sort)
+    const count = searchURLsCount(vbase, args.limit, args.sort)
+    console.log('count', JSON.stringify(count, null, 2))
+    return count
   },
 }
