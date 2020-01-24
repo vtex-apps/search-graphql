@@ -30,11 +30,8 @@ import { resolvers as skuResolvers } from './sku'
 import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
 import * as searchStats from '../stats/searchStats'
-import { getOrCreateCanonical, toCompatibilityArgs } from './newURLs'
-
-const SPEC_FILTER = 'specificationFilter'
-const MAP_VALUES_SEP = ','
-const SEARCH_URLS_BUCKET = 'searchPath'
+import { toCompatibilityArgs } from './newURLs'
+import { PATH_SEPARATOR, SPEC_FILTER, MAP_VALUES_SEP } from './constants'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -135,9 +132,12 @@ const getCompatibilityArgs = async <T extends QueryArgs>(ctx: Context, args: T) 
 }
 
 const isLegacySearchFormat = ({query, map}: {query: string, map?: string}) => {
+  if (!map) {
+    return false
+  }
   return (
-    query.includes(SPEC_FILTER) ||
-    (map && map.split(MAP_VALUES_SEP).length === query.split('/').length)
+    map.includes(SPEC_FILTER) ||
+    map.split(MAP_VALUES_SEP).length === query.split(PATH_SEPARATOR).length
   )
 }
 
@@ -388,12 +388,6 @@ export const queries = {
 
     const compatibilityArgs = await getCompatibilityArgs<SearchArgs>(ctx, translatedArgs)
 
-    const canonical = isLegacySearch? await getOrCreateCanonical(vbase, search, translatedArgs): translatedArgs.query
-    vbase.saveJSON(SEARCH_URLS_BUCKET, canonical, {
-      query: translatedArgs.query,
-      map: translatedArgs.map,
-    })
-
     const [productsRaw, searchMetaData] = await Promise.all([
       search.productsRaw(compatibilityArgs),
       isQueryingMetadata(info)
@@ -409,8 +403,7 @@ export const queries = {
     return {
       translatedArgs: compatibilityArgs,
       searchMetaData,
-      productsRaw,
-      canonical
+      productsRaw
     }
   },
 
