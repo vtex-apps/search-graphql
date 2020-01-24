@@ -235,3 +235,33 @@ interface SearchAutocompleteUnit {
   href: string
   criteria: string
 }
+
+interface FieldTreeResponseAPI{
+  Name:	string
+  CategoryId: number
+  FieldId: number
+  IsActive:	boolean
+  IsStockKeepingUnit: boolean
+}
+
+interface FieldResponseAPI {
+  Name: string
+  CategoryId: number | null
+  FieldId: number
+  IsActive: boolean
+  IsRequired: boolean
+  FieldTypeId: number
+  FieldTypeName: string
+  FieldValueId: string | null
+  Description: string | null
+  IsStockKeepingUnit: boolean
+  IsFilter: boolean
+  IsOnProductDetails: boolean
+  Position: number
+  IsWizard: boolean
+  IsTopMenuLinkActive: boolean
+  IsSideMenuLinkActive: boolean
+  DefaultValue: string | null
+  FieldGroupId: number
+  FieldGroupName: string
+}

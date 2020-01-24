@@ -127,7 +127,7 @@ export const fieldResolvers = {
 
 const getCompatibilityArgs = async <T extends QueryArgs>(ctx: Context, args: T) => {
   const { clients: {vbase, search} } = ctx
-  const compatArgs = !isLegacySearchFormat(args)? await toCompatibilityArgs(vbase, search, args): null
+  const compatArgs = isLegacySearchFormat(args)? args: await toCompatibilityArgs(vbase, search, args)
   return compatArgs? {...args, ...compatArgs}: args
 }
 

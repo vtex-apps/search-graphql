@@ -8,7 +8,6 @@ export const queries = {
   ) => {
     const { clients: { vbase } } = ctx
     const count = searchURLsCount(vbase, args.limit, args.sort)
-    console.log('count', JSON.stringify(count, null, 2))
     return count
   },
 }

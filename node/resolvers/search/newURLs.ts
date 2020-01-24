@@ -1,4 +1,4 @@
-import { Search, FieldTreeResponseAPI } from '../../clients/search'
+import { Search } from '../../clients/search'
 import { VBase } from '@vtex/api'
 import {
   SPEC_FILTER,
@@ -24,7 +24,6 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   const {vbase, search, args} = params
   const { query, map } = args
   const querySegments = query.startsWith('/')? query.split('/').slice(1): query.split('/')
-  debugger
   const mapSegments = map.split(',')
 
   const categoryTreeFinder = new CategoryTreeSegmentsFinder({vbase, search}, querySegments)
@@ -105,7 +104,7 @@ const removeFieldsAmbuguity = (ambiguousFields: FieldTreeResponseAPI[][]) => {
 
 const getCategoryFields = async (vbase: VBase, search: Search, categoryId: string) => {
   return staleFromVBaseWhileRevalidate<FieldTreeResponseAPI[]>(
-    vbase, SPEC_FILTERS_URLS_BUCKET, categoryId, search.getFieldsByCategoryId, {vbase, categoryId} )
+    vbase, SPEC_FILTERS_URLS_BUCKET, categoryId, search.getFieldsByCategoryId, categoryId )
 }
 
 function hasNoClusterIdAsFirstSegment(index: number, mapSegment: string) {
