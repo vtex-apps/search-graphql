@@ -9,6 +9,8 @@ import {
 } from './constants'
 import { CategoryTreeSegmentsFinder } from '../../utils/CategoryTreeSegmentsFinder'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
+import { last } from 'ramda'
+import { searchSlugify } from '../../utils/slug'
 
 export const toCompatibilityArgs = async (vbase:VBase, search: Search, args: QueryArgs): Promise<QueryArgs|undefined> => {
   const {query} = args
@@ -28,12 +30,10 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
 
   const categoryTreeFinder = new CategoryTreeSegmentsFinder({vbase, search}, querySegments)
   const categories = await categoryTreeFinder.find()
-
-  const ambiguousFields =
-    await Promise.all(
-      categories.filter(categoryId => categoryId).map(categoryId => getCategoryFields(vbase, search, categoryId)))
+  const lastCategory = categories.filter(category=>!!category).pop()
   
-  const fieldsLookup = removeFieldsAmbuguity(ambiguousFields)
+  const ambiguousFields = await getCategoryFields(vbase, search, lastCategory!)  
+  const fieldsLookup = removeFieldsAmbiguity(ambiguousFields)
 
   const compatMapSegments = []
   const compatQuerySegments = []
@@ -41,11 +41,12 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   for(let segmentIndex = 0; segmentIndex < querySegments.length; segmentIndex++ ) {
     const querySegment = querySegments[segmentIndex]
     const [fieldName, fieldValue] = querySegment.split('_')
-    const compatMapSegment = fieldsLookup[fieldName]
-    const mapSegment = !categories[segmentIndex] && !compatMapSegment && mapSegments.shift()
+    const compatMapSegmentFields = fieldsLookup[fieldName]
+    const mapSegment = !categories[segmentIndex] && !compatMapSegmentFields && mapSegments.shift()
     
-    if(compatMapSegment){
-      compatMapSegments.push(`${SPEC_FILTER}_${compatMapSegment.FieldId}`)
+    if(compatMapSegmentFields && !categories[segmentIndex]){
+      const field = last(compatMapSegmentFields.sort((field1, field2) => field1.FieldId - field2.FieldId))
+      compatMapSegments.push(`${SPEC_FILTER}_${field.FieldId}`)
       compatQuerySegments.push(fieldValue)
     }else{
       compatMapSegments.push(mapSegment || 'c')
@@ -60,7 +61,7 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   return { query: compatibilityQuery, map: compatibilityMap}
 }
 
-const normalizeName = (name: string): string => name.replace(/\s/g, '-').toLocaleLowerCase()
+const normalizeName = (name: string): string => searchSlugify(name)
 
 const joinCategories = (querySegments: string[], mapSegments: string[]) => {
   const result : { query: string[], map: string[] } = { query: querySegments, map: mapSegments }
@@ -86,20 +87,22 @@ const hasCategoryMissplaced = (mapSegment: string, nextMapSegment: string): bool
   return (mapSegment !== CATEGORY_SEGMENT &&
     nextMapSegment === CATEGORY_SEGMENT)
 }
-const removeFieldsAmbuguity = (ambiguousFields: FieldTreeResponseAPI[][]) => {
+const removeFieldsAmbiguity = (fields: FieldTreeResponseAPI[]) => {
   // Somehow there are global specification filters. 
   // These filters don't have a categoryId and have priority over category filters
-  return ambiguousFields.reduce((acc, fields) => {
-    return fields.reduce((accAux, field) => {
-      const fieldName = normalizeName(field.Name)
-      const fieldFound = accAux[fieldName]
-      accAux[fieldName] = field
-      if (fieldFound && !fieldFound.CategoryId) {
-        accAux[fieldName] = fieldFound
+    return fields.reduce((acc, field) => {
+      if(!field.IsActive){
+        return acc
       }
+      const fieldName = normalizeName(field.Name)
+
+      if(!acc[fieldName]){
+        acc[fieldName] = []
+      }
+
+      acc[fieldName].push(field)
       return acc
-    }, acc)
-  }, {} as Record<string, FieldTreeResponseAPI>)
+  }, {} as Record<string, FieldTreeResponseAPI[]>)
 }
 
 const getCategoryFields = async (vbase: VBase, search: Search, categoryId: string) => {

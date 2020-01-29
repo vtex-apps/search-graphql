@@ -8,10 +8,11 @@ export const staleFromVBaseWhileRevalidate = async <T>(
   params?: any,
   options?: { expirationInHours?: number}
 ): Promise<T> => {
-    const cachedData = await vbase.getJSON<StaleRevalidateData<T>>(bucket, filePath, true).catch() as StaleRevalidateData<T>
+    const normalizedFilePath = normalizedJSONFile(filePath)
+    const cachedData = await vbase.getJSON<StaleRevalidateData<T>>(bucket, normalizedFilePath, true).catch() as StaleRevalidateData<T>
     if(!cachedData){
       const endDate = getTTL(options?.expirationInHours)
-      return await revalidate<T>(vbase, bucket, filePath, endDate, validateFunction, params)
+      return await revalidate<T>(vbase, bucket, normalizedFilePath, endDate, validateFunction, params)
     }
 
     const { data, ttl} = cachedData as StaleRevalidateData<T>
@@ -22,7 +23,7 @@ export const staleFromVBaseWhileRevalidate = async <T>(
       return data
     }
     const endDate = getTTL(options?.expirationInHours)
-    revalidate<T>(vbase, bucket, filePath, endDate, validateFunction, params)
+    revalidate<T>(vbase, bucket, normalizedFilePath, endDate, validateFunction, params)
     return data
 }
 
@@ -40,3 +41,5 @@ const revalidate = async<T> (
   vbase.saveJSON<StaleRevalidateData<T>>(bucket, filePath, revalidatedData).catch()
   return data
 }
+
+const normalizedJSONFile = (filePath: string) => filePath.replace(/,/g,'-') + '.json'
