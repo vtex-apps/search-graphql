@@ -232,9 +232,9 @@ export const queries = {
       throw new UserInputError('No query or map provided')
     }
 
-    const { query: filteredQuery, map: filteredMap } = args.behavior === 'Static'
+    const { query: filteredQuery, map: filteredMap } = (args.behavior === 'Static' && isLegacySearchFormat(args))
       ? filterSpecificationFilters({query: compatibilityArgs.query, map: compatibilityArgs.map, ...args } as Required<FacetsArgs>)
-      : (args as Required<FacetsArgs>)
+      : (compatibilityArgs as Required<FacetsArgs>)
 
     const segmentData = ctx.vtex.segment
     const salesChannel = (segmentData && segmentData.channel.toString()) || ''
