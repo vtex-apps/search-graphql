@@ -185,13 +185,6 @@ export class Search extends AppClient {
       { metric: 'search-autocomplete' }
     )
 
-  public getFieldsByCategoryId = (id: number) =>
-    this.get<FieldTreeResponseAPI[]>(
-      `/pub/specification/field/listTreeByCategoryId/${id}`,
-      { metric: 'catalog-get-fields' }
-    )
-  
-
   private get = <T = any>(url: string, config: RequestConfig = {}) => {
     const segmentData: SegmentData | undefined = (this
       .context! as CustomIOContext).segment

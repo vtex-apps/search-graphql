@@ -8,7 +8,7 @@ import {
   pathOr,
   pluck,
   tail,
-  zip
+  zip,
 } from 'ramda'
 
 import { resolvers as assemblyOptionResolvers } from './assemblyOption'
@@ -31,7 +31,8 @@ import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
 import * as searchStats from '../stats/searchStats'
 import { toCompatibilityArgs } from './newURLs'
-import { PATH_SEPARATOR, SPEC_FILTER, MAP_VALUES_SEP } from './constants'
+import { PATH_SEPARATOR, SPEC_FILTER, MAP_VALUES_SEP, FACETS_BUCKET } from './constants'
+import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -215,7 +216,7 @@ export const queries = {
   facets: async (_: any, args: FacetsArgs, ctx: Context) => {
     const { query, hideUnavailableItems } = args
     const {
-      clients: { search },
+      clients: { search, vbase },
       clients,
       vtex,
     } = ctx
@@ -232,7 +233,7 @@ export const queries = {
       throw new UserInputError('No query or map provided')
     }
 
-    const { query: filteredQuery, map: filteredMap } = (args.behavior === 'Static' && isLegacySearchFormat(args))
+    const { query: filteredQuery, map: filteredMap } = args.behavior === 'Static'
       ? filterSpecificationFilters({query: compatibilityArgs.query, map: compatibilityArgs.map, ...args } as Required<FacetsArgs>)
       : (compatibilityArgs as Required<FacetsArgs>)
 
@@ -242,9 +243,8 @@ export const queries = {
       ? `&fq=isAvailablePerSalesChannel_${salesChannel}:1`
       : ''
     
-    const facetsResult = await search.facets(
-      `${filteredQuery}?map=${filteredMap}${unavailableString}`
-    )
+    const assembledQuery = `${filteredQuery}?map=${filteredMap}${unavailableString}`
+    const facetsResult = await staleFromVBaseWhileRevalidate(vbase, FACETS_BUCKET, assembledQuery.replace(unavailableString, ''), search.facets, assembledQuery)
 
     const result = {
       ...facetsResult,

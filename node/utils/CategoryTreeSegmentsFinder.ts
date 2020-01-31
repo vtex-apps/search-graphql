@@ -14,6 +14,11 @@ interface LazyCategoryTreeNode{
   hasChildren: boolean
 }
 
+export interface CategoryIdNamePair{
+  id: string
+  name: string
+}
+
   
 const getChildren = async (clients: Clients, id: number) => {
   return await lazyFetchChildren(clients, id)
@@ -72,7 +77,7 @@ export class CategoryTreeSegmentsFinder {
 
   public find = async () => {
     const { segments } = this
-    const result: string[] = []
+    const result: Array<CategoryIdNamePair|null> = []
     await this.initCategoryTreeRoot()
 
     const rootCategorySegment = this.findRootCategorySegment()
@@ -82,21 +87,23 @@ export class CategoryTreeSegmentsFinder {
   
     const {category, index} = rootCategorySegment
   
-    result[index] = category.id.toString()
+    result[index] = {id: category.id.toString(), name: category.name}
     const segmentsTail = segments.slice(index+1)
     const categorySegmentsFromChildren = await this.findCategoriesFromChildren(category.id, segmentsTail)
     return result.concat(categorySegmentsFromChildren)
   }
   
   private findCategoriesFromChildren = async (categoryId: number, segments: string[]) => {
-    const result: string[] = []
+    const result: Array<CategoryIdNamePair|null> = []
     for(const segment of segments){
       const children = await getChildren(this.clients, categoryId)
       const childCategoryId = children[segment]
       if(childCategoryId){
         categoryId = Number(childCategoryId)
+        result.push({ id: childCategoryId, name: segment })
+      }else{
+        result.push(null)
       }
-      result.push(childCategoryId)
     }
     return result
   }

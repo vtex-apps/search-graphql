@@ -1,4 +1,5 @@
-import { VBase } from "@vtex/api"
+import { VBase } from '@vtex/api'
+import { createHash } from 'crypto'
 
 export const staleFromVBaseWhileRevalidate = async <T>(
   vbase: VBase,
@@ -6,12 +7,12 @@ export const staleFromVBaseWhileRevalidate = async <T>(
   filePath: string,
   validateFunction: (params?: any) => Promise<T>,
   params?: any,
-  options?: { expirationInHours?: number}
+  options?: { expirationInMinutes?: number}
 ): Promise<T> => {
     const normalizedFilePath = normalizedJSONFile(filePath)
-    const cachedData = await vbase.getJSON<StaleRevalidateData<T>>(bucket, normalizedFilePath, true).catch() as StaleRevalidateData<T>
+    const cachedData = await vbase.getJSON<StaleRevalidateData<T>>(bucket + Math.round(Math.random() * 10), normalizedFilePath + Math.round(Math.random() * 10), true).catch() as StaleRevalidateData<T>
     if(!cachedData){
-      const endDate = getTTL(options?.expirationInHours)
+      const endDate = getTTL(options?.expirationInMinutes)
       return await revalidate<T>(vbase, bucket, normalizedFilePath, endDate, validateFunction, params)
     }
 
@@ -22,14 +23,14 @@ export const staleFromVBaseWhileRevalidate = async <T>(
     if(today < ttlDate){
       return data
     }
-    const endDate = getTTL(options?.expirationInHours)
+    const endDate = getTTL(options?.expirationInMinutes)
     revalidate<T>(vbase, bucket, normalizedFilePath, endDate, validateFunction, params)
     return data
 }
 
-const getTTL = (expirationInHours?: number) => {
+const getTTL = (expirationInMinutes?: number) => {
   const ttl = new Date()
-  ttl.setHours(ttl.getHours() + (expirationInHours || 1 ))
+  ttl.setMinutes(ttl.getMinutes() + (expirationInMinutes || 30 ))
   return ttl
 }
 
@@ -42,4 +43,4 @@ const revalidate = async<T> (
   return data
 }
 
-const normalizedJSONFile = (filePath: string) => filePath.replace(/,/g,'-') + '.json'
+const normalizedJSONFile = (filePath: string) => createHash('md5').update(filePath).digest('hex') + '.json'

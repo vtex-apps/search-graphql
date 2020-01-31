@@ -1,16 +1,15 @@
 import { Search } from '../../clients/search'
 import { VBase } from '@vtex/api'
 import {
-  SPEC_FILTER,
   SEARCH_URLS_BUCKET,
   CLUSTER_SEGMENT,
   CATEGORY_SEGMENT,
-  SPEC_FILTERS_URLS_BUCKET,
+  FACETS_BUCKET,
 } from './constants'
-import { CategoryTreeSegmentsFinder } from '../../utils/CategoryTreeSegmentsFinder'
+import { CategoryTreeSegmentsFinder, CategoryIdNamePair } from '../../utils/CategoryTreeSegmentsFinder'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
-import { last } from 'ramda'
 import { searchSlugify } from '../../utils/slug'
+import { PATH_SEPARATOR, MAP_SEPARATOR } from '../stats/constants'
 
 export const toCompatibilityArgs = async (vbase:VBase, search: Search, args: QueryArgs): Promise<QueryArgs|undefined> => {
   const {query} = args
@@ -25,15 +24,14 @@ export const toCompatibilityArgs = async (vbase:VBase, search: Search, args: Que
 const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, args: any}) => {
   const {vbase, search, args} = params
   const { query, map } = args
-  const querySegments = query.startsWith('/')? query.split('/').slice(1): query.split('/')
-  const mapSegments = map.split(',')
+  const querySegments = query.startsWith(PATH_SEPARATOR)? query.split(PATH_SEPARATOR).slice(1): query.split(PATH_SEPARATOR)
+  const mapSegments = map.split(MAP_SEPARATOR)
 
   const categoryTreeFinder = new CategoryTreeSegmentsFinder({vbase, search}, querySegments)
   const categories = await categoryTreeFinder.find()
-  const lastCategory = categories.filter(category=>!!category).pop()
+  const facetsQuery = getFacetsQueryFromCategories(categories)
   
-  const ambiguousFields = await getCategoryFields(vbase, search, lastCategory!)  
-  const fieldsLookup = removeFieldsAmbiguity(ambiguousFields)
+  const fieldsLookup = await getCategoryFilters(vbase, search, facetsQuery) 
 
   const compatMapSegments = []
   const compatQuerySegments = []
@@ -41,12 +39,11 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   for(let segmentIndex = 0; segmentIndex < querySegments.length; segmentIndex++ ) {
     const querySegment = querySegments[segmentIndex]
     const [fieldName, fieldValue] = querySegment.split('_')
-    const compatMapSegmentFields = fieldsLookup[fieldName]
-    const mapSegment = !categories[segmentIndex] && !compatMapSegmentFields && mapSegments.shift()
+    const compatMapSegmentField = fieldsLookup[fieldName]
+    const mapSegment = !categories[segmentIndex] && !compatMapSegmentField && mapSegments.shift()
     
-    if(compatMapSegmentFields && !categories[segmentIndex]){
-      const field = last(compatMapSegmentFields.sort((field1, field2) => field1.FieldId - field2.FieldId))
-      compatMapSegments.push(`${SPEC_FILTER}_${field.FieldId}`)
+    if(compatMapSegmentField && !categories[segmentIndex]){
+      compatMapSegments.push(compatMapSegmentField)
       compatQuerySegments.push(fieldValue)
     }else{
       compatMapSegments.push(mapSegment || 'c')
@@ -87,27 +84,32 @@ const hasCategoryMissplaced = (mapSegment: string, nextMapSegment: string): bool
   return (mapSegment !== CATEGORY_SEGMENT &&
     nextMapSegment === CATEGORY_SEGMENT)
 }
-const removeFieldsAmbiguity = (fields: FieldTreeResponseAPI[]) => {
-  // Somehow there are global specification filters. 
-  // These filters don't have a categoryId and have priority over category filters
-    return fields.reduce((acc, field) => {
-      if(!field.IsActive){
-        return acc
-      }
-      const fieldName = normalizeName(field.Name)
 
-      if(!acc[fieldName]){
-        acc[fieldName] = []
-      }
-
-      acc[fieldName].push(field)
-      return acc
-  }, {} as Record<string, FieldTreeResponseAPI[]>)
+const getFacetsQueryFromCategories = (categories: Array<CategoryIdNamePair|null>) => {
+  const queryArgs = categories.reduce((acc: QueryArgs, category) => {
+    if(category){
+      acc.query = acc.query? acc.query + PATH_SEPARATOR + category.name.toLocaleLowerCase(): category.name.toLocaleLowerCase()
+      acc.map = acc.map? acc.map + MAP_SEPARATOR + CATEGORY_SEGMENT: CATEGORY_SEGMENT
+    }
+    return acc
+  }, {query: '', map: ''} as QueryArgs)
+  return `${queryArgs.query}?map=${queryArgs.map}`
 }
 
-const getCategoryFields = async (vbase: VBase, search: Search, categoryId: string) => {
-  return staleFromVBaseWhileRevalidate<FieldTreeResponseAPI[]>(
-    vbase, SPEC_FILTERS_URLS_BUCKET, categoryId, search.getFieldsByCategoryId, categoryId )
+const getCategoryFilters = async (vbase: VBase, search: Search, query: string) => {
+  const facets = await staleFromVBaseWhileRevalidate<SearchFacets>(
+    vbase, FACETS_BUCKET, query, search.facets, query)
+  return normalizedFiltersFromFacets(facets)
+}
+
+const normalizedFiltersFromFacets = async (facets: SearchFacets) => {
+  const specificationFilters = facets['SpecificationFilters']
+  return Object.keys(specificationFilters).reduce((acc, filterKey) => {
+    const facets = specificationFilters[filterKey]
+    const normalizedFilterName = normalizeName(filterKey)
+    acc[normalizedFilterName] = facets[0].Map
+    return acc
+  }, {} as Record<string, string>)
 }
 
 function hasNoClusterIdAsFirstSegment(index: number, mapSegment: string) {
