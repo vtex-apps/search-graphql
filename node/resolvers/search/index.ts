@@ -234,7 +234,7 @@ export const queries = {
     }
 
     const { query: filteredQuery, map: filteredMap } = args.behavior === 'Static'
-      ? filterSpecificationFilters({query: compatibilityArgs.query, map: compatibilityArgs.map, ...args } as Required<FacetsArgs>)
+      ? filterSpecificationFilters({...args, query: compatibilityArgs.query, map: compatibilityArgs.map } as Required<FacetsArgs>)
       : (compatibilityArgs as Required<FacetsArgs>)
 
     const segmentData = ctx.vtex.segment

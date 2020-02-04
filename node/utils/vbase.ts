@@ -10,7 +10,7 @@ export const staleFromVBaseWhileRevalidate = async <T>(
   options?: { expirationInMinutes?: number}
 ): Promise<T> => {
     const normalizedFilePath = normalizedJSONFile(filePath)
-    const cachedData = await vbase.getJSON<StaleRevalidateData<T>>(bucket + Math.round(Math.random() * 10), normalizedFilePath + Math.round(Math.random() * 10), true).catch() as StaleRevalidateData<T>
+    const cachedData = await vbase.getJSON<StaleRevalidateData<T>>(bucket, normalizedFilePath, true).catch() as StaleRevalidateData<T>
     if(!cachedData){
       const endDate = getTTL(options?.expirationInMinutes)
       return await revalidate<T>(vbase, bucket, normalizedFilePath, endDate, validateFunction, params)

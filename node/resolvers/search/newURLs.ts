@@ -85,7 +85,7 @@ const hasCategoryMissplaced = (mapSegment: string, nextMapSegment: string): bool
     nextMapSegment === CATEGORY_SEGMENT)
 }
 
-const getFacetsQueryFromCategories = (categories: Array<CategoryIdNamePair|null>) => {
+const getFacetsQueryFromCategories = (categories: (CategoryIdNamePair|null)[]) => {
   const queryArgs = categories.reduce((acc: QueryArgs, category) => {
     if(category){
       acc.query = acc.query? acc.query + PATH_SEPARATOR + category.name.toLocaleLowerCase(): category.name.toLocaleLowerCase()
