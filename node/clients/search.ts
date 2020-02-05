@@ -120,9 +120,14 @@ export class Search extends AppClient {
       { metric: 'search-productBySku' }
     )
 
-  public products = (args: SearchArgs, useRaw = false) => {
-    const method = useRaw ? this.getRaw : this.get
-    return method<SearchProduct[]>(this.productSearchUrl(args), {
+  public productsRaw = (args: SearchArgs) => {
+    return this.getRaw<SearchProduct[]>(this.productSearchUrl(args), {
+      metric: 'search-products',
+    })
+  }
+
+  public products = (args: SearchArgs) => {
+    return this.get<SearchProduct[]>(this.productSearchUrl(args), {
       metric: 'search-products',
     })
   }

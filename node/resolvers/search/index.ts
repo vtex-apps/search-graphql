@@ -92,6 +92,17 @@ const translateToStoreDefaultLanguage = async (
     : term
 }
 
+const noop = () => { }
+
+// Does prefetching and warms up cache for up to the 10 first elements of a search, so if user clicks on product page
+const searchFirstElements = (products: SearchProduct[], from: number | null = 0, search: Context['clients']['search']) => {
+  if (from !== 0 || from == null) {
+    // We do not want this for pages other than the first
+    return
+  }
+  products.slice(0, Math.min(10, products.length)).forEach(product => search.productById(product.productId).catch(noop))
+}
+
 export const fieldResolvers = {
   ...autocompleteResolvers,
   ...brandResolvers,
@@ -287,8 +298,9 @@ export const queries = {
         `The maximum value allowed for the 'to' argument is 2500`
       )
     }
-
-    return search.products(args)
+    const products = await search.products(args)
+    searchFirstElements(products, args.from, ctx.clients.search)
+    return products
   },
 
   productsByIdentifier: async (
@@ -355,11 +367,13 @@ export const queries = {
     }
 
     const [productsRaw, searchMetaData] = await Promise.all([
-      search.products(translatedArgs, true),
+      search.productsRaw(translatedArgs),
       isQueryingMetadata(info)
         ? getSearchMetaData(_, translatedArgs, ctx)
         : emptyTitleTag,
     ])
+
+    searchFirstElements(productsRaw.data, args.from, search)
     return {
       translatedArgs,
       searchMetaData,
@@ -386,6 +400,7 @@ export const queries = {
       productId,
       searchType
     )
+    searchFirstElements(products, 0, ctx.clients.search)
     // We add a custom cacheId because these products are not exactly like the other products from search apis.
     // Each product is basically a SKU and you may have two products in response with same ID but each one representing a SKU.
     return products.map(product => {
