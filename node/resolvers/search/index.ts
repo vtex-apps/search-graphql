@@ -30,7 +30,7 @@ import { resolvers as skuResolvers } from './sku'
 import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
 import * as searchStats from '../stats/searchStats'
-import { toCompatibilityArgs } from './newURLs'
+import { toCompatibilityArgs, hasFacetsBadArgs } from './newURLs'
 import { PATH_SEPARATOR, SPEC_FILTER, MAP_VALUES_SEP, FACETS_BUCKET } from './constants'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
 
@@ -181,8 +181,6 @@ const filterSpecificationFilters = ({
   }
 }
 
-const hasFacetsBadArgs = ({ query, map }: QueryArgs) => !query || !map
-
 export const queries = {
   autocomplete: async (
     _: any,
@@ -229,13 +227,16 @@ export const queries = {
     args.query = translatedQuery
     const compatibilityArgs = await getCompatibilityArgs<FacetsArgs>(ctx, args)
 
-    if (hasFacetsBadArgs(compatibilityArgs)) {
+    const filteredArgs = args.behavior === 'Static'
+      ? filterSpecificationFilters({...args, query: compatibilityArgs.query, map: compatibilityArgs.map } as Required<FacetsArgs>)
+      : (compatibilityArgs as Required<FacetsArgs>)
+
+    
+    if (hasFacetsBadArgs(filteredArgs)) {
       throw new UserInputError('No query or map provided')
     }
 
-    const { query: filteredQuery, map: filteredMap } = args.behavior === 'Static'
-      ? filterSpecificationFilters({...args, query: compatibilityArgs.query, map: compatibilityArgs.map } as Required<FacetsArgs>)
-      : (compatibilityArgs as Required<FacetsArgs>)
+    const {query: filteredQuery, map: filteredMap} = filteredArgs
 
     const segmentData = ctx.vtex.segment
     const salesChannel = (segmentData && segmentData.channel.toString()) || ''
