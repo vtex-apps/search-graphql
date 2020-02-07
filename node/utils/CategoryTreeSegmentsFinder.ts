@@ -71,7 +71,8 @@ export class CategoryTreeSegmentsFinder {
         name: categoryTreeNode.name,
         hasChildren: categoryTreeNode.hasChildren,
       }
-      return {...acc, [categorySlug]: lazyCategoryTreeNode}
+      acc[categorySlug] = lazyCategoryTreeNode
+      return acc
     }, {} as Record<string, LazyCategoryTreeNode>)
   }
 
