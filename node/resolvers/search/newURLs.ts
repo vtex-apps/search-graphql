@@ -11,6 +11,8 @@ import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
 import { searchSlugify } from '../../utils/slug'
 import { PATH_SEPARATOR, MAP_SEPARATOR } from '../stats/constants'
 
+export const hasFacetsBadArgs = ({ query, map }: QueryArgs) => !query || !map
+
 export const toCompatibilityArgs = async (vbase:VBase, search: Search, args: QueryArgs): Promise<QueryArgs|undefined> => {
   const {query} = args
   if(!query){
@@ -31,7 +33,7 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   const categories = await categoryTreeFinder.find()
   const facetsQuery = getFacetsQueryFromCategories(categories)
   
-  const fieldsLookup = await getCategoryFilters(vbase, search, facetsQuery) 
+  const fieldsLookup = facetsQuery? await getCategoryFilters(vbase, search, facetsQuery): {}
 
   const compatMapSegments = []
   const compatQuerySegments = []
@@ -93,7 +95,7 @@ const getFacetsQueryFromCategories = (categories: (CategoryIdNamePair|null)[]) =
     }
     return acc
   }, {query: '', map: ''} as QueryArgs)
-  return `${queryArgs.query}?map=${queryArgs.map}`
+  return !hasFacetsBadArgs(queryArgs)? `${queryArgs.query}?map=${queryArgs.map}`: null
 }
 
 const getCategoryFilters = async (vbase: VBase, search: Search, query: string) => {
