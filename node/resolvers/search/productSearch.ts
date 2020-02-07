@@ -29,11 +29,11 @@ export const resolvers = {
       _: any,
       { vtex: { account }, clients: { search } }: Context
     ) => {
-      const query = translatedArgs.query || ''
-      const map = translatedArgs.map || ''
+      const query = translatedArgs?.query || ''
+      const map = translatedArgs?.map || ''
       const queryAndMap = zipQueryAndMap(
-        translatedArgs.query,
-        translatedArgs.map
+        translatedArgs?.query,
+        translatedArgs?.map
       )
       const categoriesSearched = queryAndMap
         .filter(([_, m]) => m === 'c')
