@@ -4,6 +4,20 @@
     "lint": "tsc --noEmit && eslint --ext ts .",
     "test": "vtex-test-tools test"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.(js|ts)?(x)",
+      "**/?(*.)+(spec|test).(js|ts)?(x)"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
   "dependencies": {
     "@gocommerce/utils": "^0.6.11",
     "atob": "^2.1.2",
@@ -32,6 +46,7 @@
     "@vtex/api": "6.13.1",
     "@vtex/test-tools": "^1.2.0",
     "@vtex/tsconfig": "^0.2.0",
+    "typemoq": "^2.1.0",
     "eslint": "^5.15.3",
     "eslint-config-vtex": "^10.1.0",
     "prettier": "^1.16.4"
