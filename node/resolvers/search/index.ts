@@ -30,7 +30,7 @@ import { resolvers as skuResolvers } from './sku'
 import { resolvers as productPriceRangeResolvers } from './productPriceRange'
 import { SearchCrossSellingTypes } from './utils'
 import * as searchStats from '../stats/searchStats'
-import { toCompatibilityArgs } from './newURLs'
+import { toCompatibilityArgs, hasFacetsBadArgs } from './newURLs'
 import { PATH_SEPARATOR, SPEC_FILTER, MAP_VALUES_SEP, FACETS_BUCKET } from './constants'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
 
@@ -180,8 +180,6 @@ const filterSpecificationFilters = ({
     query: finalQuery,
   }
 }
-
-const hasFacetsBadArgs = ({ query, map }: QueryArgs) => !query || !map
 
 export const queries = {
   autocomplete: async (
