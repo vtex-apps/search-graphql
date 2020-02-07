@@ -19,6 +19,7 @@ enum SimulationBehavior {
   DEFAULT = 'default'
 }
 
+
 const inflightKey = ({ baseURL, url, params, headers }: RequestConfig) => {
   return (
     baseURL! +
@@ -151,6 +152,11 @@ export class Search extends AppClient {
       metric: 'search-categories',
     })
 
+  public getCategoryChildren = (id: number) =>
+  this.get<Record<string, string>>(`/pub/category/categories/children?id=${id}`, {
+    metric: 'search-category-children'
+  })
+
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<SearchFacets>(
@@ -192,6 +198,12 @@ export class Search extends AppClient {
 
     return this.http.get<T>(`/proxy/catalog${url}`, config)
   }
+
+  public getField = (id: number) =>
+    this.get<FieldResponseAPI>(
+      `/pub/specification/fieldGet/${id}`,
+      { metric: 'catalog-get-field-by-id' }
+    )
 
   private getRaw = <T = any>(url: string, config: RequestConfig = {}) => {
     const segmentData: SegmentData | undefined = (this

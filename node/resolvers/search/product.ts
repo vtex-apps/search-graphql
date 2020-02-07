@@ -45,8 +45,8 @@ interface ItemArg {
 const isSellerAvailable = (seller: Seller) =>
   pathOr(0, ['commertialOffer', 'AvailableQuantity'], seller) > 0
 
-const isAvailable = (item: SearchItem) => {
-  return item.sellers.find(isSellerAvailable)
+const isAvailable = (item: SearchItem): boolean => {
+  return item.sellers.find(isSellerAvailable) !== undefined
 }
 
 const knownNotPG = [

@@ -10,9 +10,6 @@
     "node": "6.x",
     "docs": "0.x"
   },
-  "scripts": {
-    "prereleasy": "bash lint.sh"
-  },
   "dependencies": {
     "vtex.messages": "1.x",
     "vtex.catalog-api-proxy": "0.x"
@@ -23,6 +20,12 @@
     },
     {
       "name": "vtex.catalog-api-proxy:catalog-proxy"
+    },
+    {
+      "name": "vbase-read-write"
+    },
+    {
+      "name": "colossus-fire-event"
     }
   ],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"

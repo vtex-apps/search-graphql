@@ -17,6 +17,11 @@ if (!global.metrics) {
 declare global {
   type Context = ServiceContext<Clients, RecorderState, CustomContext>
 
+  interface StaleRevalidateData<T>{
+    ttl: Date
+    data: T
+  }
+
   interface CustomContext extends ParamsContext {
     cookie: string
     originalPath: string
