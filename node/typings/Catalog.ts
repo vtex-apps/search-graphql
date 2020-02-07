@@ -1,9 +1,5 @@
-interface QueryArgs {
-  query: string
-  map?: string
-}
-
-interface SearchArgs extends QueryArgs {
+interface SearchArgs {
+  query: string | null
   category: string | null
   specificationFilters: string[] | null
   priceRange: string | null
@@ -12,6 +8,7 @@ interface SearchArgs extends QueryArgs {
   orderBy: string | null
   from: number | null
   to: number | null
+  map: string | null
   hideUnavailableItems: boolean | null
   simulationBehavior: 'skip' | 'default' | null
 }
@@ -55,7 +52,9 @@ interface CategoryByIdResponse {
   MetaTagDescription: string
 }
 
-interface FacetsArgs extends QueryArgs {
+interface FacetsArgs {
+  query?: string
+  map?: string
   hideUnavailableItems?: boolean
   behavior?: FacetsBehavior
 }
@@ -234,34 +233,4 @@ interface SearchAutocompleteUnit {
   name: string
   href: string
   criteria: string
-}
-
-interface FieldTreeResponseAPI{
-  Name:	string
-  CategoryId: number
-  FieldId: number
-  IsActive:	boolean
-  IsStockKeepingUnit: boolean
-}
-
-interface FieldResponseAPI {
-  Name: string
-  CategoryId: number | null
-  FieldId: number
-  IsActive: boolean
-  IsRequired: boolean
-  FieldTypeId: number
-  FieldTypeName: string
-  FieldValueId: string | null
-  Description: string | null
-  IsStockKeepingUnit: boolean
-  IsFilter: boolean
-  IsOnProductDetails: boolean
-  Position: number
-  IsWizard: boolean
-  IsTopMenuLinkActive: boolean
-  IsSideMenuLinkActive: boolean
-  DefaultValue: string | null
-  FieldGroupId: number
-  FieldGroupName: string
 }
