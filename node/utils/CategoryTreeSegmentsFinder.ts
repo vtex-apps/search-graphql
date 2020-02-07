@@ -114,7 +114,8 @@ export class CategoryTreeSegmentsFinder {
     const categoryChildrenBySlug = Object.keys(categoryChildren).reduce((acc, categoryChildId: string) => {
       const categoryChildName = categoryChildren[categoryChildId]
       const categoryChildSlug = searchSlugify(categoryChildName)
-      return {...acc, [categoryChildSlug]: categoryChildId}
+      acc[categoryChildSlug] = categoryChildId
+      return acc
     }, {} as Record<string, string>)
     return categoryChildrenBySlug
   }
