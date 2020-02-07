@@ -99,14 +99,8 @@ export class CategoryTreeSegmentsFinder {
   
   private findRootCategorySegment = () => {
     const { segments, categoryTreeRoot } = this
-    for (let i = 0; i < segments.length; i++){
-      const segment = segments[i]
-      const category = categoryTreeRoot[segment]
-      if(category){
-        return {index: i, category}
-      }
-    }
-    return null
+    const segmentIndex = segments.findIndex(segment => !!categoryTreeRoot[segment])
+    return segmentIndex !== -1? {index: segmentIndex, category: categoryTreeRoot[segments[segmentIndex]]}: null
   }
 
   private getChildren = async (id: number) => {
