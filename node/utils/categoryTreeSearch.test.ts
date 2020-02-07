@@ -1,70 +1,86 @@
-// import * as TypeMoq from 'typemoq'
-// import { CategoryTreeSegmentsFinder } from "./CategoryTreeSegmentsFinder"
-// import { VBase } from "@vtex/api"
-// import { Search } from "../clients/search"
+import * as TypeMoq from 'typemoq'
+import { CategoryTreeSegmentsFinder } from "./CategoryTreeSegmentsFinder"
+import { VBase, IOContext } from "@vtex/api"
+import { Search } from "../clients/search"
 
-// /*  CategoryTree 
-//  *         c0 
-//  *        / \  
-//  *      c1   c2 
-//  *     / \      
-//  *   c3   c4
-//  *         \
-//  *          c5
-//  */
+/*  CategoryTree 
+ *         c0 
+ *        / \  
+ *      c1   c2 
+ *     / \      
+ *   c3   c4
+ *         \
+ *          c5
+ */
 
+const context = TypeMoq.Mock.ofType<IOContext>()
+const vbaseMock = TypeMoq.Mock.ofInstance(VBase)
+const searchMock = TypeMoq.Mock.ofInstance(Search)
 
-// const c5 = {
-//   name: 'c5',
-//   children: []
-// }
+const c5 = {'c5': '5'}
+const c4 = {'c4': '4'}
+const c3 = {'c3': '3'}
+const c2 = {'c2': '2'}
+const c1 = { 'c1': '1'}
+const c0 = { 'c0': '0' }
+const root = {'c0': {id: 0, name: 'c0', hasChildren: true}}
 
-// const c4 = {
-//   name: 'c4',
-//   children: [c5]
-// }
+const childrenTree = {
+  "0": {...c1, ...c2},
+  "1": {...c3, ...c4},
+  "2": {},
+  "3": {},
+  "4": {...c5},
+  "5": {}
+} as any
 
-// const c3 = {
-//   name: 'c3',
-//   children: []
-// }
+const clients = {vbase: new vbaseMock.object(context.object), search: new searchMock.object(context.object) }
 
-// const c2 = {
-//   name: 'c2',
-//   children: []
-// }
+const toPair = (categories: any[]) => 
+  categories.map(c => {
+    const [key, value] = c && Object.entries(c)[0] || []
+    return key? { id: value, name: key }: null
+  })
 
-// const c1 = {
-//   name: 'c1',
-//   children: [c3, c4]
-// }
+describe('Category Tree Search tests', () => {
+  const finder = class CategoryTreeSegmentsFinderMock extends CategoryTreeSegmentsFinder {
+    public constructor(segments: string[]){
+      super(clients, segments)
+      this.categoryTreeRoot = root
+    }
 
-// const c0 = {
-//   name: 'c0',
-//   children: [c1, c2]
-// }
+    protected lazyFetchChildren = async (id: number) => {
+      const children = childrenTree[id.toString()]
+      return children
+    }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected staleWhileRevalidate = async <T>(_: string, __: string, func: (params?: any) => Promise<T>, params?: any) => {
+      return func(params)
+    }
 
-// describe('Category Tree Search tests', () => {
-//   const vbaseMock = TypeMoq.Mock.ofType<VBase>()
-//   const searchMock = TypeMoq.Mock.ofType<Search>()
-//   const finder = class CategoryTreeSegmentsFinderMock extends CategoryTreeSegmentsFinder {
-//     constructor(segments: string[]){
-//       super({vbase: vbaseMock.object, search: searchMock.object}, segments)
-//     }
-//   }
-//   test('It should find a complete tree of categories', () => {
-//     const result = finder.find([c0] as CategoryTreeResponse[], '/c0/c1/c4')
-//     expect(result).toStrictEqual([c0, c1, c4])
-//   })
+    protected getCategoryTreeRoot = () => {
+      return this.categoryTreeRoot as any
+    }
+  }
+  test('It should find a complete tree of categories', async () => {
+    const segments = 'c0/c1/c4'.split('/')
+    const treeFinder = new finder(segments)
+    const result = await treeFinder.find()
+    expect(result).toStrictEqual(toPair([c0, c1, c4]))
+  })
 
-//   test('It should find the maximum categories possible ', () => {
-//     const result = categoryTreeSearch([c0] as CategoryTreeResponse[], '/c0/c1/c2')
-//     expect(result).toStrictEqual([c0, c1])
-//   })
+  test('It should find the maximum categories possible ', async () => {
+    const segments = 'c0/c1/c2'.split('/')
+    const treeFinder = new finder(segments)
+    const result = await treeFinder.find()
+    expect(result).toStrictEqual(toPair([c0, c1, null]))
+  })
 
-//   test('It should not find when doesnt exist', () => {
-//     const result = categoryTreeSearch([c0] as CategoryTreeResponse[], '/x/c1/c4')
-//     expect(result).toStrictEqual([])
-//   })
-// })
+  test('It should not find when doesnt exist', async () => {
+    const segments = 'x/c1/c4'.split('/')
+    const treeFinder = new finder(segments)
+    const result = await treeFinder.find()
+    expect(result).toStrictEqual([])
+  })
+})
