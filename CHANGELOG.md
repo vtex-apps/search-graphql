@@ -8,13 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ## [0.16.1] - 2020-02-07
-### Fixed
-- Facets bad args checking
 
 ## [0.16.0] - 2020-02-07
 ### Added
 - Add Search URLs access count statistics
-- Add new Search URLs structure
 
 ## [0.15.1] - 2020-02-05
 
