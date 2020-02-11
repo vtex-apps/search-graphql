@@ -2,7 +2,6 @@ import { Search } from '../../clients/search'
 import { VBase } from '@vtex/api'
 import {
   SEARCH_URLS_BUCKET,
-  CLUSTER_SEGMENT,
   CATEGORY_SEGMENT,
   FACETS_BUCKET,
 } from './constants'
