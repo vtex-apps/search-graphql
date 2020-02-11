@@ -137,7 +137,7 @@ const isLegacySearchFormat = ({query, map}: {query: string, map?: string}) => {
     return false
   }
   return (
-    map.includes(SPEC_FILTER) ||
+    map.includes(SPEC_FILTER) &&
     map.split(MAP_VALUES_SEP).length === query.split(PATH_SEPARATOR).length
   )
 }
@@ -163,6 +163,14 @@ const filterSpecificationFilters = ({
 }: Required<FacetsArgs>) => {
   const queryArray = query.split('/')
   const mapArray = map.split(',')
+
+  if(queryArray.length < mapArray.length){
+    return {
+      ...rest,
+      query,
+      map
+    }
+  }
 
   const queryAndMap = zip(queryArray, mapArray)
   const relevantArgs = [
