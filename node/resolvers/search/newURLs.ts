@@ -86,8 +86,3 @@ const normalizedFiltersFromFacets = async (facets: SearchFacets) => {
     return acc
   }, {} as Record<string, string>)
 }
-
-function hasNoClusterIdAsFirstSegment(index: number, mapSegment: string) {
-  return !(index === 0 && mapSegment === CLUSTER_SEGMENT)
-}
-
