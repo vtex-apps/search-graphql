@@ -1,3 +1,3 @@
 export const flags = {
-  VTEX_ASSETS_URL: false,
+  VTEX_ASSETS_URL: true,
 }
