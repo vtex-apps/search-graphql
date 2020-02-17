@@ -132,6 +132,8 @@ const getCompatibilityArgs = async <T extends QueryArgs>(ctx: Context, args: T) 
   return compatArgs? {...args, ...compatArgs}: args
 }
 
+// Legacy search format is our search with path?map=c,c,specificationFilter
+// Where it has specificationFilters and all segments in path are mapped in `map` querystring
 const isLegacySearchFormat = ({query, map}: {query: string, map?: string}) => {
   if (!map) {
     return false
