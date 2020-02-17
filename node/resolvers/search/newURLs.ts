@@ -4,6 +4,7 @@ import {
   SEARCH_URLS_BUCKET,
   CATEGORY_SEGMENT,
   FACETS_BUCKET,
+  FULL_TEXT_SEGMENT,
 } from './constants'
 import { CategoryTreeSegmentsFinder, CategoryIdNamePair } from '../../utils/CategoryTreeSegmentsFinder'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
@@ -43,11 +44,14 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
     const compatMapSegmentField = fieldsLookup[fieldName]
     const mapSegment = !categories[segmentIndex] && !compatMapSegmentField && mapSegments.shift()
     
-    if(compatMapSegmentField && !categories[segmentIndex]){
+    if (compatMapSegmentField && !categories[segmentIndex]) {
       compatMapSegments.push(compatMapSegmentField)
       compatQuerySegments.push(fieldValue)
-    }else{
-      compatMapSegments.push(mapSegment || 'c')
+    } else if (categories[segmentIndex]) {
+      compatMapSegments.push(mapSegment || CATEGORY_SEGMENT)
+      compatQuerySegments.push(querySegment)
+    } else {
+      compatMapSegments.push(mapSegment || FULL_TEXT_SEGMENT)
       compatQuerySegments.push(querySegment)
     }
   }
