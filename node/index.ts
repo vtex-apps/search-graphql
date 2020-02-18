@@ -29,7 +29,7 @@ export default new Service<Clients, RecorderState, CustomContext>({
         timeout: THREE_SECONDS_MS,
       },
       messagesGraphQL: {
-        concurrency: 5,
+        concurrency: 10,
         memoryCache: messagesCache,
         timeout: TWO_SECONDS_MS,
       },
