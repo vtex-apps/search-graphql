@@ -5,6 +5,7 @@ import {
   RecorderState,
   SegmentData,
   ServiceContext,
+  MessagesLoaderV2,
 } from '@vtex/api'
 
 import { Clients } from './clients'
@@ -15,7 +16,11 @@ if (!global.metrics) {
 }
 
 declare global {
-  type Context = ServiceContext<Clients, RecorderState, CustomContext>
+  type Context = ServiceContext<Clients, State, CustomContext>
+
+  interface State extends RecorderState {
+    messages?: MessagesLoaderV2
+  }
 
   interface CustomContext extends ParamsContext {
     cookie: string
