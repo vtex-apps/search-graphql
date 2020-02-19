@@ -37,10 +37,11 @@ export const resolvers = {
     },
     teasers: propOr([], 'Teasers'),
     giftSkuIds: propOr([], 'GiftSkuIds'),
-    productGifts: ({ GiftSkuIds }: CommertialOffer, _: any, ctx: Context) => {
+    gifts: ({ GiftSkuIds }: CommertialOffer, _: any, ctx: Context) => {
       if (GiftSkuIds.length === 0) {
         return []
       }
+
       const giftProducts = Promise.all(
         GiftSkuIds.map(async skuId => {
           const searchResult = await ctx.clients.search.productBySku([skuId])
@@ -60,14 +61,12 @@ export const resolvers = {
             linkText,
             description,
             productTitle,
-            skuItem: {
-              nameComplete: skuItem?.nameComplete ?? '',
-              images: skuItem?.images.map(({ imageLabel, imageUrl, imageText }) => ({
-                imageUrl,
-                imageLabel,
-                imageText,
-               })) ?? [],
-            },
+            nameComplete: skuItem?.nameComplete ?? '',
+            images: skuItem?.images.map(({ imageLabel, imageUrl, imageText }) => ({
+              imageUrl,
+              imageLabel,
+              imageText,
+            })) ?? [],
           }
 
           return productGiftProperties

@@ -267,20 +267,16 @@ type Offer {
   """
   List of gifts associated with the product
   """
-  productGifts: [Gift]
+  gifts: [Gift]
 }
 
 type Gift {
+  nameComplete: String
   productName: String
   brand: String
   linkText: String
   description: String
   productTitle: String
-  skuItem: GiftSkuItem
-}
-
-type GiftSkuItem {
-  nameComplete: String
   images: [GiftImage]
 }
 
