@@ -36,7 +36,7 @@ export const resolvers = {
       return [value]
     },
     teasers: propOr([], 'Teasers'),
-    giftSkuIds: ({ GiftSkuIds }: CommertialOffer, _: any, ctx: Context) => {
+    productGifts: ({ GiftSkuIds }: CommertialOffer, _: any, ctx: Context) => {
       if (GiftSkuIds.length === 0) {
         return []
       }
