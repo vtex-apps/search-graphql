@@ -1,4 +1,4 @@
-import { IOContext, NotFoundError, UserInputError } from '@vtex/api'
+import { NotFoundError, UserInputError, createMessagesLoader } from '@vtex/api'
 import {
   head,
   isEmpty,
@@ -73,27 +73,28 @@ const inputToSearchCrossSelling = {
 }
 
 const translateToStoreDefaultLanguage = async (
-  clients: Context['clients'],
-  vtex: IOContext,
+  ctx: Context,
   term: string
 ): Promise<string> => {
-  const { messagesGraphQL } = clients
-  const { locale: from, tenant } = vtex
+  const {
+    clients,
+    state,
+    vtex: { locale: from, tenant },
+  } = ctx
   const { locale: to } = tenant!
 
-  return from && from !== to
-    ? messagesGraphQL
-        .translateV2({
-          indexedByFrom: [
-            {
-              from,
-              messages: [{ content: term }],
-            },
-          ],
-          to,
-        })
-        .then(head)
-    : term
+  if (!from || from === to) {
+    return term
+  }
+
+  if (!state.messages) {
+    state.messages = createMessagesLoader(clients, to)
+  }
+
+  return state.messages!.load({
+    from,
+    content: term,
+  })
 }
 
 const noop = () => { }
@@ -199,18 +200,12 @@ export const queries = {
   ) => {
     const {
       clients: { search },
-      clients,
-      vtex,
     } = ctx
 
     if (!args.searchTerm) {
       throw new UserInputError('No search term provided')
     }
-    const translatedTerm = await translateToStoreDefaultLanguage(
-      clients,
-      vtex,
-      args.searchTerm
-    )
+    const translatedTerm = await translateToStoreDefaultLanguage(ctx, args.searchTerm)
     const { itemsReturned } = await search.autocomplete({
       maxRows: args.maxRows,
       searchTerm: translatedTerm,
@@ -225,13 +220,10 @@ export const queries = {
     const { query, hideUnavailableItems } = args
     const {
       clients: { search, vbase },
-      clients,
-      vtex,
     } = ctx
     args.map = args.map && decodeURIComponent(args.map)
     const translatedQuery = await translateToStoreDefaultLanguage(
-      clients,
-      vtex,
+      ctx,
       query!,
     )
     args.query = translatedQuery
@@ -368,9 +360,7 @@ export const queries = {
 
   productSearch: async (_: any, args: SearchArgs, ctx: Context, info: any) => {
     const {
-      clients,
       clients: { search },
-      vtex,
     } = ctx
     const queryTerm = args.query
     args.map = args.map && decodeURIComponent(args.map)
@@ -387,11 +377,7 @@ export const queries = {
       )
     }
 
-    const query = await translateToStoreDefaultLanguage(
-      clients,
-      vtex,
-      args.query || ''
-    )
+    const query = await translateToStoreDefaultLanguage(ctx, args.query || '')
     const translatedArgs = {
       ...args,
       query,
@@ -451,18 +437,13 @@ export const queries = {
   },
 
   searchMetadata: async (_: any, args: SearchMetadataArgs, ctx: Context) => {
-    const { clients, vtex } = ctx
     const queryTerm = args.query
     if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
       throw new UserInputError(
         `The query term contains invalid characters. query=${queryTerm}`
       )
     }
-    const query = await translateToStoreDefaultLanguage(
-      clients,
-      vtex,
-      args.query || ''
-    )
+    const query = await translateToStoreDefaultLanguage(ctx, args.query || '')
     const translatedArgs = {
       ...args,
       query,
