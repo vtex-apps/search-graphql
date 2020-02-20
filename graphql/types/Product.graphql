@@ -271,12 +271,11 @@ type Offer {
 }
 
 type Gift {
-  nameComplete: String
   productName: String
+  skuName: String
   brand: String
   linkText: String
   description: String
-  productTitle: String
   images: [GiftImage]
 }
 

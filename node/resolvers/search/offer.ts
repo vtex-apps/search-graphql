@@ -50,7 +50,6 @@ export const resolvers = {
             brand,
             linkText,
             description,
-            productTitle,
             items,
           } = searchResult[0]
           const skuItem = items.find(item => item.itemId === skuId)
@@ -60,8 +59,7 @@ export const resolvers = {
             brand,
             linkText,
             description,
-            productTitle,
-            nameComplete: skuItem?.nameComplete ?? '',
+            skuName: skuItem?.nameComplete ?? '',
             images: skuItem?.images.map(({ imageLabel, imageUrl, imageText }) => ({
               imageUrl,
               imageLabel,
