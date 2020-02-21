@@ -21,9 +21,10 @@ export const resolvers = {
         return Installments
       }
 
+      /** TODO: Transforms arguments for backwards-compatibility. Should be cleaned up in the future */
       if (criteria === InstallmentsCriteria.MAX_WITH_INTEREST || criteria === InstallmentsCriteria.MAX_WITHOUT_INTEREST){
         rates = criteria === InstallmentsCriteria.MAX_WITHOUT_INTEREST 
-        criteria = InstallmentsCriteria.MAX;
+        criteria = InstallmentsCriteria.MAX
       }
 
       const filteredInstallments = !rates
