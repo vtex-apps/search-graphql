@@ -4,6 +4,8 @@ const InstallmentsCriteria = {
   ALL: 'ALL',
   MAX: 'MAX',
   MIN: 'MIN',
+  MAX_WITHOUT_INTEREST: 'MAX_WITHOUT_INTEREST',
+  MAX_WITH_INTEREST: 'MAX_WITH_INTEREST',
 }
 
 const gte = (a: number, b: number) => a > b
@@ -18,6 +20,12 @@ export const resolvers = {
       if (criteria === InstallmentsCriteria.ALL || Installments.length === 0) {
         return Installments
       }
+
+      if (criteria === InstallmentsCriteria.MAX_WITH_INTEREST || criteria === InstallmentsCriteria.MAX_WITHOUT_INTEREST){
+        rates = criteria === InstallmentsCriteria.MAX_WITHOUT_INTEREST 
+        criteria = InstallmentsCriteria.MAX;
+      }
+
       const filteredInstallments = !rates
         ? Installments
         : Installments.filter(({ InterestRate }) => !InterestRate)
