@@ -261,9 +261,28 @@ type Offer {
   discountHighlights: [Discount!]
   teasers: [Teaser!]
   """
-  List of gifts associated with the product
+  List of SKUs for gifts associated with the product
   """
   giftSkuIds: [String]
+  """
+  List of gifts associated with the product
+  """
+  gifts: [Gift]
+}
+
+type Gift {
+  productName: String
+  skuName: String
+  brand: String
+  linkText: String
+  description: String
+  images: [GiftImage]
+}
+
+type GiftImage {
+  imageUrl: String
+  imageLabel: String
+  imageText: String
 }
 
 type Teaser {
