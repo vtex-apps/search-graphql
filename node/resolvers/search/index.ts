@@ -103,7 +103,7 @@ const searchFirstElements = (products: SearchProduct[], from: number | null = 0,
     // We do not want this for pages other than the first
     return
   }
-  products.slice(0, Math.min(10, products.length)).forEach(product => search.productById(product.productId).catch(noop))
+  products.slice(0, Math.min(10, products.length)).forEach(product => search.productById(product.productId, false).catch(noop))
 }
 
 export const fieldResolvers = {
