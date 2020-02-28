@@ -4,6 +4,7 @@ import {
   IOContext,
   RequestConfig,
   SegmentData,
+  CacheType,
 } from '@vtex/api'
 import { stringify } from 'qs'
 
@@ -82,11 +83,12 @@ export class Search extends AppClient {
       { metric: 'search-productByEan' }
     )
 
-  public productById = (id: string) => {
+  public productById = (id: string, cacheable: boolean = true) => {
     const isVtex = this.context.platform === 'vtex'
     const url = isVtex ? '/pub/products/search?fq=productId:' : '/products/'
     return this.get<SearchProduct[]>(`${url}${id}`, {
       metric: 'search-productById',
+      ...(cacheable ? {} : { cacheable: CacheType.None })
     })
   }
 
