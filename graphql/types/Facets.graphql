@@ -1,3 +1,8 @@
+type QueryArgs {
+  map: String
+  query: String
+}
+
 type Facets {
   departments: [DepartmentFacet]
   brands: [BrandFacet]
@@ -5,6 +10,7 @@ type Facets {
   categoriesTrees: [CategoriesTreeFacet]
   priceRanges: [PriceRangesFacet]
   recordsFiltered: Int
+  queryArgs: QueryArgs
 }
 
 type DepartmentFacet {
