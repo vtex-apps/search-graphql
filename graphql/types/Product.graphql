@@ -236,7 +236,9 @@ type DomainValues {
 }
 
 enum InstallmentsCriteria {
-  MAX
+  MAX_WITHOUT_INTEREST
+  MAX_WITH_INTEREST
+  MAX # Equivalent to MAX_WITHOUT_INTEREST. Kept for backwards-compatibility
   MIN
   ALL
 }
