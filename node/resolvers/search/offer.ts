@@ -23,7 +23,7 @@ export const resolvers = {
 
       /** TODO: Transforms arguments for backwards-compatibility. Should be cleaned up in the future */
       if (criteria === InstallmentsCriteria.MAX_WITH_INTEREST || criteria === InstallmentsCriteria.MAX_WITHOUT_INTEREST){
-        rates = criteria === InstallmentsCriteria.MAX_WITHOUT_INTEREST 
+        rates = criteria === InstallmentsCriteria.MAX_WITHOUT_INTEREST
         criteria = InstallmentsCriteria.MAX
       }
 
@@ -46,14 +46,19 @@ export const resolvers = {
     },
     teasers: propOr([], 'Teasers'),
     giftSkuIds: propOr([], 'GiftSkuIds'),
-    gifts: ({ GiftSkuIds }: CommertialOffer, _: any, ctx: Context) => {
+    gifts: async ({ GiftSkuIds }: CommertialOffer, _: any, ctx: Context) => {
       if (GiftSkuIds.length === 0) {
         return []
       }
 
-      const giftProducts = Promise.all(
+      const giftProducts = await Promise.all(
         GiftSkuIds.map(async skuId => {
           const searchResult = await ctx.clients.search.productBySku([skuId])
+
+          if (searchResult.length === 0) {
+            return null
+          }
+
           const {
             productName,
             brand,
@@ -62,7 +67,6 @@ export const resolvers = {
             items,
           } = searchResult[0]
           const skuItem = items.find(item => item.itemId === skuId)
-
           const productGiftProperties = {
             productName,
             brand,
@@ -79,8 +83,9 @@ export const resolvers = {
           return productGiftProperties
         })
       )
+      const filteredGiftProducts = giftProducts.filter(Boolean)
 
-      return giftProducts
+      return filteredGiftProducts
     },
     discountHighlights: propOr([], 'DiscountHighLight'),
   },
