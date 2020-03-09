@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.19.3] - 2020-03-09
+
 ## [0.19.2] - 2020-03-09
 ### Fixed
 - Error would be thrown in case `gifts` field tried to fetch information for a product that could not be found by `productSearch` query.
