@@ -48,6 +48,9 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
       compatMapSegments.push(compatMapSegmentField)
       compatQuerySegments.push(fieldValue)
     } else if (categories[segmentIndex]) {
+      if (!mapSegment) {
+        mapSegments.shift()
+      }
       compatMapSegments.push(mapSegment || CATEGORY_SEGMENT)
       compatQuerySegments.push(querySegment)
     } else {
