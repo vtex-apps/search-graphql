@@ -43,7 +43,7 @@
     "@types/node": "^12.0.0",
     "@types/qs": "^6.5.1",
     "@types/ramda": "^0.26.21",
-    "@vtex/api": "6.13.1",
+    "@vtex/api": "6.17.0",
     "@vtex/test-tools": "^1.2.0",
     "@vtex/tsconfig": "^0.2.0",
     "typemoq": "^2.1.0",
