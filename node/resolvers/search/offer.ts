@@ -51,38 +51,46 @@ export const resolvers = {
         return []
       }
 
-      const giftProducts = await Promise.all(
-        GiftSkuIds.map(async skuId => {
-          const searchResult = await ctx.clients.search.productBySku([skuId])
+      const catalogGiftProducts = await ctx.clients.search.productBySku(GiftSkuIds).catch(() => null)
 
-          if (searchResult.length === 0) {
-            return null
+      if (!catalogGiftProducts || catalogGiftProducts.length === 0) {
+        return []
+      }
+
+      const giftProducts = GiftSkuIds.map(skuId => {
+        let giftSku = null
+        let giftProduct = null
+
+        for (const currGiftProduct of catalogGiftProducts) {
+          const currGiftSku = currGiftProduct.items.find(item => item.itemId === skuId)
+          if (currGiftSku) {
+            giftSku = currGiftSku
+            giftProduct = currGiftProduct
+            break
           }
-
-          const {
-            productName,
-            brand,
-            linkText,
-            description,
-            items,
-          } = searchResult[0]
-          const skuItem = items.find(item => item.itemId === skuId)
-          const productGiftProperties = {
-            productName,
-            brand,
-            linkText,
-            description,
-            skuName: skuItem?.nameComplete ?? '',
-            images: skuItem?.images.map(({ imageLabel, imageUrl, imageText }) => ({
-              imageUrl,
-              imageLabel,
-              imageText,
-            })) ?? [],
-          }
-
-          return productGiftProperties
-        })
-      )
+        }
+        if (!giftProduct || !giftSku) {
+          return null
+        }
+        const {
+          productName,
+          brand,
+          linkText,
+          description,
+        } = giftProduct
+        return {
+          productName,
+          brand,
+          linkText,
+          description,
+          skuName: giftSku?.nameComplete ?? '',
+          images: giftSku?.images.map(({ imageLabel, imageUrl, imageText }) => ({
+            imageUrl,
+            imageLabel,
+            imageText,
+          })) ?? [],
+        }
+      })
       const filteredGiftProducts = giftProducts.filter(Boolean)
 
       return filteredGiftProducts
