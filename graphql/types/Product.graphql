@@ -182,6 +182,7 @@ type SKU {
   sellers: [Seller]
   variations: [Property]
   attachments: [Attachment] @deprecated(reason: "Use itemMetaData instead")
+  estimatedDateArrival: String
 }
 
 type SkuSpecification {
