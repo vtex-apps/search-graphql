@@ -27,44 +27,51 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
   const {vbase, search, args} = params
   const { query, map } = args
   const querySegments = query.startsWith(PATH_SEPARATOR)? query.split(PATH_SEPARATOR).slice(1): query.split(PATH_SEPARATOR)
-  const mapSegments = map.split(MAP_SEPARATOR)
 
   const categoryTreeFinder = new CategoryTreeSegmentsFinder({vbase, search}, querySegments)
   const categories = await categoryTreeFinder.find()
   const facetsQuery = getFacetsQueryFromCategories(categories)
   
   const fieldsLookup = facetsQuery? await getCategoryFilters(vbase, search, facetsQuery): {}
+  const mapSegments = fillCategoriesMapSegments(categories, map)
 
   const compatMapSegments = []
   const compatQuerySegments = []
 
   for(let segmentIndex = 0; segmentIndex < querySegments.length; segmentIndex++ ) {
     const querySegment = querySegments[segmentIndex]
+    const mapSegment = mapSegments[segmentIndex]
+
     const [fieldName, fieldValue] = querySegment.split('_')
     const compatMapSegmentField = fieldsLookup[fieldName]
-    const mapSegment = !categories[segmentIndex] && !compatMapSegmentField && mapSegments.shift()
     
-    if (compatMapSegmentField && !categories[segmentIndex]) {
+    if (compatMapSegmentField) {
       compatMapSegments.push(compatMapSegmentField)
       compatQuerySegments.push(fieldValue)
-    } else if (categories[segmentIndex]) {
-      if (!mapSegment) {
-        mapSegments.shift()
-      }
-      compatMapSegments.push(mapSegment || CATEGORY_SEGMENT)
-      compatQuerySegments.push(querySegment)
     } else {
       compatMapSegments.push(mapSegment || FULL_TEXT_SEGMENT)
       compatQuerySegments.push(querySegment)
     }
   }
-  
+
   const compatibilityQuery = compatQuerySegments.join('/')
   const compatibilityMap = compatMapSegments.join(',')
   return { query: compatibilityQuery, map: compatibilityMap}
 }
 
 const normalizeName = (name: string): string => searchSlugify(name)
+
+const fillCategoriesMapSegments = (categories: (CategoryIdNamePair|null)[], map: string) => {
+  const mapSegments = map.split(MAP_SEPARATOR)
+  return categories.reduce((acc, category)=>{
+    if(!category){
+      acc.push(mapSegments.shift()!)
+    }else{
+      acc.push(CATEGORY_SEGMENT)
+    }
+    return acc
+  }, [] as string[])
+}
 
 const getFacetsQueryFromCategories = (categories: (CategoryIdNamePair|null)[]) => {
   const queryArgs = categories.reduce((acc: QueryArgs, category) => {
