@@ -40,18 +40,13 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
 
   for(let segmentIndex = 0; segmentIndex < querySegments.length; segmentIndex++ ) {
     const querySegment = querySegments[segmentIndex]
-    const mapSegment = mapSegments[segmentIndex]
-
+    
     const [fieldName, fieldValue] = querySegment.split('_')
     const compatMapSegmentField = fieldsLookup[fieldName]
     
-    if (compatMapSegmentField) {
-      compatMapSegments.push(compatMapSegmentField)
-      compatQuerySegments.push(fieldValue)
-    } else {
-      compatMapSegments.push(mapSegment || FULL_TEXT_SEGMENT)
-      compatQuerySegments.push(querySegment)
-    }
+    const mapSegment = compatMapSegmentField || mapSegments[segmentIndex] || FULL_TEXT_SEGMENT
+    compatMapSegments.push(mapSegment)
+    compatQuerySegments.push(fieldValue || querySegment)
   }
 
   const compatibilityQuery = compatQuerySegments.join('/')
@@ -61,16 +56,17 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
 
 const normalizeName = (name: string): string => searchSlugify(name)
 
-const fillCategoriesMapSegments = (categories: (CategoryIdNamePair|null)[], map: string) => {
+const fillCategoriesMapSegments = (categories: (CategoryIdNamePair|null)[], map: string): (string|undefined)[] => {
   const mapSegments = map.split(MAP_SEPARATOR)
-  return categories.reduce((acc, category)=>{
+  const segmentsFound = []
+  for( const category of categories){
     if(!category){
-      acc.push(mapSegments.shift()!)
+      segmentsFound.push(mapSegments.shift())
     }else{
-      acc.push(CATEGORY_SEGMENT)
+      segmentsFound.push(CATEGORY_SEGMENT)
     }
-    return acc
-  }, [] as string[])
+  }
+  return segmentsFound
 }
 
 const getFacetsQueryFromCategories = (categories: (CategoryIdNamePair|null)[]) => {
