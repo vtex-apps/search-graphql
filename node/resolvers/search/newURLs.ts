@@ -59,6 +59,10 @@ const normalizeName = (name: string): string => searchSlugify(name)
 const fillCategoriesMapSegments = (categories: (CategoryIdNamePair|null)[], map: string): (string|undefined)[] => {
   const mapSegments = map.split(MAP_SEPARATOR)
   const segmentsFound = []
+  if(categories.length === 0 ){
+    return mapSegments
+  }
+
   for( const category of categories){
     if(!category){
       segmentsFound.push(mapSegments.shift())
