@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "search-graphql",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "title": "GraphQL API for the VTEX store APIs",
   "description": "GraphQL schema and resolvers for the VTEX API for the catalog and orders.",
   "credentialType": "absolute",
