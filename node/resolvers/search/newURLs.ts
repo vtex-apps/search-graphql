@@ -23,7 +23,7 @@ export const toCompatibilityArgs = async (vbase:VBase, search: Search, args: Que
   return { query: compatibilityQuery, map: compatibilityMap }
 }
 
-const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, args: any}) => {
+export const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, args: any}) => {
   const {vbase, search, args} = params
   const { query, map } = args
   const querySegments = query.startsWith(PATH_SEPARATOR)? query.split(PATH_SEPARATOR).slice(1): query.split(PATH_SEPARATOR)
