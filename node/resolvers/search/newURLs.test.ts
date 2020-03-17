@@ -235,4 +235,40 @@ describe('Search new URLs dicovery', () => {
     const result = await mountCompatibilityQuery({vbase: vbaseMock, search: searchMock, args})
     expect(result).toStrictEqual({query: 'department/1/2/3', map: 'c,specificationFilter_1,specificationFilter_2,specificationFilter_3'})
   })
+  
+  it('Should transform /department/style_1/brand?map=b in /department/style_1/brand?map=c,specificationFilter_1,b', async () => {
+    const args = {
+      query: 'department/style_1/brand',
+      map: 'b'
+    }
+
+    const categoryTree: CategoryTreeResponse[] = [
+      {
+        ...categoryTreeResponseMock.object,
+        id: 1,
+        name: 'department',
+        hasChildren: false,
+      }
+    ]
+
+    const categoryChildren = { 1: {} }
+
+    const facets = {
+      SpecificationFilters: {
+        style: [
+          {
+              Name: "1",
+              Map: "specificationFilter_1",
+              Value: "1"
+          },
+        ],
+      },
+      ...facetsMock.object
+    }
+
+    const vbaseMock = new vbase()
+    const searchMock = new search(categoryTree, categoryChildren, facets)
+    const result = await mountCompatibilityQuery({vbase: vbaseMock, search: searchMock, args})
+    expect(result).toStrictEqual({query: 'department/1/brand', map: 'c,specificationFilter_1,b'})
+  })
 })
