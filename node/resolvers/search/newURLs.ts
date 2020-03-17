@@ -44,7 +44,7 @@ const mountCompatibilityQuery = async (params: {vbase: VBase, search: Search, ar
     const [fieldName, fieldValue] = querySegment.split('_')
     const compatMapSegmentField = fieldsLookup[fieldName]
     
-    const mapSegment = compatMapSegmentField || mapSegments[segmentIndex] || FULL_TEXT_SEGMENT
+    const mapSegment = compatMapSegmentField || mapSegments.shift() || FULL_TEXT_SEGMENT
     compatMapSegments.push(mapSegment)
     compatQuerySegments.push(fieldValue || querySegment)
   }
@@ -59,9 +59,6 @@ const normalizeName = (name: string): string => searchSlugify(name)
 const fillCategoriesMapSegments = (categories: (CategoryIdNamePair|null)[], map: string): (string|undefined)[] => {
   const mapSegments = map.split(MAP_SEPARATOR)
   const segmentsFound = []
-  if(categories.length === 0 ){
-    return mapSegments
-  }
 
   for( const category of categories){
     if(!category){
@@ -70,7 +67,7 @@ const fillCategoriesMapSegments = (categories: (CategoryIdNamePair|null)[], map:
       segmentsFound.push(CATEGORY_SEGMENT)
     }
   }
-  return segmentsFound
+  return [...segmentsFound, ...mapSegments]
 }
 
 const getFacetsQueryFromCategories = (categories: (CategoryIdNamePair|null)[]) => {
