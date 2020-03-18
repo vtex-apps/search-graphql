@@ -162,7 +162,7 @@ export class Search extends AppClient {
   public facets = (facets: string = '') => {
     const [path, options] = decodeURI(facets).split('?')
     return this.get<SearchFacets>(
-      `/pub/facets/search/${this.searchEncodeURI(encodeURI(
+      `/pub/facets/search/${encodeURI(this.searchEncodeURI(
         `${path.trim()}${options ? '?' + options : ''}`
       ))}`,
       { metric: 'search-facets' }
@@ -181,9 +181,9 @@ export class Search extends AppClient {
 
   public autocomplete = ({ maxRows, searchTerm }: AutocompleteArgs) =>
     this.get<{ itemsReturned: SearchAutocompleteUnit[] }>(
-      `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${this.searchEncodeURI(
-        encodeURIComponent(searchTerm)
-      )}`,
+      `/buscaautocomplete?maxRows=${maxRows}&productNameContains=${
+        encodeURIComponent(this.searchEncodeURI(searchTerm))
+      }`,
       { metric: 'search-autocomplete' }
     )
 
@@ -235,10 +235,8 @@ export class Search extends AppClient {
     hideUnavailableItems = false,
     simulationBehavior = SimulationBehavior.DEFAULT,
   }: SearchArgs) => {
-    const sanitizedQuery = this.searchEncodeURI(
-      encodeURIComponent(
-        decodeURIComponent(query || '').trim()
-      )
+    const sanitizedQuery = encodeURIComponent(
+      this.searchEncodeURI(decodeURIComponent(query || '').trim())
     )
     if (hideUnavailableItems) {
       const segmentData = (this.context as CustomIOContext).segment
