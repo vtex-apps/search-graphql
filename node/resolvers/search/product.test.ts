@@ -135,7 +135,7 @@ describe('tests related to product resolver', () => {
 
   test('productClusters should not break if value is null', () => {
     const product = getProduct()
-    product.productClusters = null
+    product.productClusters = null as any
     const result = resolvers.Product.productClusters(product as any)
     expect(result).toMatchObject([])
   })
@@ -157,7 +157,7 @@ describe('tests related to product resolver', () => {
 
   test('clusterHighlights should not break if value is null', () => {
     const product = getProduct()
-    product.clusterHighlights = null
+    product.clusterHighlights = null as any
     const result = resolvers.Product.clusterHighlights(product as any)
     expect(result).toMatchObject([])
   })
@@ -179,7 +179,7 @@ describe('tests related to product resolver', () => {
 
   test('clusterHighlights should not break if value is null', () => {
     const product = getProduct()
-    product.clusterHighlights = null
+    product.clusterHighlights = null as any
     const result = resolvers.Product.clusterHighlights(product as any)
     expect(result).toMatchObject([])
   })

@@ -22,6 +22,7 @@ export function searchSlugify(str: string) {
   // According to Bacelar, the search API uses a legacy method for slugifying strings.
   // replaces special characters with dashes, remove accents and lower cases everything
   // eslint-disable-next-line no-useless-escape
-  const replaced = str.replace(/[*+~.()'"!:@&\[\]`,/ %$#?{}|><=_^]/g, '-')
+  const noCommas = str.replace(/,/g, '')
+  const replaced = noCommas.replace(/[*+~.()'"!:@&\[\]`/ %$#?{}|><=_^]/g, '-')
   return toLower(removeAccents(replaced))
 }

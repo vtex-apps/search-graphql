@@ -14,7 +14,9 @@ const searchClientMock = {
   ),
   category: jest.fn(),
   categories: jest.fn(),
-  crossSelling: jest.fn(),
+  crossSelling: jest.fn(),    
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  productById: jest.fn((_id: string, _cacheable: boolean = true) => promisify(null))
 }
 
 const messagesGraphQLClientMock = {

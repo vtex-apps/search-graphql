@@ -2,7 +2,7 @@
   "name": "vtex.search-graphql",
   "scripts": {
     "lint": "tsc --noEmit && eslint --ext ts .",
-    "test": "vtex-test-tools test"
+    "test": "jest"
   },
   "jest": {
     "transform": {
@@ -38,18 +38,19 @@
     "@types/cookie": "^0.3.2",
     "@types/es6-shim": "^0.31.32",
     "@types/graphql": "^14.5.0",
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^25.1.4",
     "@types/koa": "^2.0.46",
     "@types/node": "^12.0.0",
     "@types/qs": "^6.5.1",
     "@types/ramda": "^0.26.21",
     "@vtex/api": "6.17.0",
-    "@vtex/test-tools": "^1.2.0",
     "@vtex/tsconfig": "^0.2.0",
-    "typemoq": "^2.1.0",
+    "jest": "^25.1.0",
     "eslint": "^5.15.3",
     "eslint-config-vtex": "^10.1.0",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "ts-jest": "^25.2.1",
+    "typemoq": "^2.1.0"
   },
   "version": "0.20.2"
 }
