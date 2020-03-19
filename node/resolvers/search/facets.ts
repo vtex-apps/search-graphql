@@ -6,6 +6,14 @@ interface EitherFacet extends SearchFacet {
   Children?: EitherFacet[]
 }
 
+enum FilterType {
+  TEXT = 'TEXT',
+  NUMBER = 'NUMBER',
+  CATEGORYTREE = 'CATEGORYTREE',
+  BRAND = 'BRAND',
+  PRICERANGE = 'PRICERANGE',
+}
+
 const addSelected = (
   facets: EitherFacet[],
   { query, map }: { query: string; map: string }
@@ -61,6 +69,20 @@ const baseFacetResolvers = {
 }
 
 export const resolvers = {
+  FacetValue: {
+    quantity: prop('Quantity'),
+    name: prop('Name'),
+    value: prop('Value'),
+    id: prop('Id'),
+    children: prop('Children'),
+    key: prop('Map'),
+    link: prop('Link'),
+    linkEncoded: prop('LinkEncoded'),
+    href: ({ Link }: { Link: string }) => {
+      const [linkPath] = Link.split('?')
+      return linkPath
+    },
+  },
   FilterFacet: {
     ...baseFacetResolvers,
 
@@ -98,6 +120,70 @@ export const resolvers = {
     name: prop('Name'),
   },
   Facets: {
+    facets: ({
+      CategoriesTrees = [],
+      Brands = [],
+      SpecificationFilters = {},
+      PriceRanges = [],
+      queryArgs,
+    }: SearchFacets & { queryArgs: { query: string; map: string } }) => {
+      const brands = {
+        values: addSelected(Brands, queryArgs),
+        type: FilterType.BRAND,
+      }
+
+      const catregoriesTrees = {
+        values: addSelected(CategoriesTrees, queryArgs),
+        type: FilterType.CATEGORYTREE,
+      }
+
+      const specificationFilters = toPairs(SpecificationFilters).map(
+        ([filterName, filterFacets]) => {
+          return {
+            name: filterName,
+            values: addSelected(filterFacets, queryArgs),
+            type: FilterType.TEXT,
+          }
+        }
+      )
+
+      const priceRanges = {
+        values: PriceRanges.map(priceRange => {
+          const priceRangeRegex = /^de-(.*)-a-(.*)$/
+          const groups = priceRange.Slug.match(priceRangeRegex)
+          return {
+            ...priceRange,
+            range: { from: parseFloat(groups![1]), to: parseFloat(groups![2]) },
+          }
+        }),
+        type: FilterType.PRICERANGE,
+      }
+
+      return [brands, catregoriesTrees, ...specificationFilters, priceRanges]
+    },
+    queryArgs: ({
+      queryArgs,
+    }: SearchFacets & { queryArgs: { query: string; map: string } }) => {
+      const { query, map } = queryArgs
+
+      const queryValues = query.split('/')
+      const mapValues = map.split(',')
+
+      const selectedFacets =
+        queryValues.length === mapValues.length
+          ? mapValues.map((map, i) => {
+              return {
+                key: map,
+                value: queryValues[i],
+              }
+            })
+          : []
+      
+      return {
+        ...queryArgs,
+        selectedFacets
+      }
+    },
     departments: ({
       Departments = [],
       CategoriesTrees = [],

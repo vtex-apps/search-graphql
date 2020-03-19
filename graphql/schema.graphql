@@ -27,9 +27,17 @@ type Query {
     """
     query: String = ""
     """
+    Text inputted by the user as the search term
+    """
+    fullText: String = ""
+    """
     Defines terms types: Brand, Category, Department e.g.: c,b
     """
     map: String = ""
+    """
+    Selected facets
+    """
+    selectedFacets: [SelectedFacetInput]
     """
     Filter by category. {a}/{b} - {a} and {b} are categoryIds
     """
@@ -70,6 +78,22 @@ type Query {
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
     simulationBehavior: SimulationBehavior = default
+    """
+    If true, all the products will be solved by VTEX API.
+    """
+    productOriginVtex: Boolean = false
+    """
+    Indicates how the search-engine will deal with the fullText.
+    """
+    operator: Operator
+    """
+    Indicates how the search engine will correct misspeled words.
+    """
+    fuzzy: String
+    """
+    As fuzzy and operator, it controls the searchState, but it is for general purposes
+    """
+    searchState: String
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
@@ -78,9 +102,17 @@ type Query {
     """
     query: String = ""
     """
+    Text inputted by the user as the search term
+    """
+    fullText: String = ""
+    """
     Defines terms types: Brand, Category, Department e.g.: c,b
     """
     map: String = ""
+    """
+    Selected facets
+    """
+    selectedFacets: [SelectedFacetInput]
   ): SearchMetadata @cacheControl(scope: PUBLIC, maxAge: MEDIUM) @withSegment
 
   """
@@ -156,18 +188,38 @@ type Query {
     """
     query: String = ""
     """
+    Text inputted by the user as the search term
+    """
+    fullText: String = ""
+    """
     Defines terms types: Brand, Category, Department e.g.: c,b
     """
     map: String = ""
+    """
+    Selected facets
+    """
+    selectedFacets: [SelectedFacetInput]
     """
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel.
     """
     hideUnavailableItems: Boolean = false
     """
-    If Static, ignores SpecificationFilters received on the map and query when returning 
+    If Static, ignores SpecificationFilters received on the map and query when returning
     the facets available, which makes the facets never change.
     """
     behavior: String = "Static"
+    """
+    Indicates how the search-engine will deal with the fullText.
+    """
+    operator: Operator
+    """
+    Indicates how the search engine will correct misspeled words.
+    """
+    fuzzy: String
+    """
+    As fuzzy and operator, it controls the searchState, but it is for general purposes
+    """
+    searchState: String
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
@@ -185,18 +237,58 @@ type Query {
   ): Suggestions @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
+  Get top searches from store
+  """
+  topSearches: SearchSuggestions
+    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @withSegment
+
+  """
+  Get search suggestions
+  """
+  suggestionSearches(
+    """
+    Text inputted by the user as the search term
+    """
+    fullText: String!
+  ): SearchSuggestions
+    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @withSegment
+
+  """
+  Get product suggestions
+  """
+  suggestionProducts(
+    """
+    Text inputted by the user as the search term
+    """
+    fullText: String!
+    """
+    Selected facet key
+    """
+    facetKey: String
+    """
+    Selected facet value
+    """
+    facetValue: String
+  ): SuggestionProducts
+    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @withSegment
+
+  """
   Get search urls access stats count
   """
-  searchURLsCount( 
+  searchURLsCount(
     """
     Number of items that is returned
     """
-    limit: Int = 100,
+    limit: Int = 100
 
     """
     Sorting strategy, asc: ascending, desc: descending
     """
-    sort: SORT ): [SearchURLStats] @cacheControl(scope: PUBLIC, maxAge: SHORT)
+    sort: SORT
+  ): [SearchURLStats] @cacheControl(scope: PUBLIC, maxAge: SHORT)
 }
 
 enum SimulationBehavior {

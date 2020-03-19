@@ -1,0 +1,4 @@
+type SuggestionProducts {
+    count: Int!
+    products: [Product]!
+}

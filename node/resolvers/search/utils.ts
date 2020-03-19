@@ -142,3 +142,19 @@ export const searchEncodeURI = (account: string) => (str: string) => {
   }
   return str
 }
+
+export const getMapAndPriceRangeFromSelectedFacets = (
+  selectedFacets: SelectedFacets[]
+) => {
+  const priceRangeIndex = selectedFacets.findIndex(
+    facet => facet.key === 'priceRange'
+  )
+  const priceRange =
+    priceRangeIndex > -1
+      ? selectedFacets.splice(priceRangeIndex, 1)[0].value
+      : undefined
+
+  const map = selectedFacets.map(facet => facet.key).join(',')
+
+  return [map, priceRange]
+}

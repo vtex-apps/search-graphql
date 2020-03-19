@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `facets` field to the `facets` query.
+- `fullText`, `productOriginVTEX`, `operator`, `fuzzy` and `searchState` query inputs.
+- `operator`, `fuzzy`, `searchState`, `suggestion`, `banner` and `correction` query outputs.
+- `topSearches`, `suggestionSearches`, `suggestionProducts` placeholders.
+
+### Changed
+- Change from `map` to `selectedFacets`.
 
 ## [0.20.4] - 2020-03-18
 ### Fixed

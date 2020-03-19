@@ -1,6 +1,7 @@
 interface SearchMetadataArgs {
   query?: string | null
   map?: string | null
+  selectedFacets?: SelectedFacets[]
 }
 
 interface SearchMetadata {

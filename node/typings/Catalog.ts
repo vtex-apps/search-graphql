@@ -1,12 +1,23 @@
+interface Range {
+  from: number;
+  to: number;
+}
+
+interface SelectedFacets {
+  key: string;
+  value: string;
+}
+
 interface QueryArgs {
   query: string
   map?: string
+  selectedFacets?: SelectedFacets[]
 }
 
 interface SearchArgs extends QueryArgs {
   category: string | null
   specificationFilters: string[] | null
-  priceRange: string | null
+  priceRange?: string | null
   collection: string | null
   salesChannel: string | null
   orderBy: string | null

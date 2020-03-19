@@ -1,6 +1,40 @@
 type QueryArgs {
   map: String
   query: String
+  selectedFacets: [SelectedFacet]
+}
+
+type Range {
+  from: Float
+  to: Float
+}
+
+type FacetValue {
+  id: ID
+  quantity: Int!
+  name: String @translatableV2
+  key: String
+  value: String
+  selected: Boolean
+  children: [FacetValue]
+  range: Range
+  link: String
+  linkEncoded: String
+  href: String
+}
+
+enum FilterType {
+  TEXT
+  NUMBER
+  CATEGORYTREE
+  BRAND
+  PRICERANGE
+}
+
+type Facet {
+  name: String @translatableV2
+  values: [FacetValue]
+  type: FilterType
 }
 
 type Facets {
@@ -11,6 +45,7 @@ type Facets {
   priceRanges: [PriceRangesFacet]
   recordsFiltered: Int
   queryArgs: QueryArgs
+  facets: [Facet]
 }
 
 type DepartmentFacet {
