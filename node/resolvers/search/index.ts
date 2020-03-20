@@ -252,12 +252,12 @@ export const queries = {
       searches: [],
     }
   },
-  suggestionSearches: () => {
+  searchSuggestions: () => {
     return {
       searches: [],
     }
   },
-  suggestionProducts: () => {
+  productSuggestions: () => {
     return {
       count: 0,
       products: [],

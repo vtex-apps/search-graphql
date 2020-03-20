@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `facets` field to the `facets` query.
 - `fullText`, `productOriginVTEX`, `operator`, `fuzzy` and `searchState` query inputs.
 - `operator`, `fuzzy`, `searchState`, `suggestion`, `banner` and `correction` query outputs.
-- `topSearches`, `suggestionSearches`, `suggestionProducts` placeholders.
+- `topSearches`, `searchSuggestions`, `productSuggestions` placeholders.
 
 ### Changed
 - Change from `map` to `selectedFacets`.

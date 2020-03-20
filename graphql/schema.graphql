@@ -251,7 +251,7 @@ type Query {
   """
   Get search suggestions
   """
-  suggestionSearches(
+  searchSuggestions(
     """
     Text inputted by the user as the search term
     """
@@ -263,7 +263,7 @@ type Query {
   """
   Get product suggestions
   """
-  suggestionProducts(
+  productSuggestions(
     """
     Text inputted by the user as the search term
     """
@@ -276,7 +276,7 @@ type Query {
     Selected facet value
     """
     facetValue: String
-  ): SuggestionProducts
+  ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
 
