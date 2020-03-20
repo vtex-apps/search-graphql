@@ -79,19 +79,22 @@ type Query {
     """
     simulationBehavior: SimulationBehavior = default
     """
-    If true, all the products will be solved by VTEX API.
+    Each search engine has its own database, but this database might not have all the product information like `clusterHighlights` or `productClusters`.
+    As an alternative, the search engine may use the VTEX API to complete this information by setting this field to true.
     """
     productOriginVtex: Boolean = false
     """
-    Indicates how the search-engine will deal with the fullText.
+    Indicates how the search-engine will deal with the fullText if there is more than one word. Set `and` if the returned products must have all the words in its metadata or `or` otherwise.
     """
     operator: Operator
     """
-    Indicates how the search engine will correct misspeled words.
+    Indicates how the search engine will correct misspelled words by using fuzzy logic.
+    It can be a number representing the max number of misspelled letters, or the string `auto` suggesting that the search-engine should set this value by itself.
     """
     fuzzy: String
     """
-    As fuzzy and operator, it controls the searchState, but it is for general purposes
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
     """
     searchState: String
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
@@ -209,15 +212,17 @@ type Query {
     """
     behavior: String = "Static"
     """
-    Indicates how the search-engine will deal with the fullText.
+    Indicates how the search-engine will deal with the fullText if there is more than one word. Set `and` if the returned products must have all the words in its metadata or `or` otherwise.
     """
     operator: Operator
     """
-    Indicates how the search engine will correct misspeled words.
+    Indicates how the search engine will correct misspelled words by using fuzzy logic.
+    It can be a number representing the max number of misspelled letters, or the string `auto` suggesting that the search-engine should set this value by itself.
     """
     fuzzy: String
     """
-    As fuzzy and operator, it controls the searchState, but it is for general purposes
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
     """
     searchState: String
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
