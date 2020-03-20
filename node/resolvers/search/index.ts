@@ -247,22 +247,6 @@ export const queries = {
       itemsReturned,
     }
   },
-  topSearches: () => {
-    return {
-      searches: [],
-    }
-  },
-  searchSuggestions: () => {
-    return {
-      searches: [],
-    }
-  },
-  productSuggestions: () => {
-    return {
-      count: 0,
-      products: [],
-    }
-  },
   facets: async (_: any, args: FacetsArgs, ctx: Context) => {
     const { query, hideUnavailableItems } = args
     const {
@@ -531,5 +515,23 @@ export const queries = {
       translatedArgs as SearchArgs
     )
     return getSearchMetaData(_, compatibilityArgs, ctx)
+  },
+  /* All search engines need to implement the topSearches, searchSuggestions, and productSuggestions queries. 
+  VTEX search doesn't support these queries, so it always returns empty results as a placeholder. */
+  topSearches: () => {
+    return {
+      searches: [],
+    }
+  },
+  searchSuggestions: () => {
+    return {
+      searches: [],
+    }
+  },
+  productSuggestions: () => {
+    return {
+      count: 0,
+      products: [],
+    }
   },
 }
