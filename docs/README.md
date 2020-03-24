@@ -75,15 +75,23 @@ query {
 Product Search:
 
 ```
-productSearch(
+  productSearch(
     """
     Terms that is used in search e.g.: eletronics/samsung
     """
     query: String = ""
     """
+    Text inputed by user as the search term
+    """
+    fullText: String = ""
+    """
     Defines terms types: Brand, Category, Department e.g.: c,b
     """
     map: String = ""
+    """
+    Selected facets
+    """
+    selectedFacets: [SelectedFacet]
     """
     Filter by category. {a}/{b} - {a} and {b} are categoryIds
     """
@@ -124,17 +132,40 @@ productSearch(
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
     simulationBehavior: SimulationBehavior = default
+    """
+    If true, all the products will be solved by VTEX API.
+    """
+    productOriginVtex: Boolean = false
+    """
+    Indicates how the search-engine will deal with the fullText.
+    """
+    operator: Operator
+    """
+    Indicates how the search engine will correct misspeled words.
+    """
+    fuzzy: String
+    """
+    It is similar to fuzzy and operator but is used for scenarios where fuzzy and operator are not enough.
+    """
+    searchState: String
   ): ProductSearch
   ```
 
   ```
   type ProductSearch {
-  products: [Product]
-  recordsFiltered: Int
-  titleTag: String
-  metaTagDescription: String
-  breadcrumb: [SearchBreadcrumb]
-}
+    products: [Product]
+    recordsFiltered: Int
+    titleTag: String
+    metaTagDescription: String
+    breadcrumb: [SearchBreadcrumb]
+    canonical: String
+    suggestion: SearchSuggestions
+    correction: SearchCorrection
+    operator: Operator
+    fuzzy: String
+    searchState: String
+    banners: [SearchBanner]
+  }
 ```
 
   It returns a list of products, the breadcrumb associated for that search, the number of items in total, and SEO related data.
@@ -180,9 +211,17 @@ searchMetadata(
     """
     query: String = ""
     """
+    Text inputed by user as the search term
+    """
+    fullText: String = ""
+    """
     Defines terms types: Brand, Category, Department e.g.: c,b
     """
     map: String = ""
+    """
+    Selected facets
+    """
+    selectedFacets: [SelectedFacet]
   ): SearchMetadata
 ```
 ```
@@ -319,18 +358,38 @@ facets(
   """
   query: String = ""
   """
+  Text inputed by user as the search term
+  """
+  fullText: String = ""
+  """
   Defines terms types: Brand, Category, Department e.g.: c,b
   """
   map: String = ""
+  """
+  Selected facets
+  """
+  selectedFacets: [SelectedFacet]
   """
   If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel.
   """
   hideUnavailableItems: Boolean = false
   """
-  If Static, ignores SpecificationFilters received on the map and query when returning 
+  If Static, ignores SpecificationFilters received on the map and query when returning
   the facets available, which makes the facets never change.
   """
   behavior: String = "Static"
+  """
+  Indicates how the search-engine will deal with the fullText.
+  """
+  operator: Operator
+  """
+  Indicates how the search engine will correct misspeled words.
+  """
+  fuzzy: String
+  """
+  It is similar to fuzzy and operator but is used for scenarios where fuzzy and operator are not enough.
+  """
+  searchState: String
 ): Facets
 ```
 

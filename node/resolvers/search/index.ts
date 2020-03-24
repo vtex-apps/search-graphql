@@ -28,10 +28,18 @@ import { resolvers as recommendationResolvers } from './recommendation'
 import { resolvers as breadcrumbResolvers } from './searchBreadcrumb'
 import { resolvers as skuResolvers } from './sku'
 import { resolvers as productPriceRangeResolvers } from './productPriceRange'
-import { SearchCrossSellingTypes } from './utils'
+import {
+  SearchCrossSellingTypes,
+  getMapAndPriceRangeFromSelectedFacets,
+} from './utils'
 import * as searchStats from '../stats/searchStats'
 import { toCompatibilityArgs, hasFacetsBadArgs } from './newURLs'
-import { PATH_SEPARATOR, SPEC_FILTER, MAP_VALUES_SEP, FACETS_BUCKET } from './constants'
+import {
+  PATH_SEPARATOR,
+  SPEC_FILTER,
+  MAP_VALUES_SEP,
+  FACETS_BUCKET,
+} from './constants'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
 
 interface ProductIndentifier {
@@ -97,15 +105,23 @@ const translateToStoreDefaultLanguage = async (
   })
 }
 
-const noop = () => { }
+const noop = () => {}
 
 // Does prefetching and warms up cache for up to the 10 first elements of a search, so if user clicks on product page
-const searchFirstElements = (products: SearchProduct[], from: number | null = 0, search: Context['clients']['search']) => {
+const searchFirstElements = (
+  products: SearchProduct[],
+  from: number | null = 0,
+  search: Context['clients']['search']
+) => {
   if (from !== 0 || from == null) {
     // We do not want this for pages other than the first
     return
   }
-  products.slice(0, Math.min(10, products.length)).forEach(product => search.productById(product.productId, false).catch(noop))
+  products
+    .slice(0, Math.min(10, products.length))
+    .forEach(product =>
+      search.productById(product.productId, false).catch(noop)
+    )
 }
 
 export const fieldResolvers = {
@@ -127,15 +143,28 @@ export const fieldResolvers = {
   ...productPriceRangeResolvers,
 }
 
-const getCompatibilityArgs = async <T extends QueryArgs>(ctx: Context, args: T) => {
-  const { clients: {vbase, search} } = ctx
-  const compatArgs = isLegacySearchFormat(args)? args: await toCompatibilityArgs(vbase, search, args)
-  return compatArgs? {...args, ...compatArgs}: args
+const getCompatibilityArgs = async <T extends QueryArgs>(
+  ctx: Context,
+  args: T
+) => {
+  const {
+    clients: { vbase, search },
+  } = ctx
+  const compatArgs = isLegacySearchFormat(args)
+    ? args
+    : await toCompatibilityArgs(vbase, search, args)
+  return compatArgs ? { ...args, ...compatArgs } : args
 }
 
 // Legacy search format is our search with path?map=c,c,specificationFilter
 // Where it has specificationFilters and all segments in path are mapped in `map` querystring
-const isLegacySearchFormat = ({query, map}: {query: string, map?: string}) => {
+const isLegacySearchFormat = ({
+  query,
+  map,
+}: {
+  query: string
+  map?: string
+}) => {
   if (!map) {
     return false
   }
@@ -167,11 +196,11 @@ const filterSpecificationFilters = ({
   const queryArray = query.split('/')
   const mapArray = map.split(',')
 
-  if(queryArray.length < mapArray.length){
+  if (queryArray.length < mapArray.length) {
     return {
       ...rest,
       query,
-      map
+      map,
     }
   }
 
@@ -205,7 +234,10 @@ export const queries = {
     if (!args.searchTerm) {
       throw new UserInputError('No search term provided')
     }
-    const translatedTerm = await translateToStoreDefaultLanguage(ctx, args.searchTerm)
+    const translatedTerm = await translateToStoreDefaultLanguage(
+      ctx,
+      args.searchTerm
+    )
     const { itemsReturned } = await search.autocomplete({
       maxRows: args.maxRows,
       searchTerm: translatedTerm,
@@ -215,39 +247,51 @@ export const queries = {
       itemsReturned,
     }
   },
-
   facets: async (_: any, args: FacetsArgs, ctx: Context) => {
     const { query, hideUnavailableItems } = args
     const {
       clients: { search, vbase },
     } = ctx
+
+    if (args.selectedFacets) {
+      const [map] = getMapAndPriceRangeFromSelectedFacets(args.selectedFacets)
+      args.map = map
+    }
+
     args.map = args.map && decodeURIComponent(args.map)
-    const translatedQuery = await translateToStoreDefaultLanguage(
-      ctx,
-      query!,
-    )
+    const translatedQuery = await translateToStoreDefaultLanguage(ctx, query!)
     args.query = translatedQuery
     const compatibilityArgs = await getCompatibilityArgs<FacetsArgs>(ctx, args)
 
-    const filteredArgs = args.behavior === 'Static'
-      ? filterSpecificationFilters({...args, query: compatibilityArgs.query, map: compatibilityArgs.map } as Required<FacetsArgs>)
-      : (compatibilityArgs as Required<FacetsArgs>)
+    const filteredArgs =
+      args.behavior === 'Static'
+        ? filterSpecificationFilters({
+            ...args,
+            query: compatibilityArgs.query,
+            map: compatibilityArgs.map,
+          } as Required<FacetsArgs>)
+        : (compatibilityArgs as Required<FacetsArgs>)
 
-    
     if (hasFacetsBadArgs(filteredArgs)) {
       throw new UserInputError('No query or map provided')
     }
 
-    const {query: filteredQuery, map: filteredMap} = filteredArgs
+    const { query: filteredQuery, map: filteredMap } = filteredArgs
 
     const segmentData = ctx.vtex.segment
     const salesChannel = (segmentData && segmentData.channel.toString()) || ''
     const unavailableString = hideUnavailableItems
       ? `&fq=isAvailablePerSalesChannel_${salesChannel}:1`
       : ''
-    
+
     const assembledQuery = `${filteredQuery}?map=${filteredMap}${unavailableString}`
-    const facetsResult = await staleFromVBaseWhileRevalidate(vbase, FACETS_BUCKET, assembledQuery.replace(unavailableString, ''), search.facets, assembledQuery)
+    const facetsResult = await staleFromVBaseWhileRevalidate(
+      vbase,
+      FACETS_BUCKET,
+      assembledQuery.replace(unavailableString, ''),
+      search.facets,
+      assembledQuery
+    )
 
     const result = {
       ...facetsResult,
@@ -363,8 +407,17 @@ export const queries = {
       clients: { search },
     } = ctx
     const queryTerm = args.query
+
+    if (args.selectedFacets) {
+      const [map, priceRange] = getMapAndPriceRangeFromSelectedFacets(
+        args.selectedFacets
+      )
+      args.map = map
+      args.priceRange = priceRange
+    }
+
     args.map = args.map && decodeURIComponent(args.map)
-  
+
     if (queryTerm == null || test(/[?&[\]=]/, queryTerm)) {
       throw new UserInputError(
         `The query term contains invalid characters. query=${queryTerm}`
@@ -383,7 +436,10 @@ export const queries = {
       query,
     }
 
-    const compatibilityArgs = await getCompatibilityArgs<SearchArgs>(ctx, translatedArgs)
+    const compatibilityArgs = await getCompatibilityArgs<SearchArgs>(
+      ctx,
+      translatedArgs
+    )
 
     const [productsRaw, searchMetaData] = await Promise.all([
       search.productsRaw(compatibilityArgs),
@@ -393,14 +449,14 @@ export const queries = {
     ])
 
     searchFirstElements(productsRaw.data, args.from, search)
-    
-     if (productsRaw.status === 200) {
+
+    if (productsRaw.status === 200) {
       searchStats.count(ctx, args)
     }
     return {
       translatedArgs: compatibilityArgs,
       searchMetaData,
-      productsRaw
+      productsRaw,
     }
   },
 
@@ -423,7 +479,7 @@ export const queries = {
       productId,
       searchType
     )
-    
+
     searchFirstElements(products, 0, ctx.clients.search)
     // We add a custom cacheId because these products are not exactly like the other products from search apis.
     // Each product is basically a SKU and you may have two products in response with same ID but each one representing a SKU.
@@ -443,12 +499,39 @@ export const queries = {
         `The query term contains invalid characters. query=${queryTerm}`
       )
     }
+
+    if (args.selectedFacets) {
+      const [map] = getMapAndPriceRangeFromSelectedFacets(args.selectedFacets)
+      args.map = map
+    }
+
     const query = await translateToStoreDefaultLanguage(ctx, args.query || '')
     const translatedArgs = {
       ...args,
       query,
     }
-    const compatibilityArgs = await getCompatibilityArgs<SearchArgs>(ctx, translatedArgs as SearchArgs)
+    const compatibilityArgs = await getCompatibilityArgs<SearchArgs>(
+      ctx,
+      translatedArgs as SearchArgs
+    )
     return getSearchMetaData(_, compatibilityArgs, ctx)
+  },
+  /* All search engines need to implement the topSearches, searchSuggestions, and productSuggestions queries. 
+  VTEX search doesn't support these queries, so it always returns empty results as a placeholder. */
+  topSearches: () => {
+    return {
+      searches: [],
+    }
+  },
+  searchSuggestions: () => {
+    return {
+      searches: [],
+    }
+  },
+  productSuggestions: () => {
+    return {
+      count: 0,
+      products: [],
+    }
   },
 }
