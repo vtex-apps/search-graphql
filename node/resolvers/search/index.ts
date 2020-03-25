@@ -36,7 +36,6 @@ import * as searchStats from '../stats/searchStats'
 import { toCompatibilityArgs, hasFacetsBadArgs } from './newURLs'
 import {
   PATH_SEPARATOR,
-  SPEC_FILTER,
   MAP_VALUES_SEP,
   FACETS_BUCKET,
 } from './constants'
@@ -143,7 +142,7 @@ export const fieldResolvers = {
   ...productPriceRangeResolvers,
 }
 
-const getCompatibilityArgs = async <T extends QueryArgs>(
+export const getCompatibilityArgs = async <T extends QueryArgs>(
   ctx: Context,
   args: T
 ) => {
@@ -168,10 +167,7 @@ const isLegacySearchFormat = ({
   if (!map) {
     return false
   }
-  return (
-    map.includes(SPEC_FILTER) ||
-    map.split(MAP_VALUES_SEP).length === query.split(PATH_SEPARATOR).length
-  )
+  return map.split(MAP_VALUES_SEP).length === query.split(PATH_SEPARATOR).length
 }
 
 const isValidProductIdentifier = (identifier: ProductIndentifier | undefined) =>
