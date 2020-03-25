@@ -57,7 +57,7 @@ export const mountCompatibilityQuery = async (params: {vbase: VBase, search: Sea
 const normalizeName = (name: string): string => searchSlugify(name)
 
 const fillCategoriesMapSegments = (categories: (CategoryIdNamePair|null)[], map: string): (string|undefined)[] => {
-  const mapSegments = map.split(MAP_SEPARATOR)
+  const mapSegments = map.split(MAP_SEPARATOR).filter(segment=> segment !== CATEGORY_SEGMENT)
   const segmentsFound = []
 
   for( const category of categories){
