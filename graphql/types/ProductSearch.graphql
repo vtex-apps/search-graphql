@@ -5,12 +5,9 @@ type ProductSearch {
   metaTagDescription: String
   breadcrumb: [SearchBreadcrumb]
   canonical: String
-  suggestion: SearchSuggestions
-  correction: SearchCorrection
   operator: Operator
   fuzzy: String
   searchState: String
-  banners: [SearchBanner]
 }
 
 enum Operator {
@@ -26,6 +23,9 @@ type SearchBreadcrumb {
 type SearchMetadata {
   titleTag: String
   metaTagDescription: String
+  banners: [SearchBanner]
+  suggestion: SearchSuggestions
+  correction: SearchCorrection
 }
 
 input SelectedFacetInput {
@@ -33,7 +33,7 @@ input SelectedFacetInput {
   value: String
 }
 
-type SelectedFacet  {
+type SelectedFacet {
   key: String
   value: String
 }

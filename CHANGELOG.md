@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- `searchmetadata` is now responsible for `banners` `suggestio` and `correction`
+
 ## [0.21.1] - 2020-03-25
 ### Fixed
 - isLegacySearch only when map and query segments have the same length
