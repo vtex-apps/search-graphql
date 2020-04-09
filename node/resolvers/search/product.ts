@@ -219,4 +219,15 @@ export const resolvers = {
   OnlyProduct: {
     categoryTree: productCategoriesToCategoryTree,
   },
+  Offer: {
+    spotPrice: (offer: CommertialOffer) => {
+      let spotPrice = offer.Price
+      offer?.Installments.forEach(({NumberOfInstallments, Value}) => {
+        if (NumberOfInstallments === 1 && Value < spotPrice) {
+          spotPrice = Value
+        }
+      });
+      return spotPrice
+    }
+  }
 }
