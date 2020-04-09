@@ -98,6 +98,11 @@ type Product {
   Returns highest and lowest prices for available SKUs in product.
   """
   priceRange: ProductPriceRange
+
+  """
+  Product Release Date, for list ordering and product cluster highlight
+  """
+  releaseDate: String
 }
 
 enum ItemsFilter {
