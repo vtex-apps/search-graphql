@@ -219,4 +219,13 @@ export const resolvers = {
   OnlyProduct: {
     categoryTree: productCategoriesToCategoryTree,
   },
+  Offer: {
+    spotPrice: (offer: CommertialOffer) => {
+      const sellingPrice = offer.Price
+      const spotPrice: number | undefined = offer?.Installments.find(({NumberOfInstallments, Value}) => {
+        return (NumberOfInstallments === 1 && Value < sellingPrice)
+      })?.Value;
+      return spotPrice ? spotPrice : sellingPrice
+    }
+  }
 }
