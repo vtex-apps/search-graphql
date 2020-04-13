@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+<<<<<<< HEAD
 
 ## [0.23.0] - 2020-04-13
 ### Added
 - `spotPrice` on `Offer`.
+=======
+>>>>>>> parent of ad6bbd0... Merge pull request #70 from vtex-apps/feature/spot-price
 
 ## [0.22.0] - 2020-04-09
 ### Added
