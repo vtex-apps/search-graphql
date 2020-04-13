@@ -221,13 +221,11 @@ export const resolvers = {
   },
   Offer: {
     spotPrice: (offer: CommertialOffer) => {
-      let spotPrice = offer.Price
-      offer?.Installments.forEach(({NumberOfInstallments, Value}) => {
-        if (NumberOfInstallments === 1 && Value < spotPrice) {
-          spotPrice = Value
-        }
-      });
-      return spotPrice
+      const sellingPrice = offer.Price
+      const spotPrice: number | undefined = offer?.Installments.find(({NumberOfInstallments, Value}) => {
+        return (NumberOfInstallments === 1 && Value < sellingPrice)
+      })?.Value;
+      return spotPrice ? spotPrice : sellingPrice
     }
   }
 }
