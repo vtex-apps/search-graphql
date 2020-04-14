@@ -96,5 +96,12 @@ export const resolvers = {
       return filteredGiftProducts
     },
     discountHighlights: propOr([], 'DiscountHighLight'),
+    spotPrice: (offer: CommertialOffer) => {
+      const sellingPrice = offer.Price
+      const spotPrice: number | undefined = offer.Installments.find(({NumberOfInstallments, Value}) => {
+        return (NumberOfInstallments === 1 && Value < sellingPrice)
+      })?.Value;
+      return spotPrice || sellingPrice
+    }
   },
 }
