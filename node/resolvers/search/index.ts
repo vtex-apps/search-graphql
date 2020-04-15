@@ -148,10 +148,11 @@ export const getCompatibilityArgs = async <T extends QueryArgs>(
 ) => {
   const {
     clients: { vbase, search },
+    metrics,
   } = ctx
   const compatArgs = isLegacySearchFormat(args)
     ? args
-    : await toCompatibilityArgs(vbase, search, args)
+    : await toCompatibilityArgs(vbase, search, metrics, args)
   return compatArgs ? { ...args, ...compatArgs } : args
 }
 

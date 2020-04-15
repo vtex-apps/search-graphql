@@ -13,13 +13,28 @@ import { PATH_SEPARATOR, MAP_SEPARATOR } from '../stats/constants'
 
 export const hasFacetsBadArgs = ({ query, map }: QueryArgs) => !query || !map
 
-export const toCompatibilityArgs = async (vbase:VBase, search: Search, args: QueryArgs): Promise<QueryArgs|undefined> => {
-  const {query} = args
-  if(!query){
+export const toCompatibilityArgs = async (
+  vbase: VBase,
+  search: Search,
+  metrics: Record<string, [number, number]>,
+  args: QueryArgs
+): Promise<QueryArgs | undefined> => {
+  const toCompatibilityArgsStart = process.hrtime()
+  const { query } = args
+  if (!query) {
     return
   }
-  const { query: compatibilityQuery, map: compatibilityMap } = await staleFromVBaseWhileRevalidate(
-    vbase, SEARCH_URLS_BUCKET, query, mountCompatibilityQuery, {vbase, search, args} )
+  const {
+    query: compatibilityQuery,
+    map: compatibilityMap,
+  } = await staleFromVBaseWhileRevalidate(
+    vbase,
+    SEARCH_URLS_BUCKET,
+    query,
+    mountCompatibilityQuery,
+    { vbase, search, args }
+  )
+  metrics['to-compatibility-args'] = process.hrtime(toCompatibilityArgsStart)
   return { query: compatibilityQuery, map: compatibilityMap }
 }
 
