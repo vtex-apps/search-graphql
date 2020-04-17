@@ -1,13 +1,5 @@
-import {
-  compose,
-  last,
-  map,
-  omit,
-  prop,
-  propOr,
-  split,
-  pathOr,
-} from 'ramda'
+import { formatTranslatableStringV2 } from '@vtex/api'
+import { compose, last, map, omit, pathOr, propOr, split } from 'ramda'
 
 import { getBenefits } from '../benefits'
 import { buildCategoryMap } from './utils'
@@ -165,7 +157,48 @@ export const resolvers = {
 
     recommendations: (product: SearchProduct) => product,
 
-    titleTag: prop('productTitle'),
+    description: ({ productId, description }: SearchProduct) => formatTranslatableStringV2({
+      content: description,
+      context: productId,
+    }),
+
+    metaTagDescription: ({ productId, metaTagDescription }: SearchProduct) => formatTranslatableStringV2({
+      content: metaTagDescription,
+      context: productId,
+    }),
+
+    titleTag: ({ productId, productTitle }: SearchProduct) => formatTranslatableStringV2({
+      content: productTitle,
+      context: productId,
+    }),
+
+    productName: ({ productId, productName }: SearchProduct) => formatTranslatableStringV2({
+      content: productName,
+      context: productId,
+    }),
+
+    linkText: async ({ productId, linkText }: SearchProduct, _: unknown, ctx: Context) => {
+      const { clients: { messagesGraphQL }, vtex: { binding, tenant } } = ctx
+
+      if (!binding || !tenant || binding.locale === tenant.locale) {
+        return linkText
+      }
+
+      const messages = [{
+        context: productId,
+        content: linkText
+      }]
+
+      const translations = await messagesGraphQL.translate({
+        to: binding.locale,
+        indexedByFrom: [{
+          from: tenant.locale,
+          messages
+        }]
+      })
+
+      return translations[0]
+    },
 
     specificationGroups: (product: SearchProduct) => {
       const allSpecificationsGroups = propOr<[], SearchProduct, string[]>(

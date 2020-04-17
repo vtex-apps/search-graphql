@@ -777,10 +777,10 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-"@vtex/api@6.24.4":
-  version "6.24.4"
-  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-6.24.4.tgz#e39c5c87c01fe287ce0aaac9acc7c7acd224f7a1"
-  integrity sha512-w/wSmNQjvG0CQBGic/KPGD4l+yGIam2LMORlubt68bb6qA5j/21Fijfy8N9HFEwo+rmQAYnutMJGVzSQUlBh9A==
+"@vtex/api@6.25.0":
+  version "6.25.0"
+  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-6.25.0.tgz#5d64fa74d34ffec67b3e7859bab837104dd21047"
+  integrity sha512-uMIr5FXnw//wiQokIYftf8nB+2vDc1bWFl2XYcChJdTv6So932BK8jBv+wQuc/eN/8BP4M/m0zcghjiejhw4pw==
   dependencies:
     "@types/koa" "^2.11.0"
     "@types/koa-compose" "^3.2.3"
@@ -4844,7 +4844,7 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-"stats-lite@github:vtex/node-stats-lite#dist":
+stats-lite@vtex/node-stats-lite#dist:
   version "2.2.0"
   resolved "https://codeload.github.com/vtex/node-stats-lite/tar.gz/1b0d39cc41ef7aaecfd541191f877887a2044797"
   dependencies:
@@ -5413,6 +5413,18 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+"vtex.catalog-api-proxy@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.catalog-api-proxy@0.7.2/public/_types/react":
+  version "0.0.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.catalog-api-proxy@0.7.2/public/_types/react#fa7a0347e046eab3dd768998fc9252b2c0dd5aef"
+
+"vtex.messages@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.messages@1.59.2/public/@types/vtex.messages":
+  version "1.59.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.messages@1.59.2/public/@types/vtex.messages#63cf1bc42e926b8d0eccb8a24b1e10f35c17dabf"
+
+"vtex.search-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.search-graphql@0.23.1/public/@types/vtex.search-graphql":
+  version "0.23.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.search-graphql@0.23.1/public/@types/vtex.search-graphql#91612d8e631f9ed5508f7f5781627347f531a2a3"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
