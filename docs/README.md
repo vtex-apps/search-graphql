@@ -1,6 +1,6 @@
 # VTEX Search GraphQL
 
-This GraphQL app is a wrapper for the VTEX catalog searches related API calls.
+This GraphQL app the eschema declaration of the VTEX catalog searches related API calls wrapper.
 
 ### Usage
 
@@ -19,6 +19,8 @@ query ProductQuery($slug: String) {
   }
 }
 ```
+
+To resolve this query, you need to have a app that implements the schema declared in this app, such as: [vtex.search-resolver](https://github.com/vtex-apps/search-resolver)
 
 ### Queries
 
