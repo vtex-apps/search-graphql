@@ -55,5 +55,5 @@
     "vtex.messages": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.messages@1.59.2/public/@types/vtex.messages",
     "vtex.search-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.search-graphql@0.23.1/public/@types/vtex.search-graphql"
   },
-  "version": "0.24.0"
+  "version": "0.24.1"
 }
