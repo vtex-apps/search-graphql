@@ -33,13 +33,12 @@ import {
   getMapAndPriceRangeFromSelectedFacets,
 } from './utils'
 import * as searchStats from '../stats/searchStats'
-import { toCompatibilityArgs, hasFacetsBadArgs } from './newURLs'
 import {
-  PATH_SEPARATOR,
-  MAP_VALUES_SEP,
   FACETS_BUCKET,
 } from './constants'
 import { staleFromVBaseWhileRevalidate } from '../../utils/vbase'
+
+export const hasFacetsBadArgs = ({ query, map }: any) => !query || !map
 
 interface ProductIndentifier {
   field: 'id' | 'slug' | 'ean' | 'reference' | 'sku'
@@ -143,31 +142,10 @@ export const fieldResolvers = {
 }
 
 export const getCompatibilityArgs = async <T extends QueryArgs>(
-  ctx: Context,
+  _: Context,
   args: T
 ) => {
-  const {
-    clients: { vbase, search },
-  } = ctx
-  const compatArgs = isLegacySearchFormat(args)
-    ? args
-    : await toCompatibilityArgs(vbase, search, args)
-  return compatArgs ? { ...args, ...compatArgs } : args
-}
-
-// Legacy search format is our search with path?map=c,c,specificationFilter
-// Where it has specificationFilters and all segments in path are mapped in `map` querystring
-const isLegacySearchFormat = ({
-  query,
-  map,
-}: {
-  query: string
-  map?: string
-}) => {
-  if (!map) {
-    return false
-  }
-  return map.split(MAP_VALUES_SEP).length === query.split(PATH_SEPARATOR).length
+  return args
 }
 
 const isValidProductIdentifier = (identifier: ProductIndentifier | undefined) =>
