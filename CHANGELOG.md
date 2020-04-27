@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.25.0] - 2020-04-27
+
 ## [0.24.1] - 2020-04-22
 ### Added
 - Add web framework team as code owners.
