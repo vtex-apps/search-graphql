@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
-
 - `@vtex-apps/search-engagement-team` as code owner.
 
 ## [0.25.1] - 2020-04-29
