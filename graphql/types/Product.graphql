@@ -263,8 +263,6 @@ type Offer {
   AvailableQuantity: Float
   Tax: Float
   taxPercentage: Float
-  listPriceWithTax: Float
-  sellingPriceWithTax: Float
   CacheVersionUsedToCallCheckout: String
   DeliverySlaSamples: [DeliverySlaSamples]
   """
