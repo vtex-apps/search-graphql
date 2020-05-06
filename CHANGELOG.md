@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
--  `taxPercentage`, `listPriceWithTax`, `sellingPriceWithTax` on the `Offer` type.
+-  `taxPercentage` on the `Offer` type.
 
 ## [0.25.1] - 2020-04-29
 ### Changed
