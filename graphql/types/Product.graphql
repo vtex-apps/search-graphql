@@ -262,6 +262,7 @@ type Offer {
   PriceValidUntil: String
   AvailableQuantity: Float
   Tax: Float
+  taxPercentage: Float
   CacheVersionUsedToCallCheckout: String
   DeliverySlaSamples: [DeliverySlaSamples]
   """
