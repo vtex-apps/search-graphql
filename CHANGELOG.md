@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Remove `suggestions`, `correction` and `banners` from `productSearch` and create a query for each one.
+
 ### Added
 - Breadcrumb to facets.
 
