@@ -7,7 +7,7 @@ The default implementation for this schema is on [vtex.search-resolver[(https://
 ### Usage
 
 To use it in your app, decalre it on your manifest file like:
-```graphql
+```
 "dependencies": {
   "vtex.search-graphql": "0.x"
 }
