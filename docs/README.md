@@ -1,18 +1,20 @@
 # VTEX Search GraphQL
 
-This GraphQL app the eschema declaration of the VTEX catalog searches related API calls wrapper.
+This app exports a GraphQL schema for search results on VTEX Stores.
+
+The default implementation for this schema is on [vtex.search-resolver[(https://github.com/vtex-apps/search-resolver) app.
 
 ### Usage
 
 To use it in your app, decalre it on your manifest file like:
-```
+```graphql
 "dependencies": {
   "vtex.search-graphql": "0.x"
 }
 ```
 
 You may then use it in your front end component queries, for example, write file `productQuery.gql`:
-```
+```graphql
 query ProductQuery($slug: String) {
   product(identifier: { field: slug, value: $slug}) @context(provider: "vtex.search-graphql") {
     productName
@@ -26,7 +28,7 @@ To resolve this query, you need to have a app that implements the schema declare
 
 Check the [Product](/graphql/Product.graphql) to know what fields you can query in the type product.
 
-```
+```graphql
 product(
     """
     Product slug
@@ -39,7 +41,7 @@ product(
   ): Product
 ```
 Relevant types:
-```
+```graphql
 input ProductUniqueIdentifier {
   field: ProductUniqueIdentifierField!
   value: ID!
@@ -58,7 +60,7 @@ The product query returns a propduct.
 
 You may get a product with its slug (using the slug arg) or by passing other type of identification like id.
 
-```
+```graphql
 query {
   product(identifier: { field: slug, value: "my-slug"}) {
     productName
@@ -67,7 +69,7 @@ query {
 
 or
 
-```
+```graphql
 query {
   product(identifier: { field: id, value: "1"}) {
     productName
@@ -76,7 +78,7 @@ query {
 
 Product Search:
 
-```
+```graphql
   productSearch(
     """
     Terms that is used in search e.g.: eletronics/samsung
@@ -153,7 +155,7 @@ Product Search:
   ): ProductSearch
   ```
 
-  ```
+  ```graphql
   type ProductSearch {
     products: [Product]
     recordsFiltered: Int
@@ -172,7 +174,7 @@ Product Search:
 
   It returns a list of products, the breadcrumb associated for that search, the number of items in total, and SEO related data.
 
-  ```
+  ```graphql
   query {
     productSearch(query: "clothing", map:"c", hideUnavailableItems: true) {
       products {
@@ -189,7 +191,7 @@ Product Search:
 
 Other examples:
 
-```
+```graphql
   query {
     productSearch(query: "clothing/Brand", map:"c,b", hideUnavailableItems: true, from: 10, to: 20, ) {
       products {
@@ -206,7 +208,7 @@ Other examples:
 
 Search Metadata:
 
-```
+```graphql
 searchMetadata(
     """
     Terms that is used in search e.g.: eletronics/samsung
@@ -226,7 +228,7 @@ searchMetadata(
     selectedFacets: [SelectedFacet]
   ): SearchMetadata
 ```
-```
+```graphql
 type SearchMetadata {
   titleTag: String
   metaTagDescription: String
@@ -236,7 +238,7 @@ type SearchMetadata {
 This query returns SEO related data.
 
 Example:
-```
+```graphql
 query {
   searchMetadata(query: "clothing/Brand", map:"c,b") {
     titleTag
@@ -247,7 +249,7 @@ query {
 
 Products (list)
 
-```
+```graphql
 """
   Returns products list filtered and ordered
   """
@@ -303,7 +305,7 @@ Products (list)
 Returns a list of products.
 
 Example:
-```
+```graphql
 query {
   products(query: "clothing/Brand", map:"c,b") {
     productName
@@ -324,7 +326,7 @@ Get recommendations based on type of wanted recommendation for that specified pr
 
 Example:
 
-```
+```graphql
 query {
   productRecommendations(identifier: { field: id, value: "1"}, type: similars) {
     productName
@@ -334,7 +336,7 @@ query {
 
 Products By Identifier
 
-```
+```graphql
 productsByIdentifier(
   field: ProductUniqueIdentifierField!
   values: [ID!]
@@ -344,7 +346,7 @@ productsByIdentifier(
 Get products with same identifier, returns list.
 
 Example:
-```
+```graphql
 query {
   productsByIdentifier(identifier: { field: reference, value: "1"}, type: similars) {
     productName
@@ -353,7 +355,7 @@ query {
 ```
 
 Facets
-```
+```graphql
 facets(
   """
   Terms that is used in search e.g.: eletronics/samsung
@@ -400,7 +402,7 @@ Return the facets associated for those search args.
 Check the [Facets](/graphql/Facets.graphql) to know what fields you can query in the type Facets.
 
 Example:
-```
+```graphql
 query {
   facets(query: "clothing", map: "c") {
     departments {
@@ -413,7 +415,7 @@ query {
 
 Autocomplete
 
-```
+```graphql
 autocomplete(
   """
   Number of items that is returned
@@ -426,7 +428,7 @@ autocomplete(
 ): Suggestions
 ```
 Return type:
-```
+```graphql
 type Suggestions {
   """ searchTerm from Query autocomplete is used as cacheId """
   cacheId: ID
@@ -445,7 +447,7 @@ type Items {
 Returns the suggested items based on a search term, used for search bar.
 
 Example:
-```
+```graphql
 query {
   autocomplete(searchTem: "shirt") {
     itemsReturned {
