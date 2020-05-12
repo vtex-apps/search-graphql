@@ -2,7 +2,7 @@
 
 This app exports a GraphQL schema for search results on VTEX Stores.
 
-The default implementation for this schema is on [vtex.search-resolver[(https://github.com/vtex-apps/search-resolver) app.
+The default implementation for this schema is on [vtex.search-resolver](https://github.com/vtex-apps/search-resolver) app.
 
 ### Usage
 
