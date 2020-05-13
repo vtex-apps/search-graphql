@@ -105,6 +105,7 @@ type FilterFacet {
   map: String
   value: String!
   selected: Boolean!
+  visible: Boolean
 }
 
 type FilterFacets {
