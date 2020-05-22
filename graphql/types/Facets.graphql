@@ -35,6 +35,7 @@ type Facet {
   name: String @translatableV2
   values: [FacetValue]
   type: FilterType
+  hidden: Boolean
 }
 
 type Facets {
