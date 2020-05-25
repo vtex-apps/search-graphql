@@ -25,7 +25,7 @@ type SearchBreadcrumb {
 
 type SearchMetadata {
   titleTag: String
-  metaTagDescription: String
+  metaTagDescription: String @translatableV2
 }
 
 input SelectedFacetInput {
