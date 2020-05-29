@@ -19,7 +19,7 @@ type Query {
   ): Product @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
-  Return the banners from a given query
+  Return the banners for a given query
   """
   banners(
     """
@@ -53,6 +53,20 @@ type Query {
   ): SearchSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
+
+  """
+  Return the redirect URL for a given query
+  """
+  redirect(
+    """
+    Text inputted by the user as the search term
+    """
+    fullText: String = ""
+    """
+    Selected facets
+    """
+    selectedFacets: [SelectedFacetInput]
+  ): Redirect @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
   Returns products list filtered and ordered
