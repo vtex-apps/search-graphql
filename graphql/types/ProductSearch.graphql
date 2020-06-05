@@ -5,9 +5,12 @@ type ProductSearch {
   metaTagDescription: String
   breadcrumb: [SearchBreadcrumb]
   canonical: String
+  suggestion: SearchSuggestions
+  correction: SearchCorrection
   operator: Operator
   fuzzy: String
   searchState: String
+  banners: [SearchBanner]
 }
 
 enum Operator {
