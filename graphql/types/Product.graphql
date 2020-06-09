@@ -370,8 +370,8 @@ type SpecificationGroupProperty {
 }
 
 type Property {
-  name: String
-  values: [String]
+  name: String @translatableV2
+  values: [String] @translatableV2
 }
 
 type PropertyGroup {
