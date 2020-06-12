@@ -11,6 +11,7 @@ type ProductSearch {
   fuzzy: String
   searchState: String
   banners: [SearchBanner]
+  redirect: String
 }
 
 enum Operator {
