@@ -19,6 +19,42 @@ type Query {
   ): Product @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
+  Return the banners for a given query
+  """
+  banners(
+    """
+    Text inputted by the user as the search term
+    """
+    fullText: String = ""
+    """
+    Selected facets
+    """
+    selectedFacets: [SelectedFacetInput]
+  ): Banners @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+
+  """
+  Correct a misspeled term
+  """
+  correction(
+    """
+    Text inputted by the user as the search term
+    """
+    fullText: String = ""
+  ): Correction @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+
+  """
+  Get search suggestions
+  """
+  searchSuggestions(
+    """
+    Text inputted by the user as the search term
+    """
+    fullText: String!
+  ): SearchSuggestions
+    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @withSegment
+
+  """
   Returns products list filtered and ordered
   """
   productSearch(
@@ -249,9 +285,9 @@ type Query {
     @withSegment
 
   """
-  Get search suggestions
+  Get autocomplete search suggestions
   """
-  searchSuggestions(
+  autocompleteSearchSuggestions(
     """
     Text inputted by the user as the search term
     """

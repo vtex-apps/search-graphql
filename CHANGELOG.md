@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Redirect to `productSearch`.
+- Breadcrumb to `facets`.
+
+### Changed
+- Split `suggestions`, `correction` and `banners` into three new queries.
+
 ## [0.27.2] - 2020-06-09
 ### Changed
 - Make fiels of `Property` type be translatable.

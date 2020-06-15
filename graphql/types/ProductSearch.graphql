@@ -11,6 +11,7 @@ type ProductSearch {
   fuzzy: String
   searchState: String
   banners: [SearchBanner]
+  redirect: String
 }
 
 enum Operator {
@@ -33,37 +34,7 @@ input SelectedFacetInput {
   value: String
 }
 
-type SelectedFacet  {
+type SelectedFacet {
   key: String
   value: String
-}
-
-type SearchSuggestions {
-  searches: [SearchSuggestion]
-}
-
-type SearchSuggestionAttribute {
-  key: String!
-  value: String!
-  labelValue: String!
-}
-
-type SearchSuggestion {
-  term: String!
-  count: Int!
-  attributes: [SearchSuggestionAttribute]
-}
-
-type SearchCorrection {
-  text: String
-  highlighted: String
-  misspelled: Boolean
-  correction: Boolean
-}
-
-type SearchBanner {
-  id: String
-  name: String
-  area: String
-  html: String
 }

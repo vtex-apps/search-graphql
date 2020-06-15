@@ -47,6 +47,7 @@ type Facets {
   recordsFiltered: Int
   queryArgs: QueryArgs
   facets: [Facet]
+  breadcrumb: [SearchBreadcrumb]
 }
 
 type DepartmentFacet {
