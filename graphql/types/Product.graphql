@@ -196,11 +196,11 @@ type SkuSpecification {
 }
 
 type SKUSpecificationField {
-  name: String
+  name: String @translatableV2
 }
 
 type SKUSpecificationValue {
-  name: String
+  name: String @translatableV2
 }
 
 type productSpecification {
