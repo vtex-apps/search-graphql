@@ -103,6 +103,16 @@ type Product {
   Product Release Date, for list ordering and product cluster highlight
   """
   releaseDate: String
+
+  """
+  Product properties that will be selected by default. e.g: {key: "Color", value: "Blue"}
+  """
+  selectedProperties: [SelectedProperty]
+}
+
+type SelectedProperty {
+  key: String
+  value: String
 }
 
 enum ItemsFilter {

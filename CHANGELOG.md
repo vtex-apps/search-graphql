@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `selectedProperties` field to the `product` object.
+
 ## [0.28.1] - 2020-07-07
 ### Added
 - Translation directive to `SKUSpecificationField` and `SKUSpecificationValue`
