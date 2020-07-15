@@ -370,11 +370,13 @@ type Video {
 }
 
 type SpecificationGroup {
+  originalName: String
   name: String @translatableV2
   specifications: [SpecificationGroupProperty]
 }
 
 type SpecificationGroupProperty {
+  originalName: String
   name: String @translatableV2
   values: [String] @translatableV2
 }
