@@ -206,10 +206,12 @@ type SkuSpecification {
 }
 
 type SKUSpecificationField {
+  originalName: String
   name: String @translatableV2
 }
 
 type SKUSpecificationValue {
+  originalName: String
   name: String @translatableV2
 }
 
