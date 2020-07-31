@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `productOriginVtex` to the `productSuggestions` query.
+- `simulationBehavior` to the `productSuggestions` query.
+
 ## [0.30.0] - 2020-07-21
 ### Added
 - `originalName` to `SpecificationGroup`.

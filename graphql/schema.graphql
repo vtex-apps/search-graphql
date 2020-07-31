@@ -312,6 +312,15 @@ type Query {
     Selected facet value
     """
     facetValue: String
+    """
+    Each search engine has its own database, but this database might not have all the product information like `clusterHighlights` or `productClusters`.
+    As an alternative, the search engine may use the VTEX API to complete this information by setting this field to true.
+    """
+    productOriginVtex: Boolean = false
+    """
+    If you want faster searches and do not care about most up to date prices and promotions, use skip value.
+    """
+    simulationBehavior: SimulationBehavior = default
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
