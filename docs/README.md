@@ -340,6 +340,7 @@ Products By Identifier
 productsByIdentifier(
   field: ProductUniqueIdentifierField!
   values: [ID!]
+  salesChannel: String
 ): [Product]
 ```
 

@@ -216,6 +216,10 @@ type Query {
   productsByIdentifier(
     field: ProductUniqueIdentifierField!
     values: [ID!]
+    """
+    Filter by availability at a specific sales channel.
+    """
+    salesChannel: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
