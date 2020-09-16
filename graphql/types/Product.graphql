@@ -265,6 +265,8 @@ type Offer {
   Installments(
     criteria: InstallmentsCriteria = ALL
     rates: Boolean = true
+    excludedPaymentSystems: [String]
+    includedPaymentSystems: [String]
   ): [Installment]
   Price: Float
   ListPrice: Float
