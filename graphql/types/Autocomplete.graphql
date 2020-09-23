@@ -1,6 +1,18 @@
 type ProductSuggestions {
-    """Number of suggested products"""
-    count: Int!
-    """Suggested products"""
-    products: [Product]!
+  """
+  Number of suggested products
+  """
+  count: Int!
+  """
+  Suggested products
+  """
+  products: [Product]!
+  """
+  If the term is misspelled or not
+  """
+  misspelled: Boolean
+  """
+  Indicates how the search-engine will deal with the fullText if there is more than one word. Set `and` if the returned products must have all the words in its metadata or `or` otherwise.
+  """
+  operator: Operator
 }
