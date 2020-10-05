@@ -33,9 +33,10 @@ enum FilterType {
 
 type Facet {
   name: String @translatableV2
-  values: [FacetValue]
+  values(from: Int, to: Int): [FacetValue]
   type: FilterType
   hidden: Boolean
+  quantity: Int
 }
 
 type Facets {

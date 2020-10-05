@@ -395,6 +395,14 @@ facets(
   It is similar to fuzzy and operator but is used for scenarios where fuzzy and operator are not enough.
   """
   searchState: String
+  """
+  Pagination item start
+  """
+  from: Int
+  """
+  Pagination item end
+  """
+  to: Int
 ): Facets
 ```
 
