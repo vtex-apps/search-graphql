@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.36.2-beta] - 2020-12-07
+
 ## [0.36.1] - 2020-12-03
 ### Fixed
 - TypeScript type generation.
