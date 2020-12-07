@@ -386,6 +386,7 @@ type SpecificationGroupProperty {
 }
 
 type Property {
+  originalName: String
   name: String @translatableV2
   values: [String] @translatableV2
 }
