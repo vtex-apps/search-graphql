@@ -18,11 +18,11 @@ type Brand {
   """
    Name of brand
   """
-  name: String @translatableV2
+  name: String @translatableV2(behavior: "USER_ONLY")
   """
    Title used by html tag
   """
-  titleTag: String @translatableV2
+  titleTag: String @translatableV2(behavior: "USER_ONLY")
   """
    Description used by html tag
   """
