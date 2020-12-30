@@ -65,7 +65,7 @@ type DepartmentFacet {
 type BrandFacet {
   id: ID!
   quantity: Int!
-  name: String!
+  name: String! @translatableV2(behavior: "USER_ONLY")
   link: String!
   linkEncoded: String!
   map: String
