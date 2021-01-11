@@ -273,7 +273,7 @@ type Query {
     Pagination item end
     """
     to: Int
-    
+
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
@@ -325,6 +325,10 @@ type Query {
     Selected facet value
     """
     facetValue: String
+    """
+    If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel
+    """
+    hideUnavailableItems: Boolean = false
     """
     Each search engine has its own database, but this database might not have all the product information like `clusterHighlights` or `productClusters`.
     As an alternative, the search engine may use the VTEX API to complete this information by setting this field to true.
