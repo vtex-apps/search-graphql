@@ -326,10 +326,6 @@ type Query {
     """
     facetValue: String
     """
-    If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel
-    """
-    hideUnavailableItems: Boolean = false
-    """
     Each search engine has its own database, but this database might not have all the product information like `clusterHighlights` or `productClusters`.
     As an alternative, the search engine may use the VTEX API to complete this information by setting this field to true.
     """
@@ -338,6 +334,10 @@ type Query {
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
     simulationBehavior: SimulationBehavior = default
+    """
+    If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel
+    """
+    hideUnavailableItems: Boolean
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
