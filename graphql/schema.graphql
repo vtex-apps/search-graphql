@@ -273,7 +273,7 @@ type Query {
     Pagination item end
     """
     to: Int
-    
+
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
@@ -334,6 +334,10 @@ type Query {
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
     simulationBehavior: SimulationBehavior = default
+    """
+    If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel
+    """
+    hideUnavailableItems: Boolean
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
