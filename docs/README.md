@@ -135,7 +135,7 @@ Product Search:
     """
     If true, remove hidden facets from the result.
     """
-    hidden: Boolean = false
+    removeHiddenFacets: Boolean = false
     """
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """

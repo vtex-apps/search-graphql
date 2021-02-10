@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- `hidden` to the `facets` query.
+- `removeHiddenFacets` to the `facets` query.
 
 ## [0.39.0] - 2021-02-01
 ### Added
