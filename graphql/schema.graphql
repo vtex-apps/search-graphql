@@ -247,6 +247,10 @@ type Query {
     """
     hideUnavailableItems: Boolean = false
     """
+    If true, remove hidden facets from the result.
+    """
+    removeHiddenFacets: Boolean = false
+    """
     If Static, ignores SpecificationFilters received on the map and query when returning
     the facets available, which makes the facets never change.
     """
