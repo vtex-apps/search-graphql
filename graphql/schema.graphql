@@ -277,7 +277,10 @@ type Query {
     Pagination item end
     """
     to: Int
-
+    """
+    Determines the behavior of the category tree
+    """
+    categoryTreeBehavior: CategoryTreeBehavior = default
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
@@ -376,4 +379,19 @@ enum SimulationBehavior {
   Does the simulation on the client side
   """
   async
+}
+
+enum CategoryTreeBehavior {
+  """
+  Uses the default value set by the search provider
+  """
+  default
+  """
+  Show the category tree when it is possible
+  """
+  show
+  """
+  Hide the category tree in any situation
+  """
+  hide
 }

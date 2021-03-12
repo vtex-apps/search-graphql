@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `categoryTreeBehavior` field to the `facets` query.
+
 ## [0.40.0] - 2021-02-11
 ### Added
 - `removeHiddenFacets` to the `facets` query.
