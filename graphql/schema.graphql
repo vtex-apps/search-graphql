@@ -342,6 +342,10 @@ type Query {
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel
     """
     hideUnavailableItems: Boolean
+    """
+    Seller id encoded with base64 according to this format SW#{}
+    """
+    regionId: String
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
