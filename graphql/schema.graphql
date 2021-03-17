@@ -343,7 +343,7 @@ type Query {
     """
     hideUnavailableItems: Boolean
     """
-    Seller id encoded with base64 according to this format SW#{}
+    Seller id encoded with base64 according to this format SW#{selerId}
     """
     regionId: String
   ): ProductSuggestions
