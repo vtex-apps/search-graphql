@@ -16,6 +16,14 @@ type Query {
     Product identifier
     """
     identifier: ProductUniqueIdentifier
+    """
+    Seller id encoded with base64 according to this format SW#{selerId}
+    """
+    regionId: String
+    """
+    Trade Policy
+    """
+    salesChannel: String
   ): Product @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
