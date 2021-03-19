@@ -357,6 +357,10 @@ type Query {
     Seller id encoded with base64 according to this format SW#{selerId}
     """
     regionId: String
+    """
+    Trade Policy related to the region ID
+    """
+    tradePolicy: String
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
