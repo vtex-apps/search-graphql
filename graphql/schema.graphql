@@ -17,13 +17,13 @@ type Query {
     """
     identifier: ProductUniqueIdentifier
     """
-    Seller id encoded with base64 according to this format SW#{selerId}
+    Seller id encoded with base64 according to this format SW#{sellerId}
     """
     regionId: String
     """
     Trade Policy
     """
-    salesChannel: String
+    salesChannel: Int
   ): Product @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
@@ -354,7 +354,7 @@ type Query {
     """
     hideUnavailableItems: Boolean
     """
-    Seller id encoded with base64 according to this format SW#{selerId}
+    Seller id encoded with base64 according to this format SW#{sellerId}
     """
     regionId: String
     """
