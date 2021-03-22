@@ -358,9 +358,9 @@ type Query {
     """
     regionId: String
     """
-    Trade Policy related to the region ID
+    Sales Channel related to the region ID
     """
-    tradePolicy: String
+    salesChannel: Int
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
