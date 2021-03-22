@@ -470,3 +470,8 @@ query {
   }
 }
 ```
+
+
+**Upcoming documentation:**
+
+ - [Add new infos to the product query](https://github.com/vtex-apps/search-graphql/pull/105)
