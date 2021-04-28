@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `hideItemsWithBetterScope` to `productSuggestions` and `productSearch` queries.
+
 ## [0.43.0] - 2021-03-22
 
 ### Added
