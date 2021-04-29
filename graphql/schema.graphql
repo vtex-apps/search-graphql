@@ -132,6 +132,10 @@ type Query {
     """
     hideItemsWithBetterScope: Boolean = false
     """
+    If true, disables the regionalization of the store.
+    """
+    disableRegionalization: Boolean = false
+    """
     Indicates how the search-engine will deal with the fullText if there is more than one word. Set `and` if the returned products must have all the words in its metadata or `or` otherwise.
     """
     operator: Operator
@@ -293,6 +297,14 @@ type Query {
     Determines the behavior of the category tree
     """
     categoryTreeBehavior: CategoryTreeBehavior = default
+    """
+    If true, hides the items with better scope for regionalized stores
+    """
+    hideItemsWithBetterScope: Boolean = false
+    """
+    If true, disables the regionalization of the store.
+    """
+    disableRegionalization: Boolean = false
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
@@ -369,6 +381,10 @@ type Query {
     If true, hides the items with better scope for regionalized stores
     """
     hideItemsWithBetterScope: Boolean = false
+    """
+    If true, disables the regionalization of the store.
+    """
+    disableRegionalization: Boolean = false
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
