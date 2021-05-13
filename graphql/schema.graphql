@@ -293,6 +293,10 @@ type Query {
     Determines the behavior of the category tree
     """
     categoryTreeBehavior: CategoryTreeBehavior = default
+    """
+    If true, hides the items with better scope for regionalized stores
+    """
+    hideItemsWithBetterScope: Boolean = false
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
