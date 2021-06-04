@@ -141,6 +141,11 @@ type Query {
     The possible values in this field are defined by each search engine.
     """
     searchState: String
+
+    """
+    Flag to allow search redirect.
+    """
+    allowRedirect: Boolean
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
