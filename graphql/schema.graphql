@@ -143,7 +143,7 @@ type Query {
     searchState: String
 
     """
-    Selected facets
+    Search options that customize the search result.
     """
     options: Options
 
