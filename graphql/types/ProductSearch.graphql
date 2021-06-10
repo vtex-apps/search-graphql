@@ -38,3 +38,7 @@ type SelectedFacet {
   key: String
   value: String
 }
+
+input Options {
+  allowRedirect: Boolean
+}

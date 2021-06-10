@@ -143,9 +143,10 @@ type Query {
     searchState: String
 
     """
-    Flag to allow search redirect.
+    Selected facets
     """
-    allowRedirect: Boolean
+    options: Options
+
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
