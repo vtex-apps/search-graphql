@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added 
+
+- `Options` object with `allowRedirect` flag to `ProductSearch` query.
+
 ## [0.43.0] - 2021-03-22
 
 ### Added

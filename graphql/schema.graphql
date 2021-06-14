@@ -141,6 +141,12 @@ type Query {
     The possible values in this field are defined by each search engine.
     """
     searchState: String
+
+    """
+    Search options that customize the search result.
+    """
+    options: Options
+
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(

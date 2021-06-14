@@ -38,3 +38,10 @@ type SelectedFacet {
   key: String
   value: String
 }
+
+input Options {
+  """
+    If the search has a redirect enabled, this allows (`true`) or not (`false`) the redirect to be used
+  """
+  allowRedirect: Boolean
+}
