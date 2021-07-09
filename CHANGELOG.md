@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `sampling` to `facets` response.
+
 ## [0.45.0] - 2021-07-08
 
 ### Added

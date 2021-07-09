@@ -48,6 +48,7 @@ type Facets {
   recordsFiltered: Int
   queryArgs: QueryArgs
   facets: [Facet]
+  sampling: Boolean
   breadcrumb: [SearchBreadcrumb]
 }
 

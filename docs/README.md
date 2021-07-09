@@ -407,6 +407,14 @@ facets(
   Pagination item end
   """
   to: Int
+  """
+  Determines the behavior of the category tree
+  """
+  categoryTreeBehavior: CategoryTreeBehavior = default
+  """
+  Initial attributes (based on the `initialMap` parameter)
+  """
+  initialAttributes: String
 ): Facets
 ```
 
