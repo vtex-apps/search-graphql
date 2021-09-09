@@ -397,6 +397,10 @@ enum SimulationBehavior {
   """
   default
   """
+  Does simulation on catalog only for seller 1P
+  """
+  only1P
+  """
   Calls catalog passing a parameter to not simulate each SKU and get its most up to date price.
   """
   skip

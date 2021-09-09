@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `only1P` as a `SimulationBehavior` option.
+
 ## [0.46.0] - 2021-07-15
 
 ### Added
