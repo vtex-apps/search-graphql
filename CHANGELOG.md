@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- `orderBy` default value.
+
 ## [0.47.0] - 2021-09-09
 
 ### Added
