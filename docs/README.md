@@ -117,9 +117,9 @@ Product Search:
     """
     salesChannel: String = ""
     """
-    Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC
+    Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC, OrderByScoreDESC
     """
-    orderBy: String = "OrderByPriceDESC"
+    orderBy: String = "OrderByScoreDESC"
     """
     Pagination item start
     """
@@ -287,9 +287,9 @@ Products (list)
     """
     salesChannel: String = ""
     """
-    Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC
+    Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC, OrderByScoreDESC
     """
-    orderBy: String = "OrderByPriceDESC"
+    orderBy: String = "OrderByScoreDESC"
     """
     Pagination item start
     """
