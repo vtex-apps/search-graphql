@@ -117,7 +117,8 @@ Product Search:
     """
     salesChannel: String = ""
     """
-    Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC, OrderByScoreDESC
+    Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC, OrderByScoreDESC.
+    If you want to sort by a specification, use the format {specification key}:{asc|desc}. For example: "pricePerUnit:asc" or "size:desc" (this only works on `vtex.search-resolver@1.x`)
     """
     orderBy: String = "OrderByScoreDESC"
     """
