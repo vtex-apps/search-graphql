@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- Error when the `selectedFacets` prop is `undefined`.
+
 ## [0.47.2] - 2021-11-03
 
 ### Changed
