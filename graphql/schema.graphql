@@ -256,7 +256,7 @@ type Query {
     """
     Selected facets
     """
-    selectedFacets: [SelectedFacetInput]
+    selectedFacets: [SelectedFacetInput] = []
     """
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel.
     """
