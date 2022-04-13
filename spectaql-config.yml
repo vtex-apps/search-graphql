@@ -1,0 +1,16 @@
+introspection:
+  removeTrailingPeriodFromDescriptions: false
+  schemaFile: ./graphql/**/*.graphql
+  queryNameStategy: capitalizeFirst
+
+extensions:
+  graphqlScalarExamples: true
+
+info:
+  title: Intelligent Search
+  description:  GraphQL API Reference for the Intelligent Search
+
+servers:
+  - url: https://www.{{accountname}}.com/_v/public/graphql/v1
+    description: Production
+    production: true

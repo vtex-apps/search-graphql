@@ -41,14 +41,30 @@ type Facet {
 
 type Facets {
   departments: [DepartmentFacet]
-  brands: [BrandFacet]
+    @deprecated(reason: "Use the `facets` instead.")
+  brands: [BrandFacet] @deprecated(reason: "Use the `facets` instead.")
   specificationFilters: [FilterFacets]
-  categoriesTrees: [CategoriesTreeFacet]
+  categoriesTrees: [CategoriesTreeFacet] @deprecated(reason: "Use the `facets` instead.")
+  """
+  Price range for the given query.
+  """
   priceRanges: [PriceRangesFacet]
-  recordsFiltered: Int
+  recordsFiltered: Int @deprecated(reason: "Use the recodsFiltered from the `productSearch` instead.")
+  """
+  Info about the searched query.
+  """
   queryArgs: QueryArgs
+  """
+  List of facets.
+  """
   facets: [Facet]
+  """
+  Indicates whether there was sampling in the aggregation of facets or not. In search results that have many products, only the first 30000 will be aggregated to avoid performance issues.
+  """
   sampling: Boolean
+  """
+  Generated breadcrumb for the given query.
+  """
   breadcrumb: [SearchBreadcrumb]
 }
 

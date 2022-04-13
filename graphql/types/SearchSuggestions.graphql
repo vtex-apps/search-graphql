@@ -1,15 +1,36 @@
 type SearchSuggestions {
+  """
+  A list of search suggestions.
+  """
   searches: [SearchSuggestion]
 }
 
 type SearchSuggestion {
+  """
+  Search term.
+  """
   term: String!
+  """
+  Number of times the term was searched.
+  """
   count: Int!
+  """
+  List of facets in which the term can be searched.
+  """
   attributes: [SearchSuggestionAttribute]
 }
 
 type SearchSuggestionAttribute {
+  """
+  Facet key.
+  """
   key: String!
+  """
+  Facet value.
+  """
   value: String!
+  """
+  Human-readable format of the facet key.
+  """
   labelValue: String!
 }
