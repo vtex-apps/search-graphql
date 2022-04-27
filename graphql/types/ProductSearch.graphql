@@ -37,7 +37,7 @@ type ProductSearch {
   searchState: String
   banners: [SearchBanner] @deprecated(reason: "Use the `banners` query instead.")
   """
-  Returns the redirect url set for the given query.
+  Returns the redirect URL set for the given query.
   """
   redirect: String
 }
