@@ -1,6 +1,6 @@
 type ProductSearch {
   """
-  List of products
+  List of products.
   """
   products: [Product]
   """
