@@ -67,7 +67,7 @@ input SelectedFacetInput {
   """
   # Facet key
 
-  A key for the selected facet
+  A key for the selected facet.
 
   ## General filters
 
