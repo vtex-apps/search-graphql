@@ -73,10 +73,10 @@ input SelectedFacetInput {
 
     The `key` parameter also allows the following general filters.
 
-    | `facetKey`      | Description                                                                                      |
-    | --------------- | ------------------------------------------------------------------------------------------------ |
-    | `category-${n}` | Filter the search by a price range. The facet value follows the format `${minPrice}:${maxPrice}` |
-    | `region-id`     | Filter the search by a region id (aka regionalization). The value is the region id               |
+    | `facetKey`      | Description                                                                                                                           |
+    | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+    | `category-${n}` | Filter the search by category, where `n` represents the category tree level (1 = department, 2 = category, 3 = subcategory, and so on) |
+    | `region-id`     | Filter the search by a region id (aka regionalization). The value is the region id                                                    |
   """
   key: String
   """
