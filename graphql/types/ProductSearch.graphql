@@ -12,7 +12,7 @@ type ProductSearch {
   """
   titleTag: String
   """
-  String to be used in the `<meta name="description"...` tag
+  String to be used in the `<meta name="description"...` tag.
   """
   metaTagDescription: String
   breadcrumb: [SearchBreadcrumb] @deprecated(reason: "Use the `breadcrumb` from the `facets` query instead.")
