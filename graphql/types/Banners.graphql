@@ -7,7 +7,7 @@ type Banners {
 
 type SearchBanner {
   """
-  Banner id.
+  Banner ID.
   """
   id: String
   """
