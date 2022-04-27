@@ -11,6 +11,6 @@ info:
   description:  GraphQL API Reference for the Intelligent Search
 
 servers:
-  - url: https://www.{{accountname}}.com/_v/public/graphql/v1
+  - url: https://{{accountname}}.myvtex.com/_v/public/graphql/v1
     description: Production
     production: true
