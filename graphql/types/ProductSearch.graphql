@@ -80,7 +80,7 @@ input SelectedFacetInput {
   """
   key: String
   """
-  Facet value
+  Facet value.
   """
   value: String
 }
