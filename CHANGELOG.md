@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
-- Documentation page with `spectaQL`.
+- Documentation page with `graphql-markdown`.
 
 ## [0.48.0] - 2022-01-18
 
