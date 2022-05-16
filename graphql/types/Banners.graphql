@@ -1,10 +1,25 @@
 type Banners {
+  """
+  List of banners.
+  """
   banners: [SearchBanner]
 }
 
 type SearchBanner {
+  """
+  Banner ID.
+  """
   id: String
+  """
+  Banner name.
+  """
   name: String
+  """
+  Banner area.
+  """
   area: String
+  """
+  Banner HTML.
+  """
   html: String
 }

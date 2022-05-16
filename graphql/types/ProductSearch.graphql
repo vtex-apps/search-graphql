@@ -1,16 +1,44 @@
 type ProductSearch {
+  """
+  List of products.
+  """
   products: [Product]
+  """
+  Total number of products.
+  """
   recordsFiltered: Int
+  """
+  Title used in the title's tag.
+  """
   titleTag: String
+  """
+  String to be used in the `<meta name="description"...` tag.
+  """
   metaTagDescription: String
-  breadcrumb: [SearchBreadcrumb]
+  breadcrumb: [SearchBreadcrumb] @deprecated(reason: "Use the `breadcrumb` from the `facets` query instead.")
   canonical: String
-  suggestion: SearchSuggestions
+  suggestion: SearchSuggestions @deprecated(reason: "Use the `suggestion` query instead.")
+  """
+  Object that indicates if the term was misspelled and suggests a possible correction.
+  """
   correction: SearchCorrection
+  """
+  Indicates how the search-engine dealt with the fullText when there is more than one word.\n * `and` - It means that the products contains all the words in the query.\n * `or` - It means that the results will contain at least one word from the original search query. If `and` was not possible, `or` will be the fallback.
+  """
   operator: Operator
+  """
+  Indicates how the search engine corrected the misspelled word by using fuzzy logic. It can be a number representing the max number of misspelled letters, or the string `auto` suggesting that the search-engine should set this value by itself.
+  """
   fuzzy: String
+  """
+  As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+  The possible values in this field are defined by each search engine.
+  """
   searchState: String
-  banners: [SearchBanner]
+  banners: [SearchBanner] @deprecated(reason: "Use the `banners` query instead.")
+  """
+  Returns the redirect URL set for the given query.
+  """
   redirect: String
 }
 
@@ -20,7 +48,13 @@ enum Operator {
 }
 
 type SearchBreadcrumb {
+  """
+  Human-readable format of the facet key.
+  """
   name: String @translatableV2
+  """
+  Query link.
+  """
   href: String
 }
 
@@ -30,7 +64,24 @@ type SearchMetadata {
 }
 
 input SelectedFacetInput {
+  """
+  # Facet key
+
+  A key for the selected facet.
+
+  ## General filters
+
+    The `key` parameter also allows the following general filters.
+
+    | `facetKey`      | Description                                                                                                                           |
+    | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+    | `category-${n}` | Filter the search by category, where `n` represents the category tree level (1 = department, 2 = category, 3 = subcategory, and so on) |
+    | `region-id`     | Filter the search by a region id (aka regionalization). The value is the region id                                                    |
+  """
   key: String
+  """
+  Facet value.
+  """
   value: String
 }
 
@@ -41,7 +92,7 @@ type SelectedFacet {
 
 input Options {
   """
-    If the search has a redirect enabled, this allows (`true`) or not (`false`) the redirect to be used
+  If the search has a redirect enabled, this allows (`true`) or not (`false`) the redirect to be used.
   """
   allowRedirect: Boolean
 }

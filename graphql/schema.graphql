@@ -27,35 +27,39 @@ type Query {
   ): Product @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
-  Return the banners for a given query
+  Lists the banners registered for a given query. Check the [configuring banners documentation](https://help.vtex.com/en/tracks/vtex-intelligent-search--19wrbB7nEQcmwzDPl1l4Cb/4ViKEivLJtJsvpaW0aqIQ5) for a full explanation of the banner feature.
   """
   banners(
     """
-    Text inputted by the user as the search term
+    Search term. It can contain any character.
     """
     fullText: String = ""
     """
-    Selected facets
+    List of the selected facets
+
+    The order in which the terms appear is not relevant to the search.
+
+    You can also repeat the same `facetKey` several times for different values.
     """
     selectedFacets: [SelectedFacetInput]
   ): Banners @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
-  Correct a misspeled term
+  Tries to correct a misspelled term from the search.
   """
   correction(
     """
-    Text inputted by the user as the search term
+    Search term. It can contain any character.
     """
     fullText: String = ""
   ): Correction @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
-  Get search suggestions
+  Lists suggested terms similar to the search term.
   """
   searchSuggestions(
     """
-    Text inputted by the user as the search term
+    Search term. It can contain any character.
     """
     fullText: String!
   ): SearchSuggestions
@@ -63,31 +67,35 @@ type Query {
     @withSegment
 
   """
-  Returns products list filtered and ordered
+  Lists the products for a given query.
   """
   productSearch(
     """
-    Terms that is used in search e.g.: eletronics/samsung
+    **Deprecated**. Use `fullText` instead.
     """
     query: String = ""
     """
-    Text inputted by the user as the search term
+    Search term. It can contain any character.
     """
     fullText: String = ""
     """
-    Defines terms types: Brand, Category, Department e.g.: c,b
+    **Deprecated**. Use `selectedFacets` instead.
     """
     map: String = ""
     """
-    Selected facets
+    List of the selected facets
+
+    The order in which the terms appear is not relevant to the search.
+
+    You can also repeat the same `facetKey` several times for different values.
     """
     selectedFacets: [SelectedFacetInput]
     """
-    Filter by category. {a}/{b} - {a} and {b} are categoryIds
+    **Deprecated**. Use `selectedFacets` instead.
     """
     category: String = ""
     """
-    Array of product specification. specificationFilter_{a}:{b} - {a} is the specificationId, {b} = specification value
+    **Deprecated**. Use `selectedFacets` instead.
     """
     specificationFilters: [String]
     """
@@ -95,7 +103,7 @@ type Query {
     """
     priceRange: String = ""
     """
-    Filter by collection. where collection also know as productClusterId
+    **Deprecated**. Use `selectedFacets` instead.
     """
     collection: String = ""
     """
@@ -147,7 +155,6 @@ type Query {
     Search options that customize the search result.
     """
     options: Options
-
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
@@ -164,7 +171,11 @@ type Query {
     """
     map: String = ""
     """
-    Selected facets
+    List of the selected facets
+
+    The order in which the terms appear is not relevant to the search.
+
+    You can also repeat the same `facetKey` several times for different values.
     """
     selectedFacets: [SelectedFacetInput]
   ): SearchMetadata @cacheControl(scope: PUBLIC, maxAge: MEDIUM) @withSegment
@@ -242,19 +253,23 @@ type Query {
   """
   facets(
     """
-    Terms that is used in search e.g.: eletronics/samsung
+    **Deprecated**. Use `fullText` instead.
     """
     query: String = ""
     """
-    Text inputted by the user as the search term
+    Search term. It can contain any character.
     """
     fullText: String = ""
     """
-    Defines terms types: Brand, Category, Department e.g.: c,b
+    **Deprecated**. Use `selectedFacets` instead.
     """
     map: String = ""
     """
-    Selected facets
+    List of the selected facets
+
+    The order in which the terms appear is not relevant to the search.
+
+    You can also repeat the same `facetKey` several times for different values.
     """
     selectedFacets: [SelectedFacetInput] = []
     """
@@ -317,18 +332,18 @@ type Query {
   ): Suggestions @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
-  Get top searches from store
+  Get list of the 10 most searched terms
   """
   topSearches: SearchSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
 
   """
-  Get autocomplete search suggestions
+  Lists the suggested terms and attributes similar to the search term.
   """
   autocompleteSearchSuggestions(
     """
-    Text inputted by the user as the search term
+    Search term. It can contain any character.
     """
     fullText: String!
   ): SearchSuggestions
