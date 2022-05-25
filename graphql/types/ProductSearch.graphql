@@ -65,18 +65,7 @@ type SearchMetadata {
 
 input SelectedFacetInput {
   """
-  # Facet key
-
-  A key for the selected facet.
-
-  ## General filters
-
-    The `key` parameter also allows the following general filters.
-
-    | `facetKey`      | Description                                                                                                                           |
-    | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-    | `category-${n}` | Filter the search by category, where `n` represents the category tree level (1 = department, 2 = category, 3 = subcategory, and so on) |
-    | `region-id`     | Filter the search by a region id (aka regionalization). The value is the region id                                                    |
+  Facet key.
   """
   key: String
   """
