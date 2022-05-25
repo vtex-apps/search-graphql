@@ -670,6 +670,7 @@ If the search has a redirect enabled, this allows (`true`) or not (`false`) the 
 
 ### SelectedFacetInput
 <table><thead><tr><th colspan="2" align="left">Field</th><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody><tr><td colspan="2" valign="top"><strong>key</strong></td><td valign="top"><a href="#string">String</a></td><td>
+
 # Facet key
 
 A key for the selected facet.
