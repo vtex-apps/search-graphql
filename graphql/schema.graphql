@@ -392,6 +392,10 @@ type Query {
     If you want to sort by a specification, use the format {specification key}:{asc|desc}. For example: "pricePerUnit:asc" or "size:desc" (this only works on `vtex.search-resolver@1.x`)
     """
     orderBy: String = "OrderByScoreDESC"
+    """
+    Number of product suggestions that should be returned
+    """
+    count: Int
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
