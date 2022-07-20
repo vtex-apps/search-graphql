@@ -110,7 +110,7 @@ type Product {
   """
   selectedProperties: [SelectedProperty]
   """
-  Merchandising rule applied to the proudct
+  Merchandising rule applied to the product
   """
   rule: Rule
 }
