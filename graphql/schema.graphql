@@ -396,6 +396,10 @@ type Query {
     Number of product suggestions that should be returned
     """
     count: Int
+    """
+    List of shipping options to filter suggestions
+    """
+    shippingOptions: [String]
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
