@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `shippingOptions` to `products` query. 
+
 ## [0.51.0] - 2023-03-03
 
 ### Added
