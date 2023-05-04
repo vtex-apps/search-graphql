@@ -155,6 +155,7 @@ type Query {
     Search options that customize the search result.
     """
     options: Options
+    variant: String
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   sponsoredProducts(
