@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `generalValues` to `product` query.
+
 ## [0.52.0] - 2023-04-25
 
 ### Added

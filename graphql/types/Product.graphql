@@ -318,6 +318,12 @@ type Teaser {
   name: String
   conditions: TeaserCondition
   effects: TeaserEffects
+  generalValues: [GeneralValueTeaser]
+}
+
+type GeneralValueTeaser {
+  key: String
+  value: String
 }
 
 type TeaserCondition {
