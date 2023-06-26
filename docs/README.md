@@ -1,5 +1,4 @@
-# search-graphql
-# VTEX Search GraphQL
+# Search GraphQL
 
 This app exports a GraphQL schema for search results on VTEX Stores.
 
@@ -7,14 +6,16 @@ The default implementation for this schema is on [vtex.search-resolver](https://
 
 ### Usage
 
-To use it in your app, decalre it on your manifest file like:
-```
+To use it in your app, declare it on your `manifest.json` file, as demonstrated below:
+
+```json
 "dependencies": {
   "vtex.search-graphql": "0.x"
 }
 ```
 
 You may then use it in your front end component queries, for example, write file `productQuery.gql`:
+
 ```graphql
 query ProductQuery($slug: String) {
   product(identifier: { field: slug, value: $slug}) @context(provider: "vtex.search-graphql") {
@@ -23,7 +24,8 @@ query ProductQuery($slug: String) {
 }
 ```
 
-To resolve this query, you need to have a app that implements the schema declared in this app, such as: [vtex.search-resolver](https://github.com/vtex-apps/search-resolver)
+To resolve this query, you need to have a app that implements the schema declared in this app, such as: [vtex.search-resolver](https://github.com/vtex-apps/search-resolver).
+
 <details>  <summary><strong>Table of Contents</strong></summary>
   * [Query](#query)  * [Objects](#objects)    * [AssemblyOption](#assemblyoption)    * [Attachment](#attachment)    * [Banners](#banners)    * [Benefit](#benefit)    * [BenefitItem](#benefititem)    * [Brand](#brand)    * [BrandFacet](#brandfacet)    * [CategoriesTreeFacet](#categoriestreefacet)    * [Category](#category)    * [ClusterHighlight](#clusterhighlight)    * [CompositionItem](#compositionitem)    * [CompositionType](#compositiontype)    * [Correction](#correction)    * [DeliverySlaPerTypes](#deliveryslapertypes)    * [DeliverySlaSamples](#deliveryslasamples)    * [DepartmentFacet](#departmentfacet)    * [Discount](#discount)    * [DomainValues](#domainvalues)    * [Facet](#facet)    * [FacetValue](#facetvalue)    * [Facets](#facets)    * [FilterFacet](#filterfacet)    * [FilterFacets](#filterfacets)    * [Gift](#gift)    * [GiftImage](#giftimage)    * [Image](#image)    * [InputValue](#inputvalue)    * [Installment](#installment)    * [ItemMetadata](#itemmetadata)    * [ItemMetadataUnit](#itemmetadataunit)    * [ItemPriceTable](#itempricetable)    * [Items](#items)    * [KitItem](#kititem)    * [Offer](#offer)    * [OnlyProduct](#onlyproduct)    * [PageType](#pagetype)    * [PriceRange](#pricerange)    * [PriceRangesFacet](#pricerangesfacet)    * [PriceTableItem](#pricetableitem)    * [Product](#product)    * [ProductClusters](#productclusters)    * [ProductPriceRange](#productpricerange)    * [ProductSearch](#productsearch)    * [ProductSuggestions](#productsuggestions)    * [Property](#property)    * [PropertyGroup](#propertygroup)    * [QueryArgs](#queryargs)    * [Range](#range)    * [Recommendation](#recommendation)    * [Reference](#reference)    * [Region](#region)    * [SKU](#sku)    * [SKUSpecificationField](#skuspecificationfield)    * [SKUSpecificationValue](#skuspecificationvalue)    * [SearchBanner](#searchbanner)    * [SearchBreadcrumb](#searchbreadcrumb)    * [SearchCorrection](#searchcorrection)    * [SearchMetadata](#searchmetadata)    * [SearchSuggestion](#searchsuggestion)    * [SearchSuggestionAttribute](#searchsuggestionattribute)    * [SearchSuggestions](#searchsuggestions)    * [SearchURLStats](#searchurlstats)    * [SelectedFacet](#selectedfacet)    * [SelectedProperty](#selectedproperty)    * [Seller](#seller)    * [SkuSpecification](#skuspecification)    * [SpecificationGroup](#specificationgroup)    * [SpecificationGroupProperty](#specificationgroupproperty)    * [Suggestions](#suggestions)    * [Teaser](#teaser)    * [TeaserCondition](#teasercondition)    * [TeaserEffects](#teasereffects)    * [TeaserValue](#teaservalue)    * [Video](#video)    * [productSpecification](#productspecification)  * [Inputs](#inputs)    * [AssemblyOptionInput](#assemblyoptioninput)    * [Options](#options)    * [ProductUniqueIdentifier](#productuniqueidentifier)    * [SelectedFacetInput](#selectedfacetinput)  * [Enums](#enums)    * [CategoryTreeBehavior](#categorytreebehavior)    * [CrossSelingInputEnum](#crossselinginputenum)    * [FilterType](#filtertype)    * [InputValueType](#inputvaluetype)    * [InstallmentsCriteria](#installmentscriteria)    * [ItemsFilter](#itemsfilter)    * [Operator](#operator)    * [PageEntityIdentifier](#pageentityidentifier)    * [ProductUniqueIdentifierField](#productuniqueidentifierfield)    * [SORT](#sort)    * [SimulationBehavior](#simulationbehavior)  * [Scalars](#scalars)    * [Boolean](#boolean)    * [Float](#float)    * [ID](#id)    * [Int](#int)    * [String](#string)    * [StringOrBoolean](#stringorboolean)
 </details>
@@ -81,9 +83,7 @@ Filter by price range. e.g.: {a} TO {b} - {a} is the minimum price "from" and {b
 **Deprecated**. Use `selectedFacets` instead.
 </td></tr><tr><td colspan="2" align="right" valign="top">salesChannel</td><td valign="top"><a href="#string">String</a></td><td>
 Filter by availability at a specific sales channel. e.g.: salesChannel:4 if want filter by available products for the sales channel 4
-</td></tr><tr><td colspan="2" align="right" valign="top">orderBy</td><td valign="top"><a href="#string">String</a></td><td>
-Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC, OrderByScoreDESC
-If you want to sort by a specification, use the format {specification key}:{asc|desc}. For example: "pricePerUnit:asc" or "size:desc" (this only works on `vtex.search-resolver@1.x`)
+</td></tr><tr><td colspan="2" align="right" valign="top">orderBy</td><td valign="top"><a href="#string">String</a></td><td>Sort by a criteria: <ul><li><code>OrderByPriceDESC/OrderByPriceASC</code>: Price, in descending (<code>DESC</code>) or ascending (<code>ASC</code>) order.</li><li><code>OrderByTopSaleDESC</code>: Amount of orders in the past 90 days, in descending order.</li><li><code>OrderByReviewRateDESC</code>: Review rates, in descending (<code>DESC</code>) order.</li><li><code>OrderByNameASC/OrderByNameDESC</code>: Name, in descending (<code>DESC</code>) or ascending (<code>ASC</code>) alphabetical order.</li><li><code>OrderByReleaseDateDESC</code>: Release date, in descending (<code>DESC</code>) order. </li><li><code>OrderByBestDiscountDESC</code>: Discount percentage in descending (<code>DESC</code>) order.</li><li><code>OrderByScoreDESC</code>: Score, in descending (<code>DESC</code>) order.</li> </ul> If you want to sort textually by a specification, use the format <code>{specification key}:{asc|desc}</code>. For example: <code>material:asc</code> or <code>material:desc</code>. This always sorts values textually (not numerically) and it works only on <code>vtex.search-resolver@1.x</code>.
 </td></tr><tr><td colspan="2" align="right" valign="top">from</td><td valign="top"><a href="#int">Int</a></td><td>
 Pagination item start
 </td></tr><tr><td colspan="2" align="right" valign="top">to</td><td valign="top"><a href="#int">Int</a></td><td>
@@ -213,10 +213,7 @@ If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sale
 Seller id encoded with base64 according to this format SW#{sellerId}
 </td></tr><tr><td colspan="2" align="right" valign="top">salesChannel</td><td valign="top"><a href="#int">Int</a></td><td>
 Sales Channel related to the region ID
-</td></tr><tr><td colspan="2" align="right" valign="top">orderBy</td><td valign="top"><a href="#string">String</a></td><td>
-Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC, OrderByScoreDESC
-If you want to sort by a specification, use the format {specification key}:{asc|desc}. For example: "pricePerUnit:asc" or "size:desc" (this only works on `vtex.search-resolver@1.x`)
-</td></tr><tr><td colspan="2" valign="top"><strong>searchURLsCount</strong></td><td valign="top">[<a href="#searchurlstats">SearchURLStats</a>]</td><td>
+</td></tr><tr><td colspan="2" align="right" valign="top">orderBy</td><td valign="top"><a href="#string">String</a></td><td>Sort by a criteria: <ul><li><code>OrderByPriceDESC/OrderByPriceASC</code>: Price, in descending (<code>DESC</code>) or ascending (<code>ASC</code>) order.</li><li><code>OrderByTopSaleDESC</code>: Amount of orders in the past 90 days, in descending order.</li><li><code>OrderByReviewRateDESC</code>: Review rates, in descending (<code>DESC</code>) order.</li><li><code>OrderByNameASC/OrderByNameDESC</code>: Name, in descending (<code>DESC</code>) or ascending (<code>ASC</code>) alphabetical order.</li><li><code>OrderByReleaseDateDESC</code>: Release date, in descending (<code>DESC</code>) order. </li><li><code>OrderByBestDiscountDESC</code>: Discount percentage in descending (<code>DESC</code>) order.</li><li><code>OrderByScoreDESC</code>: Score, in descending (<code>DESC</code>) order.</li> </ul> If you want to sort textually by a specification, use the format <code>{specification key}:{asc|desc}</code>. For example: <code>material:asc</code> or <code>material:desc</code>. This always sorts values textually (not numerically) and it works only on <code>vtex.search-resolver@1.x</code>.</td></tr><tr><td colspan="2" valign="top"><strong>searchURLsCount</strong></td><td valign="top">[<a href="#searchurlstats">SearchURLStats</a>]</td><td>
 Get search urls access stats count
 </td></tr><tr><td colspan="2" align="right" valign="top">limit</td><td valign="top"><a href="#int">Int</a></td><td>
 Number of items that is returned
