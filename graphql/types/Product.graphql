@@ -326,6 +326,11 @@ type GeneralValueTeaser {
   value: String
 }
 
+type AdditionalInfo {
+  key: String
+  value: String
+}
+
 type TeaserCondition {
   minimumQuantity: Int
   parameters: [TeaserValue]
@@ -348,6 +353,10 @@ type Discount {
   Discount name
   """
   name: String
+  """
+  Additional Info
+  """
+  additionalInfo: [AdditionalInfo]
 }
 
 type DeliverySlaSamples {
