@@ -179,12 +179,23 @@ type Seller {
   addToCartLink: String
   sellerDefault: Boolean
   commertialOffer: Offer
+}    
+
+enum SimilarProductsQuantityEnum {
+  """
+    Returns all similar products by setting "groupByProduct" param to `false`
+  """
+  ALL_AVAILABLE
+  """
+    Returns 12 similar products by default
+  """
+  DEFAULT
 }
 
 type Recommendation {
   buy: [Product]
   view: [Product]
-  similars: [Product]
+  similars(quantity: SimilarProductsQuantityEnum): [Product]
 }
 
 type SKU {

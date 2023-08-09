@@ -241,6 +241,7 @@ type Query {
   productRecommendations(
     identifier: ProductUniqueIdentifier
     type: CrossSelingInputEnum
+    groupByProduct: Boolean
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productsByIdentifier(

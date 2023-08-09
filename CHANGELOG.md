@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `groupByProduct` to `productRecommendations` query.
+- `quantity` to `Recommendation.similars` resolver.
+
 ## [0.54.0] - 2023-08-03
 
 ### Added
