@@ -223,7 +223,7 @@ type Query {
     Search options that customize the search result.
     """
     options: Options
-  ): [Product]
+  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
     """
