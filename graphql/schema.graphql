@@ -155,6 +155,7 @@ type Query {
     Search options that customize the search result.
     """
     options: Options
+    variant: String
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   sponsoredProducts(
@@ -304,6 +305,7 @@ type Query {
     List of shipping options to filter products
     """
     shippingOptions: [String]
+    variant: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productRecommendations(
@@ -472,6 +474,7 @@ type Query {
     List of shipping options to filter suggestions
     """
     shippingOptions: [String]
+    variant: String
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
