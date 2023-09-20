@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `advertisement` field in `Product` type.
+
 ## [0.56.0] - 2023-09-15
 
 ## [0.55.0] - 2023-08-22

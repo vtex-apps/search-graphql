@@ -1,0 +1,22 @@
+type Advertisement {
+  """
+  ID of the ad item associated with the sponsored product.
+  """
+  adId: ID
+  """
+  ID of the campaign owner of the ad item.
+  """
+  campaignId: ID
+  """
+  Cost of the goal action. E.g: CPC, cost per click.
+  """
+  actionCost: Float
+  """
+  Ad Request ID.
+  """
+  adRequestId: ID
+  """
+  Ad Response ID.
+  """
+  adResponseId: ID
+}
