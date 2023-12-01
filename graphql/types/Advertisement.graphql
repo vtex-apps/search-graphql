@@ -19,4 +19,15 @@ type Advertisement {
   Ad Response ID.
   """
   adResponseId: ID
+  """
+  Additional options for the ad.
+  """
+  options: AdvertisementOptions
+}
+
+type AdvertisementOptions {
+  """
+  Whether to hide the sponsored badge on the ad. Useful for experiments.
+  """
+  hideSponsoredBadge: Boolean
 }
