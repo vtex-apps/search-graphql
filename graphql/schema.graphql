@@ -224,6 +224,11 @@ type Query {
     Search options that customize the search result.
     """
     options: Options
+
+    """
+    Identifier for users, logged or not.
+    """
+    anonymousId: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
