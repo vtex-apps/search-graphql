@@ -226,7 +226,7 @@ type Query {
     options: Options
 
     """
-    Identifier for users, logged or not.
+    Identifier for users, logged in or not. Used for A/B tests.
     """
     anonymousId: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
