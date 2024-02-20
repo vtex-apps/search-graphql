@@ -150,27 +150,27 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" valign="top"><strong>product</strong></td>
             <td valign="top"><a href="#product">Product</a></td>
-            <td>Returns a specified product</td>
+            <td>Returns a specified product.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">slug</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Product slug</td>
+            <td>Product slug.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">identifier</td>
             <td valign="top"><a href="#productuniqueidentifier">ProductUniqueIdentifier</a></td>
-            <td>Product identifier</td>
+            <td>Product identifier.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">regionId</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Seller id encoded with base64 according to this format SW#{sellerId}</td>
+            <td>Seller ID encoded with base64 according to this format: <code>SW#{sellerId}</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">salesChannel</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Trade Policy</td>
+            <td>Trade Policy.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>banners</strong></td>
@@ -255,7 +255,7 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">salesChannel</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Filter by availability at a specific sales channel. e.g.: salesChannel:4 if want filter by available products for the sales channel 4</td>
+            <td>Filter by availability at a specific sales channel. e.g.: salesChannel:4 if want filter by available products for the sales channel 4.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">orderBy</td>
@@ -265,17 +265,17 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">from</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item start</td>
+            <td>Pagination item start.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">to</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item end</td>
+            <td>Pagination item end.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">hideUnavailableItems</td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg </td>
+            <td>If true, uses <code>isAvailablePerSalesChannel_</code> parameter on query with segment's sales channel. Will override any given <code>salesChannel</code> argument.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">simulationBehavior</td>
@@ -290,12 +290,12 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">operator</td>
             <td valign="top"><a href="#operator">Operator</a></td>
-            <td>Indicates how the search-engine will deal with the fullText if there is more than one word. Set <code>and</code> if the returned products must have all the words in its metadata or <code>or</code> otherwise.</td>
+            <td>Indicates how the search engine will deal with the fullText if there is more than one word. Set the value as <code>and</code> if the returned products must have all the words in its metadata. Otherwise, set the value as <code>or</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">fuzzy</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Indicates how the search engine will correct misspelled words by using fuzzy logic. It can be a number representing the max number of misspelled letters, or the string <code>auto</code> suggesting that the search-engine should set this value by itself.</td>
+            <td>Indicates how the search engine will correct misspelled words by using fuzzy logic. It can be a number representing the max number of misspelled letters, or the string <code>auto</code> suggesting that the search engine should set this value by itself.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">searchState</td>
@@ -315,17 +315,17 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">query</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Terms that is used in search e.g.: eletronics/samsung</td>
+            <td>Terms that are used in search, for example <code>eletronics/samsung</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">fullText</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Text inputted by the user as the search term</td>
+            <td>Text inputted by the user as the search term.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">map</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Defines terms types: Brand, Category, Department e.g.: c,b</td>
+            <td>Defines term types: Brand, Category, Department. For example: <code>c,b</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">selectedFacets</td>
@@ -335,42 +335,42 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" valign="top"><strong>products</strong></td>
             <td valign="top">[<a href="#product">Product</a>]</td>
-            <td>Returns products list filtered and ordered</td>
+            <td>Returns products list filtered and ordered.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">query</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Terms that is used in search e.g.: eletronics/samsung</td>
+            <td>Terms that are used in search, for example <code>eletronics/samsung</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">map</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Defines terms types: Brand, Category, Department e.g.: c,b</td>
+            <td>Defines term types: Brand, Category, Department. For example: <code>c,b</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">category</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Filter by category. {a}/{b} - {a} and {b} are categoryIds</td>
+            <td>Filter by category. For example, <code>{a}/{b}</code>, where <code>{a}</code> and <code>{b}</code> are categoryIds.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">specificationFilters</td>
             <td valign="top">[<a href="#string">String</a>]</td>
-            <td>Array of product specification. specificationFilter_{a}:{b} - {a} is the specificationId, {b} = specification value</td>
+            <td>Array of product specification. For example, <code>specificationFilter_{a}:{b}</code> where <code>{a}</code> is the specificationId, and <code>{b}</code> is the specification value.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">priceRange</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Filter by price range. e.g.: {a} TO {b} - {a} is the minimum price "from" and {b} is the highest price "to"</td>
+            <td>Filter by price range. For example, <code>{a} TO {b}</code>, where <code>{a}</code> is the minimum price "from" and <code>{b}</code> is the highest price "to".</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">collection</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Filter by collection. where collection also know as productClusterId</td>
+            <td>Filter by collection, also known as productClusterId.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">salesChannel</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Filter by availability at a specific sales channel. e.g.: salesChannel:4 if want filter by available products for the sales channel 4</td>
+            <td>Filter by availability at a specific sales channel, also known as trade policy. For example, <code>salesChannel:4</code> if you want to filter by available products for the sales channel whose ID is 4.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">orderBy</td>
@@ -380,17 +380,17 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">from</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item start</td>
+            <td>Pagination item start.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">to</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item end</td>
+            <td>Pagination item end.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">hideUnavailableItems</td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg</td>
+            <td>If true, uses <code>isAvailablePerSalesChannel_</code> parameter on query with segment's sales channel. Will override any given salesChannel argument.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">simulationBehavior</td>
@@ -435,7 +435,7 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" valign="top"><strong>facets</strong></td>
             <td valign="top"><a href="#facets">Facets</a></td>
-            <td>Returns facets category</td>
+            <td>Returns facets category.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">query</td>
@@ -460,7 +460,7 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">hideUnavailableItems</td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>If true, uses isAvailablePerSalesChannel_parameter on query with segment's sales channel.</td>
+            <td>If true, uses <code>isAvailablePerSalesChannel_</code> parameter on query with segment's sales channel.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">removeHiddenFacets</td>
@@ -470,17 +470,17 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">behavior</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>If Static, ignores SpecificationFilters received on the map and query when returning the facets available, which makes the facets never change.</td>
+            <td>If Static, ignores SpecificationFilters received on the map and query when returning the facets available, which means the facets never change.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">operator</td>
             <td valign="top"><a href="#operator">Operator</a></td>
-            <td>Indicates how the search-engine will deal with the fullText if there is more than one word. Set <code>and</code> if the returned products must have all the words in its metadata or <code>or</code> otherwise.</td>
+            <td>Indicates how the search engine will deal with the fullText if there is more than one word. Set the value as <code>and</code> if the returned products must have all the words in its metadata. Otherwise, set the value as <code>or</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">fuzzy</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Indicates how the search engine will correct misspelled words by using fuzzy logic. It can be a number representing the max number of misspelled letters, or the string <code>auto</code> suggesting that the search-engine should set this value by itself.</td>
+            <td>Indicates how the search engine will correct misspelled words by using fuzzy logic. It can be a number representing the max number of misspelled letters, or the string <code>auto</code> suggesting that the search engine should set this value by itself.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">searchState</td>
@@ -490,42 +490,42 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">from</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item start</td>
+            <td>Pagination item start.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">to</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item end</td>
+            <td>Pagination item end.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">categoryTreeBehavior</td>
             <td valign="top"><a href="#categorytreebehavior">CategoryTreeBehavior</a></td>
-            <td>Determines the behavior of the category tree</td>
+            <td>Determines the behavior of the category tree.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">initialAttributes</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Initial attributes (based on the <code>initialMap</code> parameter)</td>
+            <td>Initial attributes (based on the <code>initialMap</code> parameter).</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>autocomplete</strong></td>
             <td valign="top"><a href="#suggestions">Suggestions</a></td>
-            <td>Get auto complete suggestions in search</td>
+            <td>Get autocomplete suggestions in search.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">maxRows</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Number of items that is returned</td>
+            <td>Number of items that are returned.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">searchTerm</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Terms that is used in search e.g.: iphone</td>
+            <td>Terms that are used in search, for example `iphone`.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>topSearches</strong></td>
             <td valign="top"><a href="#searchsuggestions">SearchSuggestions</a></td>
-            <td>Get list of the 10 most searched terms</td>
+            <td>Lists the 10 most searched terms.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>autocompleteSearchSuggestions</strong></td>
@@ -540,22 +540,22 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" valign="top"><strong>productSuggestions</strong></td>
             <td valign="top"><a href="#productsuggestions">ProductSuggestions</a></td>
-            <td>Get product suggestions</td>
+            <td>Get product suggestions.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">fullText</td>
             <td valign="top"><a href="#string">String</a>!</td>
-            <td>Text inputted by the user as the search term</td>
+            <td>Text inputted by the user as the search term.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">facetKey</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Selected facet key</td>
+            <td>Selected facet key.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">facetValue</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Selected facet value</td>
+            <td>Selected facet value.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">productOriginVtex</td>
@@ -570,17 +570,17 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">hideUnavailableItems</td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel</td>
+            <td>If true, uses <code>isAvailablePerSalesChannel_</code> parameter on query with segment's sales channel.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">regionId</td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Seller id encoded with base64 according to this format SW#{sellerId}</td>
+            <td>Seller ID encoded with base64 according to this format: <code>SW#{sellerId}</code>.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">salesChannel</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Sales Channel related to the region ID</td>
+            <td>Sales Channel related to the region ID.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">orderBy</td>
@@ -590,17 +590,17 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" valign="top"><strong>searchURLsCount</strong></td>
             <td valign="top">[<a href="#searchurlstats">SearchURLStats</a>]</td>
-            <td>Get search urls access stats count</td>
+            <td>Get search URLs access stats count.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">limit</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Number of items that is returned</td>
+            <td>Number of items that are returned.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">sort</td>
             <td valign="top"><a href="#sort">SORT</a></td>
-            <td>Sorting strategy, asc: ascending, desc: descending</td>
+            <td>Sorting strategy, where `asc` means ascending, and `desc` means descending.</td>
         </tr>
     </tbody>
 </table>
@@ -634,8 +634,6 @@ To resolve this query, you need to have an app that implements the schema declar
 
 ### Benefit
 
-Benefit of a Product
-
 <table>
     <thead>
         <tr>
@@ -649,27 +647,27 @@ Benefit of a Product
         <tr>
             <td colspan="2" valign="top"><strong>featured</strong></td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>Flag which indicates if the benefit is featured or not</td>
+            <td>Indicates if the benefit is featured or not.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>id</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Id of the product which the benefit is associated</td>
+            <td>ID of the product to which the benefit is associated.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>name</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Name of the benefit</td>
+            <td>Name of the benefit.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>items</strong></td>
             <td valign="top">[<a href="#benefititem">BenefitItem</a>]</td>
-            <td>Items of the benefit</td>
+            <td>Items of the benefit.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>teaserType</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Type of benefit</td>
+            <td>Type of benefit.</td>
         </tr>
     </tbody>
 </table>
@@ -689,22 +687,22 @@ Benefit of a Product
         <tr>
             <td colspan="2" valign="top"><strong>benefitProduct</strong></td>
             <td valign="top"><a href="#product">Product</a></td>
-            <td>Product itself</td>
+            <td>Product itself.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>benefitSKUIds</strong></td>
             <td valign="top">[<a href="#string">String</a>]</td>
-            <td>IDs of the SKU Items that are taking part in the benefit</td>
+            <td>IDs of the SKUs that are taking part in the benefit.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>discount</strong></td>
             <td valign="top"><a href="#float">Float</a></td>
-            <td>Discount applied to the benefit product</td>
+            <td>Discount applied to the benefit product.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>minQuantity</strong></td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Minimum quantity of the benefit product that is required to validate the benefit</td>
+            <td>Minimum quantity of the benefit product that is required to validate the benefit.</td>
         </tr>
     </tbody>
 </table>
@@ -724,42 +722,42 @@ Benefit of a Product
         <tr>
             <td colspan="2" valign="top"><strong>cacheId</strong></td>
             <td valign="top"><a href="#id">ID</a></td>
-            <td>slug is used as cacheId</td>
+            <td>Slug is used as cacheId.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>id</strong></td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Brand id</td>
+            <td>Brand ID.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>imageUrl</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Brand logo</td>
+            <td>Brand logo.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>slug</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Text link</td>
+            <td>Text link.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>name</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Name of brand</td>
+            <td>Name of the brand.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>titleTag</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Title used by html tag</td>
+            <td>Title used by HTML title tag.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>metaTagDescription</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Description used by html tag</td>
+            <td>Description used by HTML tag.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>active</strong></td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>Brand is active</td>
+            <td>Indicates if the brand is active.</td>
         </tr>
     </tbody>
 </table>
@@ -859,7 +857,7 @@ Benefit of a Product
         <tr>
             <td colspan="2" valign="top"><strong>href</strong></td>
             <td valign="top"><a href="#string">String</a>!</td>
-            <td>Contains slugified links according to the store structure. /:department/d, /:category/:subcategory, etc</td>
+            <td>Contains slugified links according to the store structure, such as <code>/:department/d</code>, <code>/:category/:subcategory</code>, etc.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>map</strong></td>
@@ -899,47 +897,47 @@ Benefit of a Product
         <tr>
             <td colspan="2" valign="top"><strong>cacheId</strong></td>
             <td valign="top"><a href="#id">ID</a></td>
-            <td>id is used as cacheId</td>
+            <td>Category ID is used as cacheId.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>href</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>URI of category</td>
+            <td>URI of category.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>slug</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Category text link</td>
+            <td>Category text link.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>id</strong></td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Category ID</td>
+            <td>Category ID.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>name</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Category name</td>
+            <td>Category name.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>titleTag</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Title used by html tag</td>
+            <td>Title used by HTML title tag.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>hasChildren</strong></td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>Description used by html tag</td>
+            <td>Description used by HTML tag.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>metaTagDescription</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Has children categories</td>
+            <td>Indicates if the category has children categories.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>children</strong></td>
             <td valign="top">[<a href="#category">Category</a>]</td>
-            <td>Categories children</td>
+            <td>Category children.</td>
         </tr>
     </tbody>
 </table>
@@ -1361,12 +1359,12 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>departments</strong> ⚠️</td>
             <td valign="top">[<a href="#departmentfacet">DepartmentFacet</a>]</td>
-            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use the <code>facets</code> instead.</blockquote></td>
+            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use <code>facets</code> instead.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>brands</strong> ⚠️</td>
             <td valign="top">[<a href="#brandfacet">BrandFacet</a>]</td>
-            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use the <code>facets</code> instead.</blockquote></td>
+            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use <code>facets</code> instead.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>specificationFilters</strong></td>
@@ -1376,7 +1374,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>categoriesTrees</strong> ⚠️</td>
             <td valign="top">[<a href="#categoriestreefacet">CategoriesTreeFacet</a>]</td>
-                <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use the <code>facets</code> instead.</blockquote></td>
+                <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use  <code>facets</code> instead.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>priceRanges</strong></td>
@@ -1386,12 +1384,12 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>recordsFiltered</strong> ⚠️</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use the recordsFiltered from the <code>productSearch</code> instead.</blockquote></td>
+            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use <code>recordsFiltered</code> from <code>productSearch</code> instead.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>queryArgs</strong></td>
             <td valign="top"><a href="#queryargs">QueryArgs</a></td>
-            <td>Info about the searched query.</td>
+            <td>Information about the searched query.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>facets</strong></td>
@@ -1401,7 +1399,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>sampling</strong></td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>Indicates whether there was sampling in the aggregation of facets or not. In search results that have many products, only the first30000 will be aggregated to avoid performance issues.</td>
+            <td>Indicates whether there was sampling in the aggregation of facets or not. In search results that have many products, only the first 30000 will be aggregated to avoid performance issues.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>breadcrumb</strong></td>
@@ -1986,7 +1984,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>discountHighlights</strong></td>
             <td valign="top">[<a href="#discount">Discount</a>!]</td>
-            <td>List of discount highlights</td>
+            <td>List of discount highlights.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>teasers</strong></td>
@@ -1996,12 +1994,12 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>giftSkuIds</strong></td>
             <td valign="top">[<a href="#string">String</a>]</td>
-            <td>List of SKUs for gifts associated with the product</td>
+            <td>List of SKUs for gifts associated with the product.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>gifts</strong></td>
             <td valign="top">[<a href="#gift">Gift</a>]</td>
-            <td>List of gifts associated with the product</td>
+            <td>List of gifts associated with the product.</td>
         </tr>
     </tbody>
 </table>
@@ -2246,17 +2244,17 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>brand</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Brand of the product</td>
+            <td>Brand of the product.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>brandId</strong></td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Id of the brand of the product</td>
+            <td>ID of the brand of the product.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>cacheId</strong></td>
             <td valign="top"><a href="#id">ID</a></td>
-            <td>linkText is used as cacheId</td>
+            <td>LinkText is used as cacheId.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>categoryId</strong></td>
@@ -2266,17 +2264,17 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>categories</strong> ⚠️</td>
             <td valign="top">[<a href="#string">String</a>]</td>
-            <td>Categories of the product<p>⚠️ <strong>DEPRECATED</strong></p> <blockquote>Use 'categoryTree' field for internationalization support</blockquote> </td>
+            <td>Categories of the product.<p>⚠️ <strong>DEPRECATED</strong></p> <blockquote>Use <code>categoryTree</code> field for internationalization support.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>categoryTree</strong></td>
             <td valign="top">[<a href="#category">Category</a>]</td>
-            <td>Product's categories</td>
+            <td>Product's category tree.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>clusterHighlights</strong></td>
             <td valign="top">[<a href="#clusterhighlight">ClusterHighlight</a>]</td>
-            <td>List of related products</td>
+            <td>List of related products.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>productClusters</strong></td>
@@ -2286,12 +2284,12 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>description</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Product description</td>
+            <td>Product description.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>items</strong></td>
             <td valign="top">[<a href="#sku">SKU</a>]</td>
-            <td>SKU objects of the product</td>
+            <td>SKU objects of the product.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">filter</td>
@@ -2301,67 +2299,67 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>skuSpecifications</strong></td>
             <td valign="top">[<a href="#skuspecification">SkuSpecification</a>]</td>
-            <td>List of SKU Specifications</td>
+            <td>List of SKU Specifications.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>link</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Product URL</td>
+            <td>Product URL.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>linkText</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Product slug</td>
+            <td>Product slug.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>productId</strong></td>
             <td valign="top"><a href="#id">ID</a></td>
-            <td>Product ID</td>
+            <td>Product ID.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>productName</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Product name</td>
+            <td>Product name.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>properties</strong></td>
             <td valign="top">[<a href="#property">Property</a>]</td>
-            <td>Array of product properties</td>
+            <td>Array of product properties.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>propertyGroups</strong></td>
             <td valign="top">[<a href="#propertygroup">PropertyGroup</a>]</td>
-            <td>Array of product properties</td>
+            <td>Array of product properties.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>productReference</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Product reference</td>
+            <td>Product reference.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>titleTag</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Title used by html tag</td>
+            <td>Title used by HTML title tag.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>metaTagDescription</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Description used by html tag</td>
+            <td>Description used by HTML tag.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>recommendations</strong></td>
             <td valign="top"><a href="#recommendation">Recommendation</a></td>
-            <td>Related Products</td>
+            <td>Related Products.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>jsonSpecifications</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>JSON specification of the product</td>
+            <td>JSON specification of the product.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>benefits</strong></td>
             <td valign="top">[<a href="#benefit">Benefit</a>]</td>
-            <td>List of benefits associated with this product</td>
+            <td>List of benefits associated with this product.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>itemMetadata</strong></td>
@@ -2371,7 +2369,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>specificationGroups</strong></td>
             <td valign="top">[<a href="#specificationgroup">SpecificationGroup</a>]</td>
-            <td>Array of product SpecificationGroup</td>
+            <td>Array of product SpecificationGroup.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>priceRange</strong></td>
@@ -2381,12 +2379,12 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>releaseDate</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Product Release Date, for list ordering and product cluster highlight</td>
+            <td>Product Release Date, for list ordering and product cluster highlight.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>selectedProperties</strong></td>
             <td valign="top">[<a href="#selectedproperty">SelectedProperty</a>]</td>
-            <td>Product properties that will be selected by default. e.g: {key: "Color", value: "Blue"}</td>
+            <td>Product properties that will be selected by default. For example, <code>{key: "Color", value: "Blue"}</code></td>
         </tr>
     </tbody>
 </table>
@@ -2424,7 +2422,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>titleTag</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Title used in the title's tag.</td>
+            <td>Title used in the title tag.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>metaTagDescription</strong></td>
@@ -2434,7 +2432,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>breadcrumb</strong> ⚠️</td>
             <td valign="top">[<a href="#searchbreadcrumb">SearchBreadcrumb</a>]</td>
-            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use the `breadcrumb` from the `facets` query instead.</blockquote></td>
+            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use  <code>breadcrumb</code> from the <code>facets</code> query instead.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>canonical</strong></td>
@@ -2444,7 +2442,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>suggestion</strong> ⚠️</td>
             <td valign="top"><a href="#searchsuggestions">SearchSuggestions</a></td>
-            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use the `suggestion` query instead.</blockquote></td>
+            <td><p>⚠️ <strong>DEPRECATED</strong></p><blockquote>Use the <code>suggestion</code> query instead.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>correction</strong></td>
@@ -2454,12 +2452,12 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>operator</strong></td>
             <td valign="top"><a href="#operator">Operator</a></td>
-            <td>Indicates how the search-engine dealt with the fullText when there is more than one word.\n *<code>and</code> - It means that theproducts contains all the words in the query.\n* <code>or</code> - It means that the results will contain at least one word from theoriginal search query. If <code>and</code> was not possible, <code>or</code> will be the fallback.</td>
+            <td>Indicates how the search engine deals with the fullText when there is more than one word.<ul><li><code>and</code>: The results will contain all the words in the query.</li> <li> <code>or</code>: The results will contain at least one word from the original search query.</li></ul>If <code>and</code> was not possible, <code>or</code> will be the fallback.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>fuzzy</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>Indicates how the search engine corrected the misspelled word by using fuzzy logic. It can be a number representing the max number ofmisspelled letters, or the string <code>auto</code> suggesting that the search-engine should set this value by itself.</td>
+            <td>Indicates how the search engine corrected the misspelled word by using fuzzy logic. It can be a number representing the max number ofmisspelled letters, or the string <code>auto</code> suggesting that the search engine should set this value by itself.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>searchState</strong></td>
@@ -2495,24 +2493,22 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>count</strong></td>
             <td valign="top"><a href="#int">Int</a>!</td>
-            <td>Number of suggested products </td>
+            <td>Number of suggested products.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>products</strong></td>
             <td valign="top">[<a href="#product">Product</a>]!</td>
-            <td>Suggested products </td>
+            <td>Suggested products.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>misspelled</strong></td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>If the term is misspelled or not </td>
+            <td>Indicates if the term is misspelled or not.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>operator</strong></td>
             <td valign="top"><a href="#operator">Operator</a></td>
-            <td>Indicates how the search-engine will deal with the fullText if there is more than one word. Set
-                <code>and</code> if the returned products must have all the words in its metadata or <code>or</code>
-                otherwise. </td>
+            <td>Indicates how the search engine will deal with the fullText if there is more than one word. Set the value as <code>and</code> if the returned products must have all the words in its metadata. Otherwise, set the value as <code>or</code>.</td>
         </tr>
     </tbody>
 </table>
@@ -2819,7 +2815,7 @@ Discount object
         <tr>
             <td colspan="2" valign="top"><strong>attachments</strong> ⚠️</td>
             <td valign="top">[<a href="#attachment">Attachment</a>]</td>
-            <td><p>⚠️ <strong>DEPRECATED</strong></p> <blockquote>Use itemMetaData instead</blockquote></td>
+            <td><p>⚠️ <strong>DEPRECATED</strong></p> <blockquote>Use <code>itemMetaData</code> instead.</blockquote></td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>estimatedDateArrival</strong></td>
@@ -2907,7 +2903,7 @@ Discount object
             <td>Banner area.</td>
         </tr>
         <tr>
-            <td colspan="2" valign="top"><strong>html</strong></td>
+            <td colspan="2" valign="top"><strong>HTML</strong></td>
             <td valign="top"><a href="#string">String</a></td>
             <td>Banner HTML.</td>
         </tr>
@@ -2956,7 +2952,7 @@ Object that indicates if the term was misspelled and suggests a possible correct
         <tr>
             <td colspan="2" valign="top"><strong>text</strong></td>
             <td valign="top"><a href="#string">String</a></td>
-            <td>The corrected term. If the API was not able to correct the term, it will show the original search term.</td>
+            <td>Corrected term. If the API was not able to correct the term, it will show the original search term.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>highlighted</strong></td>
@@ -2966,12 +2962,12 @@ Object that indicates if the term was misspelled and suggests a possible correct
         <tr>
             <td colspan="2" valign="top"><strong>misspelled</strong></td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>Whether the term was misspelled (<code>true</code>) or not (<code>false</code>).</td>
+            <td>Indicates whether the term was misspelled (<code>true</code>) or not (<code>false</code>).</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>correction</strong></td>
             <td valign="top"><a href="#boolean">Boolean</a></td>
-            <td>Whether the API was able to suggest a correction (<code>true</code>) or not (<code>false</code>).</td>
+            <td>Indicates whether the API was able to suggest a correction (<code>true</code>) or not (<code>false</code>).</td>
         </tr>
     </tbody>
 </table>
@@ -3296,7 +3292,7 @@ Object that indicates if the term was misspelled and suggests a possible correct
         <tr>
             <td colspan="2" valign="top"><strong>cacheId</strong></td>
             <td valign="top"><a href="#id">ID</a></td>
-            <td>searchTerm from Query autocomplete is used as cacheId</td>
+            <td><code>searchTerm</code> from Query autocomplete is used as cacheId.</td>
         </tr>
         <tr>
             <td colspan="2" valign="top"><strong>itemsReturned</strong></td>
@@ -3565,108 +3561,108 @@ The `key` parameter also allows the following general filters.
 
 | `facetKey` | Description |
 | - | - |
-| `category-${n}` | Filter the search by category, where `n` represents the category tree level (1 = department, 2 = category, 3 = subcategory, and so on) |
-| `region-id` | Filter the search by a region id (aka regionalization). The value is the region id |
+| `category-${n}` | Filter the search by category, where `n` represents the category tree level (1 = department, 2 = category, 3 = subcategory, and so on). |
+| `region-id` | Filter the search by a region ID, for regionalization purposes. The value is the region ID. |
 
 ## Enums
 
 ### CategoryTreeBehavior
 
-| Value   | Description                          |
-|---------|--------------------------------------|
-| default | Uses the default value set by the search provider |
-| show    | Show the category tree when it is possible |
-| hide    | Hide the category tree in any situation |
+| Value | Description |
+| - | - |
+| default | Uses the default value set by the search provider. |
+| show | Shows the category tree when it is possible. |
+| hide | Hides the category tree in any situation. |
 
 ### CrossSelingInputEnum
 
-| Value         | Description |
-|---------------|-------------|
-| buy           |             |
-| similars      |             |
-| view          |             |
-| viewAndBought |             |
-| accessories   |             |
-| suggestions   |             |
+| Value | Description |
+| - | - |
+| buy | |
+| similars | |
+| view | |
+| viewAndBought | |
+| accessories | |
+| suggestions | |
 
 ### FilterType
 
-| Value       | Description |
-|-------------|-------------|
-| TEXT        |             |
-| NUMBER      |             |
-| CATEGORYTREE|             |
-| BRAND       |             |
-| PRICERANGE  |             |
+| Value | Description |
+| - | - |
+| TEXT | |
+| NUMBER | |
+| CATEGORYTREE | |
+| BRAND | |
+| PRICERANGE | |
 
 ### InputValueType
 
-| Value   | Description |
-|---------|-------------|
-| TEXT    |             |
-| BOOLEAN |             |
-| OPTIONS |             |
+| Value | Description |
+| - | - |
+| TEXT | |
+| BOOLEAN | |
+| OPTIONS | |
 
 ### InstallmentsCriteria
 
-| Value              | Description |
-|--------------------|-------------|
-| MAX_WITHOUT_INTEREST |           |
-| MAX_WITH_INTEREST |             |
-| MAX               |             |
-| MIN               |             |
-| ALL               |             |
+| Value | Description |
+| - | - |
+| MAX_WITHOUT_INTEREST | |
+| MAX_WITH_INTEREST | |
+| MAX | |
+| MIN | |
+| ALL | |
 
 ### ItemsFilter
 
-| Value           | Description                                        |
-|-----------------|----------------------------------------------------|
-| ALL             | Returns all items, same as no filter.              |
+| Value | Description |
+| - | - |
+| ALL | Returns all items, same as no filter. |
 | FIRST_AVAILABLE | Returns only the first available item. Returns first if no item is available. |
-| ALL_AVAILABLE   | Returns all available items. Returns first if no item is available. |
+| ALL_AVAILABLE | Returns all available items. Returns first if no item is available. |
 
 ### Operator
 
 | Value | Description |
-|-------|-------------|
-| and   |             |
-| or    |             |
+| - | - |
+| and | |
+| or | |
 
 ### PageEntityIdentifier
 
-| Value      | Description |
-|------------|-------------|
-| brand      |             |
-| department |             |
-| category   |             |
-| subcategory|             |
-| search     |             |
+| Value | Description |
+| - | - |
+| brand | |
+| department | |
+| category | |
+| subcategory| |
+| search | |
 
 ### ProductUniqueIdentifierField
 
-| Value     | Description |
-|-----------|-------------|
-| id        |             |
-| slug      |             |
-| ean       |             |
-| reference |             |
-| sku       |             |
+| Value | Description |
+| - | - |
+| id | |
+| slug | |
+| ean | |
+| reference | |
+| sku | |
 
 ### SORT
 
 | Value | Description |
-|-------|-------------|
-| ASC   |             |
-| DESC  |             |
+| - | - |
+| ASC | |
+| DESC | |
 
 ### SimulationBehavior
 
-| Value   | Description                                       |
-|---------|---------------------------------------------------|
-| default | Does simulation on catalog as usual               |
-| only1P  | Does simulation on catalog only for seller 1P     |
-| skip    | Calls catalog passing a parameter to not simulate each SKU and get its most up to date price. |
-| async   | Does the simulation on the client side            |
+| Value | Description |
+| - | - |
+| default | Performs the simulation on the catalog as usual. |
+| only1P | Performs the simulation on catalog only for seller 1P. |
+| skip | Calls catalog passing a parameter to not simulate each SKU and get its most up to date price. |
+| async | Performs the simulation on the client side. |
 
 ## Scalars
 
@@ -3691,3 +3687,5 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 
 ### StringOrBoolean
+
+Represents a [String](#string) or a [Boolean](#boolean) value.
