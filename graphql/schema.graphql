@@ -155,7 +155,81 @@ type Query {
     Search options that customize the search result.
     """
     options: Options
+    variant: String
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+
+  sponsoredProducts(
+    """
+    Search term. It can contain any character.
+    """
+    fullText: String = ""
+    """
+    List of the selected facets
+
+    The order in which the terms appear is not relevant to the search.
+
+    You can also repeat the same `facetKey` several times for different values.
+    """
+    selectedFacets: [SelectedFacetInput]
+    """
+    Filter by price range. e.g.: {a} TO {b} - {a} is the minimum price "from" and {b} is the highest price "to"
+    """
+    priceRange: String = ""
+    """
+    Filter by availability at a specific sales channel. e.g.: salesChannel:4 if want filter by available products for the sales channel 4
+    """
+    salesChannel: String = ""
+    """
+    Order by a criteria. OrderByPriceDESC/OrderByPriceASC, OrderByTopSaleDESC, OrderByReviewRateDESC, OrderByNameASC/OrderByNameDESC, OrderByReleaseDateDESC, OrderByBestDiscountDESC, OrderByScoreDESC
+    If you want to sort by a specification, use the format {specification key}:{asc|desc}. For example: "pricePerUnit:asc" or "size:desc" (this only works on `vtex.search-resolver@1.x`)
+    """
+    orderBy: String = "OrderByScoreDESC"
+    """
+    Pagination item start
+    """
+    from: Int = 0
+    """
+    Pagination item end
+    """
+    to: Int = 9
+    """
+    If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg
+    """
+    hideUnavailableItems: Boolean = false
+    """
+    If you want faster searches and do not care about most up to date prices and promotions, use skip value.
+    """
+    simulationBehavior: SimulationBehavior = default
+    """
+    Each search engine has its own database, but this database might not have all the product information like `clusterHighlights` or `productClusters`.
+    As an alternative, the search engine may use the VTEX API to complete this information by setting this field to true.
+    """
+    productOriginVtex: Boolean = false
+    """
+    Indicates how the search-engine will deal with the fullText if there is more than one word. Set `and` if the returned products must have all the words in its metadata or `or` otherwise.
+    """
+    operator: Operator
+    """
+    Indicates how the search engine will correct misspelled words by using fuzzy logic.
+    It can be a number representing the max number of misspelled letters, or the string `auto` suggesting that the search-engine should set this value by itself.
+    """
+    fuzzy: String
+    """
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
+    """
+    searchState: String
+
+    """
+    Search options that customize the search result.
+    """
+    options: Options
+
+    """
+    Identifier for users, logged in or not. Used for A/B tests.
+    """
+    anonymousId: String
+  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
     """
@@ -236,6 +310,7 @@ type Query {
     List of shipping options to filter products
     """
     shippingOptions: [String]
+    variant: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productRecommendations(
@@ -405,6 +480,7 @@ type Query {
     List of shipping options to filter suggestions
     """
     shippingOptions: [String]
+    variant: String
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment

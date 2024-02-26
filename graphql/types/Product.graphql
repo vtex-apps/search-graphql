@@ -1,4 +1,3 @@
-
 type Product {
   """
   Brand of the product
@@ -113,6 +112,10 @@ type Product {
   Merchandising rule applied to the product
   """
   rule: Rule
+  """
+  If this product is sponsored, ad information will be added here.
+  """
+  advertisement: Advertisement
 }
 
 type SelectedProperty {

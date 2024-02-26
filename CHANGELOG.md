@@ -10,7 +10,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `groupByProduct` to `productRecommendations` query.
 - `quantity` to `Recommendation.similars` resolver.
+- 
+## [0.58.0] - 2023-12-07
 
+### Added
+
+- Created query parameter `anonymousId` for `sponsoredProducts` used on A/B testing.
+
+## [0.57.0] - 2023-09-20
+
+### Added
+- `advertisement` field in `Product` type.
+
+## [0.56.0] - 2023-09-15
+
+## [0.55.0] - 2023-08-22
+
+### Added
+- sponsoredProducts query.
 ## [0.54.0] - 2023-08-03
 
 ### Added
