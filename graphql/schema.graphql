@@ -316,6 +316,7 @@ type Query {
   productRecommendations(
     identifier: ProductUniqueIdentifier
     type: CrossSelingInputEnum
+    groupBy: CrossSelingGroupByEnum
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productsByIdentifier(
@@ -518,6 +519,17 @@ enum SimulationBehavior {
   Does the simulation on the client side
   """
   async
+}
+
+enum CrossSelingGroupByEnum {
+  """
+  It's the default behavior, it will group SKUs from the same product and bring only products. Limited by 12 products.
+  """
+  PRODUCT
+  """
+  Return all skus registered in the catalog for the recommendation.
+  """
+  NONE
 }
 
 enum CategoryTreeBehavior {
