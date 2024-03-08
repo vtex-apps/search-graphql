@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Parameter `groupBy` into recommendations in `Product` type and `productRecommendations` query.
+
 ## [0.58.0] - 2023-12-07
 
 ### Added
