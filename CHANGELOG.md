@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## Changed
+
+- Fixed documentation in README.md file to render properly on Developer Portal
+- Added default pagination from/to values in README.md file
+
 ## [0.60.0] - 2024-03-21
 
 ### Added
