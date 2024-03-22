@@ -265,12 +265,12 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">from</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item start.</td>
+            <td>Pagination item start. Default value: `0`.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">to</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item end.</td>
+            <td>Pagination item end. Default value: `9`.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">hideUnavailableItems</td>
@@ -380,12 +380,12 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">from</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item start.</td>
+            <td>Pagination item start. Default value: `0`.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">to</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item end.</td>
+            <td>Pagination item end. Default value: `9`.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">hideUnavailableItems</td>
@@ -490,12 +490,12 @@ To resolve this query, you need to have an app that implements the schema declar
         <tr>
             <td colspan="2" align="right" valign="top">from</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item start.</td>
+            <td>Pagination item start. Default value: `0`.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">to</td>
             <td valign="top"><a href="#int">Int</a></td>
-            <td>Pagination item end.</td>
+            <td>Pagination item end. Default value: `9`.</td>
         </tr>
         <tr>
             <td colspan="2" align="right" valign="top">categoryTreeBehavior</td>
