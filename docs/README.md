@@ -413,6 +413,11 @@ To resolve this query, you need to have an app that implements the schema declar
             <td></td>
         </tr>
         <tr>
+            <td colspan="2" align="right" valign="top">groupBy</td>
+            <td valign="top"><a href="#crossselinggroupbyenum">CrossSelingGroupByEnum</a></td>
+            <td></td>
+        </tr>
+        <tr>
             <td colspan="2" valign="top"><strong>productsByIdentifier</strong></td>
             <td valign="top">[<a href="#product">Product</a>]</td>
             <td></td>
@@ -3584,6 +3589,13 @@ The `key` parameter also allows the following general filters.
 | viewAndBought | |
 | accessories | |
 | suggestions | |
+
+### CrossSelingGroupByEnum
+
+| Value | Description |
+| - | - |
+| PRODUCT | Default behavior. Groups SKUs from the same product and bring only products. Limited to 12 products. |
+| NONE | Returns all SKUs registered in the Catalog for the recommendation. |
 
 ### FilterType
 

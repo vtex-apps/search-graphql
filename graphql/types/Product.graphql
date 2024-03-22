@@ -79,7 +79,7 @@ type Product {
   """
   Related Products
   """
-  recommendations: Recommendation
+  recommendations(groupBy: CrossSelingGroupByEnum): Recommendation
   """
   JSON specification of the product
   """
