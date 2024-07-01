@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## Changed
+
+- Changed cache scope of queries to `PRIVATE` from `SEGMENT` to be able to access sessionToken in context on resolver apps.
+
 ## [0.60.1] - 2024-03-22
 
 ## Changed
