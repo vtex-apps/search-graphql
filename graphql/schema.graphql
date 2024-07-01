@@ -24,7 +24,7 @@ type Query {
     Trade Policy
     """
     salesChannel: Int
-  ): Product @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): Product @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   """
   Lists the banners registered for a given query. Check the [configuring banners documentation](https://help.vtex.com/en/tracks/vtex-intelligent-search--19wrbB7nEQcmwzDPl1l4Cb/4ViKEivLJtJsvpaW0aqIQ5) for a full explanation of the banner feature.
@@ -42,7 +42,7 @@ type Query {
     You can also repeat the same `facetKey` several times for different values.
     """
     selectedFacets: [SelectedFacetInput]
-  ): Banners @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): Banners @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   """
   Tries to correct a misspelled term from the search.
@@ -52,7 +52,7 @@ type Query {
     Search term. It can contain any character.
     """
     fullText: String = ""
-  ): Correction @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): Correction @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   """
   Lists suggested terms similar to the search term.
@@ -63,7 +63,7 @@ type Query {
     """
     fullText: String!
   ): SearchSuggestions
-    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @cacheControl(scope: PRIVATE, maxAge: MEDIUM)
     @withSegment
 
   """
@@ -157,7 +157,7 @@ type Query {
     options: Options
     variant: String
     showSponsored: Boolean
-  ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): ProductSearch @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   sponsoredProducts(
     """
@@ -230,7 +230,7 @@ type Query {
     Identifier for users, logged in or not. Used for A/B tests.
     """
     anonymousId: String
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   searchMetadata(
     """
@@ -312,13 +312,13 @@ type Query {
     """
     shippingOptions: [String]
     variant: String
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   productRecommendations(
     identifier: ProductUniqueIdentifier
     type: CrossSelingInputEnum
     groupBy: CrossSelingGroupByEnum
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   productsByIdentifier(
     field: ProductUniqueIdentifierField!
@@ -327,7 +327,7 @@ type Query {
     Filter by availability at a specific sales channel.
     """
     salesChannel: String
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 
   """
   Returns facets category
@@ -396,7 +396,7 @@ type Query {
     Initial attributes (based on the `initialMap` parameter)
     """
     initialAttributes: String
-  ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
+  ): Facets @cacheControl(scope: PRIVATE, maxAge: MEDIUM) @withSegment
 
   """
   Get auto complete suggestions in search
@@ -410,13 +410,13 @@ type Query {
     Terms that is used in search e.g.: iphone
     """
     searchTerm: String
-  ): Suggestions @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
+  ): Suggestions @cacheControl(scope: PRIVATE, maxAge: MEDIUM) @withSegment
 
   """
   Get list of the 10 most searched terms
   """
   topSearches: SearchSuggestions
-    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @cacheControl(scope: PRIVATE, maxAge: MEDIUM)
     @withSegment
 
   """
@@ -428,7 +428,7 @@ type Query {
     """
     fullText: String!
   ): SearchSuggestions
-    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @cacheControl(scope: PRIVATE, maxAge: MEDIUM)
     @withSegment
 
   """
@@ -483,7 +483,7 @@ type Query {
     shippingOptions: [String]
     variant: String
   ): ProductSuggestions
-    @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+    @cacheControl(scope: PRIVATE, maxAge: MEDIUM)
     @withSegment
 
   """
