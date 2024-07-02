@@ -574,4 +574,8 @@ input AdvertisementOptions {
   If true, the search will return the same product twice - once as a regular product and once as a sponsored product.
   """
   repeatSponsoredProducts: Boolean
+  """
+  Where the sponsored product is being shown. Used for analytics purposes.
+  """
+  advertisementPlacement: String
 }
