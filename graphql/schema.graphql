@@ -156,7 +156,16 @@ type Query {
     """
     options: Options
     variant: String
+
+    """
+    **Deprecated**. Use `advertisementOptions` instead.
+    """
     showSponsored: Boolean
+
+    """
+    Whether or not to fetch sponsored products. If there are sponsored products for that context, it will be returned.
+    """
+    advertisementOptions: AdvertisementOptions
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   sponsoredProducts(
@@ -312,6 +321,10 @@ type Query {
     """
     shippingOptions: [String]
     variant: String
+    """
+    Options for advertisement in this search request.
+    """
+    advertisementOptions: AdvertisementOptions
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productRecommendations(
@@ -546,4 +559,19 @@ enum CategoryTreeBehavior {
   Hide the category tree in any situation
   """
   hide
+}
+
+input AdvertisementOptions {
+  """
+  Whether or not to fetch sponsored products in this request.
+  """
+  showSponsored: Boolean
+  """
+  How many sponsored products should be fetched.
+  """
+  sponsoredCount: Int
+  """
+  If true, the search will return the same product twice - once as a regular product and once as a sponsored product.
+  """
+  repeatSponsoredProducts: Boolean
 }
