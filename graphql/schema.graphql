@@ -62,6 +62,11 @@ type Query {
     Search term. It can contain any character.
     """
     fullText: String!
+    """
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
+    """
+    searchState: String
   ): SearchSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
@@ -325,12 +330,22 @@ type Query {
     Options for advertisement in this search request.
     """
     advertisementOptions: AdvertisementOptions
+    """
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
+    """
+    searchState: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productRecommendations(
     identifier: ProductUniqueIdentifier
     type: CrossSelingInputEnum
     groupBy: CrossSelingGroupByEnum
+    """
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
+    """
+    searchState: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productsByIdentifier(
@@ -428,7 +443,13 @@ type Query {
   """
   Get list of the 10 most searched terms
   """
-  topSearches: SearchSuggestions
+  topSearches(
+        """
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
+    """
+    searchState: String
+  ): SearchSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
 
@@ -440,6 +461,11 @@ type Query {
     Search term. It can contain any character.
     """
     fullText: String!
+    """
+    As fuzzy and operator, it controls the search state, but it is for general purposes. This field allows the search engines to apply features that are not handled by the other fields.
+    The possible values in this field are defined by each search engine.
+    """
+    searchState: String
   ): SearchSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
