@@ -521,6 +521,10 @@ type Query {
     """
     shippingOptions: [String]
     variant: String
+    """
+    Whether or not to fetch sponsored products. If there are sponsored products for that context, it will be returned.
+    """
+    advertisementOptions: AdvertisementOptions
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
