@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.63.0] - 2024-09-16
+
+### Added
+
+- `advertisementOptions` to both `productSuggestions` query.
+
 ## [0.62.0] - 2024-07-29
+
 ### Added
 
 - Added `searchState` prop to `searchSuggestions`, `products`, `productRecommendations`, `topSearches` and `autocompleteSearchSuggestions` queries to receive general info from front-end.
