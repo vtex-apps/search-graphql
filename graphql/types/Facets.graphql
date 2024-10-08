@@ -29,6 +29,7 @@ enum FilterType {
   CATEGORYTREE
   BRAND
   PRICERANGE
+  DELIVERY
 }
 
 type Facet {
