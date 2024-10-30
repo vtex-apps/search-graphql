@@ -424,6 +424,10 @@ type Query {
     Initial attributes (based on the `initialMap` parameter)
     """
     initialAttributes: String
+    """
+    Variant used to A/B test
+    """
+    variant: String
   ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
