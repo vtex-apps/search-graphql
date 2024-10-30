@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.65.0] - 2024-10-30
+
 ### Added
 
 - `variant` to `facets` query, used to execute A/B tests.
