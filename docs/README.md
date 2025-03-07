@@ -3673,6 +3673,7 @@ The `key` parameter also allows the following general filters.
 | - | - |
 | default | Performs the simulation on the catalog as usual. |
 | only1P | Performs the simulation on catalog only for seller 1P. |
+| regionalize1p | Only first party sellers will include the regionId. |
 | skip | Calls catalog passing a parameter to not simulate each SKU and get its most up to date price. |
 | async | Performs the simulation on the client side. |
 

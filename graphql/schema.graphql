@@ -562,11 +562,14 @@ enum SimulationBehavior {
   Calls catalog passing a parameter to not simulate each SKU and get its most up to date price.
   """
   skip
-
   """
   Does the simulation on the client side
   """
   async
+  """
+  Only first party sellers will include the regionId
+  """
+  regionalize1p
 }
 
 enum CrossSelingGroupByEnum {
