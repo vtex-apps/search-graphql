@@ -244,6 +244,16 @@ type Query {
     Identifier for users, logged in or not. Used for A/B tests.
     """
     anonymousId: String
+
+    """
+    Identifier for user device, used for analytics purposes.
+    """
+    macId: String
+
+    """
+    Identifier for user ID if logged in, used for analytics purposes.
+    """
+    userId: String
   ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
