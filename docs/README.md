@@ -3655,7 +3655,7 @@ The `key` parameter also allows the following general filters.
 | Value | Description |
 | - | - |
 | id | |
-| slug | |
+| slug | Slug of product. *Note*: Not accepted in ´productsByIdentifier´ query. |
 | ean | |
 | reference | |
 | sku | |

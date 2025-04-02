@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Changed documentation in `README.md`, `Product.graphql` and `index.html` file by adding description for `slug` item.
+
 ## [0.67.0] - 2025-03-19
 
 ### Added
