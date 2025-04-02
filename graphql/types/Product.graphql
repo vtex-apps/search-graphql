@@ -235,6 +235,9 @@ input ProductUniqueIdentifier {
 
 enum ProductUniqueIdentifierField {
   id
+  """
+  Slug of product. *Note*: Not accepted in ´productsByIdentifier´ query.
+  """
   slug
   ean
   reference
