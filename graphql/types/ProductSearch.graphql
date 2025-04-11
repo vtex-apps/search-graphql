@@ -40,6 +40,14 @@ type ProductSearch {
   Returns the redirect URL set for the given query.
   """
   redirect: String
+  options: ProductSearchOptions
+}
+
+type ProductSearchOptions {
+  """
+  Indicates if delivery promises is enabled.
+  """
+  deliveryPromisesEnabled: Boolean
 }
 
 enum Operator {
