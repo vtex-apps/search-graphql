@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.68.0] - 2025-05-12
+
 ### Added
 
 - `options` in `ProductSearch` query.
