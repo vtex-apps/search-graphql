@@ -15,9 +15,11 @@ type ProductSearch {
   String to be used in the `<meta name="description"...` tag.
   """
   metaTagDescription: String
-  breadcrumb: [SearchBreadcrumb] @deprecated(reason: "Use the `breadcrumb` from the `facets` query instead.")
+  breadcrumb: [SearchBreadcrumb]
+    @deprecated(reason: "Use the `breadcrumb` from the `facets` query instead.")
   canonical: String
-  suggestion: SearchSuggestions @deprecated(reason: "Use the `suggestion` query instead.")
+  suggestion: SearchSuggestions
+    @deprecated(reason: "Use the `suggestion` query instead.")
   """
   Object that indicates if the term was misspelled and suggests a possible correction.
   """
@@ -35,11 +37,23 @@ type ProductSearch {
   The possible values in this field are defined by each search engine.
   """
   searchState: String
-  banners: [SearchBanner] @deprecated(reason: "Use the `banners` query instead.")
+  banners: [SearchBanner]
+    @deprecated(reason: "Use the `banners` query instead.")
   """
   Returns the redirect URL set for the given query.
   """
   redirect: String
+  """
+  Options to ProductSearch.
+  """
+  options: ProductSearchOptions!
+}
+
+type ProductSearchOptions {
+  """
+  Indicates if delivery promises is enabled.
+  """
+  deliveryPromisesEnabled: Boolean!
 }
 
 enum Operator {
