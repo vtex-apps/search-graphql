@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.68.1] - 2025-05-14
+
 ### Fixed
 
 - Makes the `options` and `deliveryPromisesEnabled` fields nullable
