@@ -46,14 +46,14 @@ type ProductSearch {
   """
   Options to ProductSearch.
   """
-  options: ProductSearchOptions!
+  options: ProductSearchOptions
 }
 
 type ProductSearchOptions {
   """
   Indicates if delivery promises is enabled.
   """
-  deliveryPromisesEnabled: Boolean!
+  deliveryPromisesEnabled: Boolean
 }
 
 enum Operator {
