@@ -116,6 +116,13 @@ type Product {
   If this product is sponsored, ad information will be added here.
   """
   advertisement: Advertisement
+  deliveryPromisesBadges: [BadgeItem]
+}
+
+type BadgeItem {
+  typeName: String
+  pickupId: String
+  pickupName: String
 }
 
 type SelectedProperty {
