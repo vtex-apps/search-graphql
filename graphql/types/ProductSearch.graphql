@@ -47,6 +47,10 @@ type ProductSearch {
   Options to ProductSearch.
   """
   options: ProductSearchOptions
+  """
+  ID used to identify a search query.
+  """
+  searchId: String
 }
 
 type ProductSearchOptions {
