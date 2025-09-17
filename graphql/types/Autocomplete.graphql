@@ -15,4 +15,8 @@ type ProductSuggestions {
   Indicates how the search-engine will deal with the fullText if there is more than one word. Set `and` if the returned products must have all the words in its metadata or `or` otherwise.
   """
   operator: Operator
+  """
+  ID used to identify a search query.
+  """
+  searchId: String
 }
