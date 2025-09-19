@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.69.2] - 2025-09-17
+### Added
+
+- Add Origin field in ProductSearch and ProductSuggestions for tracking purposes
 
 ## [0.69.1] - 2025-09-02
 

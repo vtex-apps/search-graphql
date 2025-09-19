@@ -51,6 +51,10 @@ type ProductSearch {
   ID used to identify a search query.
   """
   searchId: String
+  """
+  Origin of the request for tracking purposes
+  """
+  origin: String
 }
 
 type ProductSearchOptions {

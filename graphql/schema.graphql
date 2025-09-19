@@ -171,6 +171,10 @@ type Query {
     Whether or not to fetch sponsored products. If there are sponsored products for that context, it will be returned.
     """
     advertisementOptions: AdvertisementOptions
+    """
+    Origin of the request for tracking purposes
+    """
+    origin: String
   ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   sponsoredProducts(
@@ -539,6 +543,10 @@ type Query {
     Whether or not to fetch sponsored products. If there are sponsored products for that context, it will be returned.
     """
     advertisementOptions: AdvertisementOptions
+    """
+    Origin of the request for tracking purposes
+    """
+    origin: String
   ): ProductSuggestions
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
