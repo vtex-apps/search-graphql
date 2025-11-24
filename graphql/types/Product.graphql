@@ -117,6 +117,7 @@ type Product {
   """
   advertisement: Advertisement
   deliveryPromisesBadges: [BadgeItem]
+  specification: String
 }
 
 type BadgeItem {
