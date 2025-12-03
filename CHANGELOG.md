@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.69.4] - 2025-12-03
+
 ### Added
 
 - Created `specification` field of String type in Product type
