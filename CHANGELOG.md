@@ -7,28 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Added
-
-- `Makefile` with schema-only Golden Path targets (`dev`, `build`, `lint` via `lint.sh`, `check`, `link`, `run`, `clean`). `test` is a documented no-op pointing at `vtex.search-resolver`, since this repo ships a GraphQL schema rather than runtime code.
-- `README.md` clarifying the schema-only nature, with links to `vtex.search-resolver` and `vtex.intelligent-search-api`.
-- `AGENTS.md` with the schema contract rules, type module map, breaking-change cycle (this repo → `search-resolver`), Verified Commands, Expected Skills, Expected MCPs, Autonomy Limits, and a Multi-repo Specs pointer. `CLAUDE.md` symlinked to it.
-- `SECURITY.md` with the VTEX vulnerability reporting policy.
-- `docs/glossary.md`, `docs/data-model.md`, `docs/sdd/model-guide.md`.
-- `.github/workflows/lint.yml` running the existing schema lint (`bash lint.sh`) on every PR.
-- `.github/dependabot.yml` for npm + GitHub Actions weekly updates.
-- `.mcp.json` declaring the GitHub MCP server.
-
-### Changed
-
-- `CODEOWNERS`: added `@vtex-apps/intelligent-search-apps` alongside the existing `@vtex-apps/search-engagement-team`.
-- `.editorconfig`: added `[Makefile]` section with tab indentation.
-- `.gitignore`: added the spec-kit canonical ignore block (multi-repo: `.specify/` lives in the parent `is-io-specs` aggregator, not here).
-- `node/package.json`: added a placeholder `lint` script that exits 0 (`echo` + `exit 0`), so `lint.sh`'s `yarn lint` step no longer fails on this schema-only repo.
-
-### Removed
-
-- `utils/generateDoc.js` and the `schema-docs` target in `Makefile`. The script invoked `graphql-markdown` on the SDL, which fails outside VTEX IO platform context because `@cacheControl` / `@translatableV2` are runtime-injected directives — the script was effectively dead in plain CI. The `schema-build` job in `.github/workflows/lint.yml` was also dropped. The existing `docs/README.md` is preserved as a **static reference** but is no longer regenerated automatically. The authoritative schema source remains `graphql/schema.graphql` plus the per-type files under `graphql/types/`.
-
 ## [0.69.4] - 2025-12-03
 
 ### Added
