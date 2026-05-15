@@ -9,7 +9,7 @@ VTEX_LINK ?= vtex link
 SHELL := /usr/bin/env bash
 .SHELLFLAGS := -o pipefail -c
 
-.PHONY: help dev build test lint format-check check schema-docs link run clean
+.PHONY: help dev build test lint format-check check link run clean
 
 help: ## Show available targets
 	@awk 'BEGIN {FS=":.*##"; printf "Targets:\n"} /^[a-zA-Z_-]+:.*##/ {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -35,10 +35,6 @@ format-check: ## Check formatting without rewriting files
 	npx prettier --check "**/*.{json,md,yml,yaml,graphql}"
 
 check: lint ## Run all quality checks (pre-PR gate — lint only for schema-only repo)
-
-schema-docs: ## Regenerate static schema documentation (graphql-markdown / spectaql)
-	$(PKG_MGR) install --frozen-lockfile
-	node utils/generateDoc.js
 
 link: ## Link app in the active VTEX development workspace
 	@echo "This targets the active VTEX account/workspace. Confirm with 'vtex whoami' before running."

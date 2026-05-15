@@ -48,12 +48,6 @@ Pre-PR gate:
 make check
 ```
 
-To regenerate the static schema documentation under `docs/`:
-
-```sh
-make schema-docs
-```
-
 ## How to publish
 
 > ⚠️ These commands affect production. Always confirm the target account/workspace first.
@@ -74,5 +68,5 @@ Version bumps use `vtex release <patch|minor|major> stable`.
 - **Data model:** [`docs/data-model.md`](docs/data-model.md) (points at `graphql/schema.graphql` as the authoritative model)
 - **SDD model guide:** [`docs/sdd/model-guide.md`](docs/sdd/model-guide.md)
 - **Specs (multi-repo aggregator):** `is-io-specs/.specify/` — constitution, plans, tasks live in the parent
-- **Generated schema reference:** [`docs/README.md`](docs/README.md)
+- **Schema reference:** the authoritative model is in `graphql/schema.graphql` and the per-type files under `graphql/types/`
 - **Changelog:** [`CHANGELOG.md`](CHANGELOG.md)

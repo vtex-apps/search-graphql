@@ -26,12 +26,10 @@
 | `graphql/directives.graphql` | Custom directives: `@cacheControl(scope, maxAge)`, `@withSegment` |
 | `graphql/types/*.graphql` | One file per domain area: `Product`, `ProductSearch`, `Facets`, `Banners`, `Autocomplete`, `SearchSuggestions`, `Suggestions`, `Correction`, `Brand`, `Category`, `Benefits`, `ItemMetadata`, `Advertisement`, `PageType`, `SearchURLStats` |
 | `node/package.json` | **Placeholder only** — the `graphql` builder uses it to emit TypeScript typings consumed by `vtex.search-resolver`. Comment in the file: *"Don't delete this file, it's necessary to generate the TypeScript types of the GraphQL"* |
-| `lint.sh` | Linter wrapper: `cd node/ && yarn --frozen-lockfile && yarn lint` (currently no `lint` script defined in `node/package.json` — the script may need updating before it actually runs anything) |
+| `lint.sh` | Linter wrapper: `cd node/ && yarn --frozen-lockfile && yarn lint`. `node/package.json` only defines a placeholder `lint` script that prints a notice and exits 0 — the repo is schema-only so there is no executable code to lint today. |
 | `package.json` | Doc-tooling only: `graphql-markdown`, `@graphql-tools/load-files`, `@graphql-tools/merge`, `graphql@15` |
-| `utils/generateDoc.js` | Generates static schema documentation under `docs/` |
-| `spectaql-config.yml` | Spectaql renderer config (Markdown → HTML for `docs/`) — note `servers: https://{{accountname}}.myvtex.com/_v/public/graphql/v1` |
+| `spectaql-config.yml` | Spectaql renderer config (Markdown → HTML) — note `servers: https://{{accountname}}.myvtex.com/_v/public/graphql/v1`. Currently no in-repo generator wires this up; treat it as a hand-run reference. |
 | `spectaql-documentation/` | Spectaql template overrides |
-| `docs/README.md` | Generated schema reference |
 | `policies.json` | Per-account policy declarations (parallel to `manifest.json` policies) |
 | `CHANGELOG.md` | Per-release changelog |
 | `CODEOWNERS` | `* @vtex-apps/search-engagement-team @vtex-apps/intelligent-search-apps` |
@@ -61,10 +59,9 @@ There is no Node service, no Jest config, no test files, and no `.github/workflo
 
 ```sh
 make dev           # yarn install (root) + vtex setup
-make lint          # bash lint.sh (cd node && yarn lint)
+make lint          # bash lint.sh (cd node && yarn lint — no-op script today)
 make test          # no-op for schema-only repo
 make check         # lint
-make schema-docs   # node utils/generateDoc.js (regenerate docs/)
 make link          # vtex link (publishes schema to active VTEX workspace)
 make run           # alias for make link
 ```
@@ -103,8 +100,8 @@ Part of the **`is-io-specs`** multi-repo workspace. SpecKit artifacts live at th
 - **Schema additions** (new optional fields, new types, new enum values) are safe — proceed under SDD Lite.
 
 ### Documentation
-- `docs/README.md` is **generated** by `utils/generateDoc.js`. Do not hand-edit; regenerate via `make schema-docs`.
-- `spectaql-documentation/` overrides allow customization of the rendered HTML — edits there are fine.
+- The authoritative schema lives in `graphql/schema.graphql` and `graphql/types/*.graphql` — that is the source of truth for consumers (storefront apps, `vtex.search-resolver`).
+- `spectaql-config.yml` and `spectaql-documentation/` are reference assets for rendering the schema to HTML; no in-repo generator wires them up today.
 
 ### Tooling / build
 - The `node/package.json` placeholder must not be deleted — the `graphql` builder relies on it for typings emission. Comment in the file says so.

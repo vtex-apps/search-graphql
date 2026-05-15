@@ -1,4 +1,7 @@
 {
   "name": "search-graphql",
-  "description": "Don't delete this file, it's necessary to generate the TypeScript types of the GraphQL"
+  "description": "Don't delete this file, it's necessary to generate the TypeScript types of the GraphQL",
+  "scripts": {
+    "lint": "echo 'search-graphql is schema-only; no node/ code to lint' && exit 0"
+  }
 }
