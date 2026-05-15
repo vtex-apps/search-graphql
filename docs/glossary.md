@@ -23,4 +23,5 @@ Domain vocabulary surfaced by the `vtex.search-graphql` schema.
 | **Advertisement** | Sponsored product fields. `graphql/types/Advertisement.graphql`. |
 | **Item Metadata** | Cart-style product metadata (used in assemblyOptions, item compatibility). `graphql/types/ItemMetadata.graphql`. |
 | **Benefits** | Promotion / discount-list metadata attached to products. `graphql/types/Benefits.graphql`. |
+| **docs/README.md** | Human-readable schema reference documentation. **Static snapshot** (no longer auto-generated). The authoritative SDL is in `graphql/schema.graphql` + `graphql/types/*.graphql`. |
 | **Spectaql** | Static schema documentation generator (`spectaql-config.yml`). Reference config for rendering the schema to HTML; no in-repo generator wires it up today. |

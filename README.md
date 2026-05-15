@@ -68,5 +68,6 @@ Version bumps use `vtex release <patch|minor|major> stable`.
 - **Data model:** [`docs/data-model.md`](docs/data-model.md) (points at `graphql/schema.graphql` as the authoritative model)
 - **SDD model guide:** [`docs/sdd/model-guide.md`](docs/sdd/model-guide.md)
 - **Specs (multi-repo aggregator):** `is-io-specs/.specify/` — constitution, plans, tasks live in the parent
-- **Schema reference:** the authoritative model is in `graphql/schema.graphql` and the per-type files under `graphql/types/`
+- **Schema reference (SDL source):** `graphql/schema.graphql` and the per-type files under `graphql/types/`
+- **Schema reference (human-readable):** [`docs/README.md`](docs/README.md) — static snapshot; the authoritative source is the SDL above
 - **Changelog:** [`CHANGELOG.md`](CHANGELOG.md)

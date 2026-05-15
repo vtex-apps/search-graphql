@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
-- `utils/generateDoc.js` and the generated `docs/README.md`. The script invoked `graphql-markdown` on the SDL, which fails outside VTEX IO platform context because `@cacheControl` / `@translatableV2` are runtime-injected directives — the script was effectively dead in plain CI. The `schema-build` job in `.github/workflows/lint.yml` and the `schema-docs` target in `Makefile` were dropped accordingly. The authoritative schema is `graphql/schema.graphql` plus the per-type files under `graphql/types/`.
+- `utils/generateDoc.js` and the `schema-docs` target in `Makefile`. The script invoked `graphql-markdown` on the SDL, which fails outside VTEX IO platform context because `@cacheControl` / `@translatableV2` are runtime-injected directives — the script was effectively dead in plain CI. The `schema-build` job in `.github/workflows/lint.yml` was also dropped. The existing `docs/README.md` is preserved as a **static reference** but is no longer regenerated automatically. The authoritative schema source remains `graphql/schema.graphql` plus the per-type files under `graphql/types/`.
 
 ## [0.69.4] - 2025-12-03
 

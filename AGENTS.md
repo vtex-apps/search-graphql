@@ -101,6 +101,7 @@ Part of the **`is-io-specs`** multi-repo workspace. SpecKit artifacts live at th
 
 ### Documentation
 - The authoritative schema lives in `graphql/schema.graphql` and `graphql/types/*.graphql` — that is the source of truth for consumers (storefront apps, `vtex.search-resolver`).
+- `docs/README.md` is a **static** human-readable schema reference (no longer auto-generated; the `utils/generateDoc.js` script that produced it cannot run outside VTEX IO platform context).
 - `spectaql-config.yml` and `spectaql-documentation/` are reference assets for rendering the schema to HTML; no in-repo generator wires them up today.
 
 ### Tooling / build
