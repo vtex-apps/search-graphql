@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `Makefile` with schema-only Golden Path targets (`dev`, `build`, `lint` via `lint.sh`, `schema-docs`, `check`, `link`, `run`, `clean`). `test` is a documented no-op pointing at `vtex.search-resolver`, since this repo ships a GraphQL schema rather than runtime code.
+- `README.md` clarifying the schema-only nature, with links to `vtex.search-resolver` and `vtex.intelligent-search-api`.
+- `AGENTS.md` with the schema contract rules, type module map, breaking-change cycle (this repo → `search-resolver`), Verified Commands, Expected Skills, Expected MCPs, Autonomy Limits, and a Multi-repo Specs pointer. `CLAUDE.md` symlinked to it.
+- `SECURITY.md` with the VTEX vulnerability reporting policy.
+- `docs/glossary.md`, `docs/data-model.md`, `docs/sdd/model-guide.md`.
+- `.github/workflows/lint.yml` running the existing schema lint (`lint.sh`) and a schema-build smoke check via `utils/generateDoc.js` on every PR.
+- `.github/dependabot.yml` for npm + GitHub Actions weekly updates.
+- `.mcp.json` declaring the GitHub MCP server.
+
+### Changed
+
+- `CODEOWNERS`: added `@vtex-apps/intelligent-search-apps` alongside the existing `@vtex-apps/search-engagement-team`.
+- `.editorconfig`: added `[Makefile]` section with tab indentation.
+- `.gitignore`: added the spec-kit canonical ignore block (multi-repo: `.specify/` lives in the parent `is-io-specs` aggregator, not here).
+
 ## [0.69.4] - 2025-12-03
 
 ### Added
