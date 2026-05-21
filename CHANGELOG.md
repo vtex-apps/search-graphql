@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- `Query` arguments `hideUnavailableItems` on `products`, `productSearch`, `facets`, and `productSuggestions`: drop GraphQL default `false` so the argument is optional and unset unless the client passes it.
+
 ## [0.69.4] - 2025-12-03
 
 ### Added
