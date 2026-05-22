@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.71.0] - 2026-05-22
+
 ### Added
 
 - New `SkuNonStructuredAttribute` type and `attributes` field on the `SKU` type to expose non-structured SKU specifications coming from Intelligent Search.
