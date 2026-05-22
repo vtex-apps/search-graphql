@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: search-graphql
+  description: GraphQL schema for the VTEX Search APIs
+  tags:
+    - typescript
+    - express
+    - graphql
+  annotations:
+    github.com/project-slug: vtex-apps/search-graphql
+    vtex.com/platform-flow-id: Shopper#1
+spec:
+  lifecycle: stable
+  owner: te-0016
+  type: library
+  dependsOn: []
