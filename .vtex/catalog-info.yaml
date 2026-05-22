@@ -10,6 +10,7 @@ metadata:
   annotations:
     github.com/project-slug: vtex-apps/search-graphql
     vtex.com/platform-flow-id: Shopper#1
+    vtex.com/application-id: A7WUKM1P
 spec:
   lifecycle: stable
   owner: te-0016
