@@ -97,6 +97,7 @@ To resolve this query, you need to have an app that implements the schema declar
   - [SelectedFacet](#selectedfacet)
   - [SelectedProperty](#selectedproperty)
   - [Seller](#seller)
+  - [SkuNonStructuredAttribute](#skunonstructuredattribute)
   - [SkuSpecification](#skuspecification)
   - [SpecificationGroup](#specificationgroup)
   - [SpecificationGroupProperty](#specificationgroupproperty)
@@ -2827,6 +2828,11 @@ Discount object
             <td valign="top"><a href="#string">String</a></td>
             <td></td>
         </tr>
+        <tr>
+            <td colspan="2" valign="top"><strong>attributes</strong></td>
+            <td valign="top">[<a href="#skunonstructuredattribute">SkuNonStructuredAttribute</a>]</td>
+            <td><p>List of non-structured SKU specifications for this SKU.</p><p>Populated by Intelligent Search from the SKU <code>attributes</code> array (<code>ProductSkuCatalogAttribute</code>). Represents non-structured SKU specifications created via the Catalog API (<code>/api/catalog/pvt/specification/nonstructured</code>). Distinct from <a href="#skuspecification">SkuSpecification</a>, which represents the structured SKU specifications (field/value pairs used for filters and variations).</p></td>
+        </tr>
     </tbody>
 </table>
 
@@ -3193,6 +3199,45 @@ Object that indicates if the term was misspelled and suggests a possible correct
             <td colspan="2" valign="top"><strong>commertialOffer</strong></td>
             <td valign="top"><a href="#offer">Offer</a></td>
             <td></td>
+        </tr>
+    </tbody>
+</table>
+
+### SkuNonStructuredAttribute
+
+Non-structured SKU specification.
+
+Backed by the Intelligent Search `attributes` field on each SKU (`ProductSkuCatalogAttribute`). Each entry represents a single non-structured SKU specification as registered in the Catalog via `/api/catalog/pvt/specification/nonstructured`. Use [SkuSpecification](#skuspecification) for structured SKU specs (field/value pairs).
+
+<table>
+    <thead>
+        <tr>
+            <th align="left">Field</th>
+            <th align="right">Argument</th>
+            <th align="left">Type</th>
+            <th align="left">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="2" valign="top"><strong>id</strong></td>
+            <td valign="top"><a href="#id">ID</a></td>
+            <td>Attribute unique identifier (from Catalog).</td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><strong>name</strong></td>
+            <td valign="top"><a href="#string">String</a></td>
+            <td>Attribute name.</td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><strong>value</strong></td>
+            <td valign="top"><a href="#string">String</a></td>
+            <td>Raw attribute value (may contain a JSON-encoded payload).</td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><strong>visible</strong></td>
+            <td valign="top"><a href="#boolean">Boolean</a></td>
+            <td>Whether the attribute is marked as visible in Catalog.</td>
         </tr>
     </tbody>
 </table>

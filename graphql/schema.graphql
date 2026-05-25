@@ -131,7 +131,7 @@ type Query {
     """
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg
     """
-    hideUnavailableItems: Boolean = false
+    hideUnavailableItems: Boolean
     """
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
@@ -214,7 +214,7 @@ type Query {
     """
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg
     """
-    hideUnavailableItems: Boolean = false
+    hideUnavailableItems: Boolean
     """
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
@@ -330,7 +330,7 @@ type Query {
     """
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel. Will override any given salesChannel arg
     """
-    hideUnavailableItems: Boolean = false
+    hideUnavailableItems: Boolean
     """
     If you want faster searches and do not care about most up to date prices and promotions, use skip value.
     """
@@ -398,7 +398,7 @@ type Query {
     """
     If true, uses isAvailablePerSalesChannel_ parameter on query with segment's sales channel.
     """
-    hideUnavailableItems: Boolean = false
+    hideUnavailableItems: Boolean
     """
     If true, remove hidden facets from the result.
     """

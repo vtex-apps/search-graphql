@@ -214,6 +214,45 @@ type SKU {
   variations: [Property]
   attachments: [Attachment] @deprecated(reason: "Use itemMetaData instead")
   estimatedDateArrival: String
+  """
+  List of non-structured SKU specifications for this SKU.
+
+  Populated by Intelligent Search from the SKU `attributes` array
+  (`ProductSkuCatalogAttribute`). Represents non-structured SKU
+  specifications created via the Catalog API
+  (`/api/catalog/pvt/specification/nonstructured`). Distinct from
+  `SkuSpecification`, which represents the structured SKU
+  specifications (field/value pairs used for filters and variations).
+  """
+  attributes: [SkuNonStructuredAttribute!]
+}
+
+"""
+Non-structured SKU specification.
+
+Backed by the Intelligent Search `attributes` field on each SKU
+(`ProductSkuCatalogAttribute`). Each entry represents a single
+non-structured SKU specification as registered in the Catalog via
+`/api/catalog/pvt/specification/nonstructured`. Use `SkuSpecification`
+for structured SKU specs (field/value pairs).
+"""
+type SkuNonStructuredAttribute {
+  """
+  Attribute unique identifier (from Catalog)
+  """
+  id: ID!
+  """
+  Attribute name
+  """
+  name: String!
+  """
+  Raw attribute value (may contain a JSON-encoded payload)
+  """
+  value: String!
+  """
+  Whether the attribute is marked as visible in Catalog
+  """
+  visible: Boolean!
 }
 
 type SkuSpecification {
