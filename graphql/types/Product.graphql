@@ -347,6 +347,12 @@ type Offer {
   List of gifts associated with the product
   """
   gifts: [Gift]
+  """
+  Signed price token (Pricing Fallback). Present when price signing is
+  enabled for the account; forward it unchanged on add-to-cart so checkout
+  can validate price integrity even during a Pricing system outage.
+  """
+  priceToken: String
 }
 
 type Gift {

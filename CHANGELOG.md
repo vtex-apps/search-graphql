@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `priceToken` field on the `Offer` type to expose the signed price token (Pricing Fallback) from Intelligent Search, so consumers can forward it on add-to-cart.
+
 ## [0.71.0] - 2026-05-22
 
 ### Added
