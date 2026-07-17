@@ -2007,6 +2007,11 @@ Discount object
             <td valign="top">[<a href="#gift">Gift</a>]</td>
             <td>List of gifts associated with the product.</td>
         </tr>
+        <tr>
+            <td colspan="2" valign="top"><strong>priceToken</strong></td>
+            <td valign="top"><a href="#string">String</a></td>
+            <td>Signed price token (Pricing Fallback), present when price signing is enabled for the account.</td>
+        </tr>
     </tbody>
 </table>
 
