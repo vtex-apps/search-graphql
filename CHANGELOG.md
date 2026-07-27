@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `graphql` builder from `1.x` to `2.x`. Added the now-mandatory `@auth(scope: PUBLIC)` directive to every `Query` field — no behavior change, since all fields were already publicly accessible without authorization.
+
 ## [0.72.0] - 2026-07-17
 
 ### Added
