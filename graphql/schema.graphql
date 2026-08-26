@@ -24,7 +24,7 @@ type Query {
     Trade Policy
     """
     salesChannel: Int
-  ): Product @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): Product @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
   Lists the banners registered for a given query. Check the [configuring banners documentation](https://help.vtex.com/en/tracks/vtex-intelligent-search--19wrbB7nEQcmwzDPl1l4Cb/4ViKEivLJtJsvpaW0aqIQ5) for a full explanation of the banner feature.
@@ -42,7 +42,7 @@ type Query {
     You can also repeat the same `facetKey` several times for different values.
     """
     selectedFacets: [SelectedFacetInput]
-  ): Banners @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): Banners @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
   Tries to correct a misspelled term from the search.
@@ -52,7 +52,7 @@ type Query {
     Search term. It can contain any character.
     """
     fullText: String = ""
-  ): Correction @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): Correction @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
   Lists suggested terms similar to the search term.
@@ -68,6 +68,7 @@ type Query {
     """
     searchState: String
   ): SearchSuggestions
+    @auth(scope: PUBLIC)
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
 
@@ -175,7 +176,7 @@ type Query {
     Origin of the request for tracking purposes
     """
     origin: String
-  ): ProductSearch @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): ProductSearch @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   sponsoredProducts(
     """
@@ -258,7 +259,7 @@ type Query {
     Identifier for user ID if logged in, used for analytics purposes.
     """
     userId: String
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   searchMetadata(
     """
@@ -281,7 +282,7 @@ type Query {
     You can also repeat the same `facetKey` several times for different values.
     """
     selectedFacets: [SelectedFacetInput]
-  ): SearchMetadata @cacheControl(scope: PUBLIC, maxAge: MEDIUM) @withSegment
+  ): SearchMetadata @auth(scope: PUBLIC) @cacheControl(scope: PUBLIC, maxAge: MEDIUM) @withSegment
 
   """
   Returns products list filtered and ordered
@@ -349,7 +350,7 @@ type Query {
     The possible values in this field are defined by each search engine.
     """
     searchState: String
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productRecommendations(
     identifier: ProductUniqueIdentifier
@@ -360,7 +361,7 @@ type Query {
     The possible values in this field are defined by each search engine.
     """
     searchState: String
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   productsByIdentifier(
     field: ProductUniqueIdentifierField!
@@ -369,7 +370,7 @@ type Query {
     Filter by availability at a specific sales channel.
     """
     salesChannel: String
-  ): [Product] @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
+  ): [Product] @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 
   """
   Returns facets category
@@ -442,7 +443,7 @@ type Query {
     Variant used to A/B test
     """
     variant: String
-  ): Facets @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
+  ): Facets @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
   Get auto complete suggestions in search
@@ -456,7 +457,7 @@ type Query {
     Terms that is used in search e.g.: iphone
     """
     searchTerm: String
-  ): Suggestions @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
+  ): Suggestions @auth(scope: PUBLIC) @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
 
   """
   Get list of the 10 most searched terms
@@ -468,6 +469,7 @@ type Query {
     """
     searchState: String
   ): SearchSuggestions
+    @auth(scope: PUBLIC)
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
 
@@ -485,6 +487,7 @@ type Query {
     """
     searchState: String
   ): SearchSuggestions
+    @auth(scope: PUBLIC)
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
 
@@ -548,6 +551,7 @@ type Query {
     """
     origin: String
   ): ProductSuggestions
+    @auth(scope: PUBLIC)
     @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
     @withSegment
 
@@ -564,7 +568,7 @@ type Query {
     Sorting strategy, asc: ascending, desc: descending
     """
     sort: SORT
-  ): [SearchURLStats] @cacheControl(scope: PUBLIC, maxAge: SHORT)
+  ): [SearchURLStats] @auth(scope: PUBLIC) @cacheControl(scope: PUBLIC, maxAge: SHORT)
 }
 
 enum SimulationBehavior {
