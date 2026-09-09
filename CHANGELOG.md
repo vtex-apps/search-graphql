@@ -11,6 +11,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Remove `@translatableV2` from `Category` fields (`name`, `titleTag`, `metaTagDescription`). Catalog now returns these already translated.
 
+## [0.72.0] - 2026-07-17
+
+### Added
+
+- `priceToken` field on the `Offer` type to expose the signed price token (Pricing Fallback) from Intelligent Search, so consumers can forward it on add-to-cart.
+
+## [0.71.0] - 2026-05-22
+
+### Added
+
+- New `SkuNonStructuredAttribute` type and `attributes` field on the `SKU` type to expose non-structured SKU specifications coming from Intelligent Search.
+
+## [0.70.0] - 2026-05-21
+
+### Changed
+
+- `Query` arguments `hideUnavailableItems` on `products`, `productSearch`, `facets`, and `productSuggestions`: drop GraphQL default `false` so the argument is optional and unset unless the client passes it.
+
+## [0.69.4] - 2025-12-03
+
+### Added
+
+- Created `specification` field of String type in Product type
+
 ## [0.69.3] - 2025-10-02
 
 ### Added
