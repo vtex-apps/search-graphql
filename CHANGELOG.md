@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Remove `@translatableV2` from `Category` fields (`name`, `titleTag`, `metaTagDescription`). Catalog now returns these already translated.
+
 ## [0.72.0] - 2026-07-17
 
 ### Added
