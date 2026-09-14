@@ -33,6 +33,8 @@ type Product {
   """
   description: String @translatableV2
   """
+  shortDescription: String
+  """
   SKU objects of the product
   """
   items(filter: ItemsFilter): [SKU]
