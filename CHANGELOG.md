@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.73.1] - 2026-09-14
+
 ### Changed
 
 - Restore `@translatableV2` on `Category` fields (`name`, `titleTag`, `metaTagDescription`). Reverts #172.
