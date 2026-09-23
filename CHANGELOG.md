@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Remove `@translatableV2` from `Category` fields (`name`, `titleTag`, `metaTagDescription`). `vtex.search-resolver` now loads `categoryTree` from catalog-dataplane (`GET /api/catalog-dataplane/product/{id}`), which returns these strings already translated.
+
 ## [0.73.1] - 2026-09-14
 
 ### Changed
