@@ -1,0 +1,24 @@
+type PickupPointAvailability {
+  pickupPointDistances: [PickupPointDistance!]
+}
+
+type PickupPointDistance {
+  pickupId: String!
+  pickupName: String!
+  distance: Float
+  isActive: Boolean
+  address: PickupPointAddress
+}
+
+type PickupPointAddress {
+  street: String
+  number: String
+  neighborhood: String
+  city: String
+  state: String
+  postalCode: String
+}
+
+type CatalogCount {
+  total: Int!
+}
