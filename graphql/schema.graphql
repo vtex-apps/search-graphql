@@ -608,7 +608,7 @@ type Query {
     Trade policy (sales channel) ID. Defaults to the segment sales channel.
     """
     salesChannel: String
-  ): CatalogCount @cacheControl(scope: SEGMENT, maxAge: MEDIUM) @withSegment
+  ): CatalogCount @cacheControl(scope: SEGMENT, maxAge: SHORT) @withSegment
 }
 
 enum SimulationBehavior {
